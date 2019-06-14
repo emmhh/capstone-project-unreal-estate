@@ -1,0 +1,11 @@
+{
+  "name": "unreal_estate",
+  "version": "1.0.0",
+  "description": "Booking holiday homes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
