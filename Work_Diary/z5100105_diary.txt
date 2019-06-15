@@ -1,0 +1,12 @@
+Week 1 (2/6 - 9/6)
+	- chose topic based on team members skill level.
+	- Set up Trello for project management.
+Week 2 (9/6 - 16/6)
+	- During the stand-up meeting:
+		- Discussed Project Proposal in details.
+		- Brainstormed the functionalities required.
+	- During the phone meeting:
+		- Allocated tasks to each member
+		- Had a draft plan corresponding to the project workflow
+		- Discussed about the technical skills required for the project.
+		- Decided the regular time-slots for the following meetings.
