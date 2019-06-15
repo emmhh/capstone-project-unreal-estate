@@ -1,2 +1,1 @@
-# Setup
-1. pip install django
+# capstone-project-unreal-estate
