@@ -1,0 +1,13 @@
+Emmanuel Kozman - z5120558
+
+Week 1 (2/6 – 9/6)
+	- Chose topic
+	- Set up Trello
+
+Week 2 (9/6 - 16/6)
+  - Setup git
+  - Brainstormed about project in more depth
+	- Discussed Project Proposal
+  - Phone meeting {13/6}
+  - Split up tasks for Project Proposal
+  - Setup Django and React for development
