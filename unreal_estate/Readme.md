@@ -10,6 +10,11 @@
 ## BACKEND
 1. Install Django `pip install django`
 
+## Database
+1. Use postgres as username while creating database.
+2. Keep the password empty.
+3. Create postgresql Database with name unreal_estate.
+
 ## Run server
 1. Go to code folder `cd unreal_estate`
 2. Run Django server `python manage.py runserver`
