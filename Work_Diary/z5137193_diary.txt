@@ -11,3 +11,9 @@ Week 2 (9/6 - 16/6)
   - Phone meeting {13/6}
   - Split up tasks for Project Proposal
   - Setup Django and React for development
+
+Week 3 (17/6-23/6)
+  - Completed Design/Workflow for proposal
+  - Completed accommodation advertising module epic for proposal
+  - Meeting {20/6}
+  - Wrote Readme.md file to setup development server locally
