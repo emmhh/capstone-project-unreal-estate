@@ -76,9 +76,16 @@ WSGI_APPLICATION = 'unreal_estate.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'unreal_estate',
+        'USER': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'URL': 'postgres://ihaomyre:WLU21zsEIHLruXMaGsq-QKXksmzMNR34@rosie.db.elephantsql.com:5432/ihaomyre',
+    # },
 }
 
 
