@@ -7,3 +7,9 @@ Week 2 (10/6 – 16/6)
   - Allocated sections for report
   - Brainstormed vision for the project
   - Phone meeting {13/6}
+
+Week 3 (17/6-23/6)
+  - Completed introduction for proposal
+  - Completed aim for proposal
+  - Completed user account user story for proposal
+  - Meeting {20/6}
