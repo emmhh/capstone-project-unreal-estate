@@ -5,7 +5,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'unreal_estate.settings.local')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings.local')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
