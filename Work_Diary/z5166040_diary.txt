@@ -13,3 +13,9 @@ Week 3 (17/6-23/6)
   - Completed aim for proposal
   - Completed user account user story for proposal
   - Meeting {20/6}
+
+Week 4 (24/6-30/6)
+  - Discussed user stories to complete for week 6
+  - Planned meeting for 29/6
+  - Meeting {25/6}
+  - Researched methods for importing csv into postgres DB
