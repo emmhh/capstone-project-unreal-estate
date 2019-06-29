@@ -14,4 +14,8 @@ Week 3 (16/6 - 23/6)
 	- completed the proposal.
 	- defined the epics and workflow. 
 	- seted up the startup codes.
+week 4 (23/6 - 30/6)
+	- Discussed about the techniqual skills that each teammember need to do research on.
+	- Decided on which epic to implement for the next sprint.
+	- Organised the time for the next meeting.
  
