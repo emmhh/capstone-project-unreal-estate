@@ -19,3 +19,7 @@ Week 4 (24/6-30/6)
   - Planned meeting for 29/6
   - Meeting {25/6}
   - Researched methods for importing csv into postgres DB
+  - Meeting {30/6}
+  - Initialised AWS RDS PostgreSQL database
+
+Week 5 (1/7-7/7)
