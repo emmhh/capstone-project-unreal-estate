@@ -57,6 +57,14 @@ class Nav extends Component {
                           <ListItemText primary="Home" />
                       </ListItem>
                     </Link>
+                    <Link to='/AdModule' style={{ textDecoration: 'none' }}>
+                      <ListItem button>
+                          <ListItemIcon>
+                              <HomeIcon/>
+                          </ListItemIcon>
+                          <ListItemText primary="Become a host" />
+                      </ListItem>
+                    </Link>
                   </List>
                   <Divider />
               </div>
