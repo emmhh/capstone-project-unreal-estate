@@ -22,7 +22,7 @@ urlpatterns = [
     path('', include('client.urls')),
     path('advertising', include('advertising.urls')),
     path('booking', include('booking.urls')),
-    path('review/', include('review.urls')),
-    path('search/', include('search.urls')),
-    path('user/', include('user.urls')),
+    path('review', include('review.urls')),
+    path('search', include('search.urls')),
+    path('user', include('user.urls')),
 ]
