@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import SignupPage from './SignupPage';
 import ProfilePage from './ProfilePage';
+import LoginPage from './LoginPage';
 import ErrorPage from './ErrorPage';
 import Nav from './Nav';
 
@@ -14,6 +15,7 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={HomePage}/>
           <Route exact path='/signup' component={SignupPage} />
+          <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
           <Route component={ErrorPage}/>
         </Switch>
