@@ -64,9 +64,9 @@ class Nav extends Component {
                     </Link>
                     <Link to='/AdModule' style={{ textDecoration: 'none' }}>
                       <ListItem button>
-                        <ListItemIcon>
-                          <HomeIcon/>
-                        </ListItemIcon>
+                          <ListItemIcon>
+                              <HomeIcon/>
+                          </ListItemIcon>
                         <ListItemText primary="Become a host" />
                       </ListItem>
                     </Link>

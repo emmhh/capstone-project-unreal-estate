@@ -39,7 +39,7 @@ class AdForm extends Component {
     // this.props.handleSubmit(this.state)
     var propertyData = JSON.stringify(this.state);
     localStorage.setItem('property', propertyData);
-    this.setState(this.initialState)
+    this.setState(this.initialState);
   }
 
   render() {
