@@ -17,3 +17,19 @@ Week 3 (17/6-23/6)
   - Completed accommodation advertising module epic for proposal
   - Meeting {20/6}
   - Wrote Readme.md file to setup development server locally
+
+Week 4 (24/6-30/6)
+  - Discussed user stories to complete for week 6
+  - Setup all modules for backend for everyone
+  - Meeting {25/6}
+  - Gave tutorial to everyone on how to link different stuff
+  - Meeting {30/6}
+
+Week 5 (1/7-7/7)
+  - Working on user related module
+  - Gave tutorial to everyone on how to link frontend to backend
+  - Meeting {7/7}
+
+Week 6 (8/7-14/7)
+  - Working on user related module
+  - Compiled and merged everyone's code
