@@ -11,6 +11,7 @@ class HomePage extends Component {
     render() {
       return (
         <div className="homepage-div">
+          {/* <Nav/> */}
           <h1>Unreal Estate</h1>
           <SearchBox/>
           <p>
