@@ -94,10 +94,10 @@ def handleRequests(request):
 	checkin = datetime.datetime.strptime(checkin, "%a %b %d %Y %H:%M:%S GMT%z ")
 	checkout = datetime.datetime.strptime(checkout, "%a %b %d %Y %H:%M:%S GMT%z ")
 	numGuests = requestObj['numGuests']
-
+	global propertyManager
 	if not propertyManager:
 		# You're gonne need to keep a global instance of this or something like that
-		global propertyManager
+		# global propertyManager
 		propertyManager = PropertyManager()
 
 	properties = propertyManager.primarySearch(address, checkin, checkout, numGuests)
