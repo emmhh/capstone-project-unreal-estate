@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -11,8 +10,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Book from '@material-ui/icons/Book';
 import { Link } from 'react-router-dom';
-
+import Button from '@material-ui/core/Button';
+import '../css/Nav.css';
 class Nav extends Component {
 
   constructor(props) {
@@ -37,9 +39,12 @@ class Nav extends Component {
               <IconButton color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
                   <MenuIcon />
               </IconButton>
-              <Typography variant="title" color="inherit">
-                  Unreal Estate
-              </Typography>
+            <Button href="/" variant="title" color="inherit">
+                Unreal Estate
+            </Button>
+            <div style={{flexGrow: 1}} />
+            <Button href="/signup" color="inherit">Signup</Button>
+            <Button href="/login" color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
         <SwipeableDrawer open={this.state.drawerOpen}
@@ -55,6 +60,22 @@ class Nav extends Component {
                               <HomeIcon/>
                           </ListItemIcon>
                           <ListItemText primary="Home" />
+                      </ListItem>
+                    </Link>
+                    <Link to='/profile' style={{ textDecoration: 'none' }}>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <AccountCircle />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile" />
+                      </ListItem>
+                    </Link>
+                    <Link to='/bookings' style={{ textDecoration: 'none' }}>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <Book />
+                        </ListItemIcon>
+                        <ListItemText primary="Bookings" />
                       </ListItem>
                     </Link>
                   </List>
