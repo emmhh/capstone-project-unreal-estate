@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nav from './Nav';
+import SearchBox from './SearchBox';
 import '../css/HomePage.css';
 
 class HomePage extends Component {
@@ -13,9 +13,10 @@ class HomePage extends Component {
         <div className="homepage-div">
           {/* <Nav/> */}
           <h1>Unreal Estate</h1>
+          <SearchBox/>
           <p>
             Gagandeep Nain, z5137193<br/>
-            Add Names here <br/>
+            Emmanuel Kozman, z5120558<br/>
           </p>
         </div>
       );

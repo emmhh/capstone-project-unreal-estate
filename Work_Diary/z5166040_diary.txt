@@ -23,3 +23,6 @@ Week 4 (24/6-30/6)
   - Initialised AWS RDS PostgreSQL database
 
 Week 5 (1/7-7/7)
+  - Copied data from csv to AWS db
+  - Tested data migration to AWS db
+  - Meeting {7/7}

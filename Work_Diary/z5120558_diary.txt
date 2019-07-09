@@ -9,3 +9,16 @@ Week 2 (9/6 - 16/6)
 	-Discussed Project Proposal 
 	-Split up tasks for Project Proposal
 
+Week 3 (16/6 - 23/6)
+	- Defined our epics and the scope of the project
+	- Split parts of the Project Proposal up
+	- Completed the Project Proposal 
+	- Began setting up the code and a draft website
+Week 4 (23/6 - 30/6)
+	- Defined the epics we will work on in this sprint
+	- Chose the Search epic in this sprint
+	- Started working on search epic and learning react + django
+Week 5 (30/6 - 7/6)
+	- Met a couple times to work on our epics and discuss where everyone is at
+	- Continued to work on the Search Epic
+	- Will work on helping the team integrate all our different epics/work
