@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'advertising',
     'client',
     'user',
 ]
@@ -78,10 +79,13 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'URL': 'postgres://ihaomyre:WLU21zsEIHLruXMaGsq-QKXksmzMNR34@rosie.db.elephantsql.com:5432/ihaomyre',
-    },
+        'NAME': 'unrealdb',
+        'USER': 'unrealuser',
+        'PASSWORD': 'unrealpass',
+        'HOST': 'unrealdb.cyyegzf2dxxj.ap-southeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
