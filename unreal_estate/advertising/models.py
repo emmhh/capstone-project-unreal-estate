@@ -58,12 +58,12 @@ class Rating(models.Model):
         return self.property + self.value
 
 class Reservation(models.Model):
-    start_date = models.CharField(max_length=4)
-    end_date = models.CharField(max_length=4)
-    start_year = models.CharField(max_length=4)
-    end_year = models.CharField(max_length=4)
-    start_month = models.CharField(max_length=4)
-    end_month = models.CharField(max_length=4)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    # start_year = models.CharField(max_length=4)
+    # end_year = models.CharField(max_length=4)
+    # start_month = models.CharField(max_length=4)
+    # end_month = models.CharField(max_length=4)
     notes = models.CharField(max_length=500)
     property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None, null=True)
     fee = models.IntegerField()
