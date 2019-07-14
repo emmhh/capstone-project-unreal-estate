@@ -10,7 +10,7 @@ class Feature(models.Model):
 
 # Create your models here.
 class Property(models.Model):
-    location = models.CharField(max_length=30)
+    address = models.CharField(max_length=30)
     avg_Rating = models.IntegerField()
     num_Guests = models.IntegerField()
     description = models.CharField(max_length = 500)
