@@ -51,6 +51,7 @@ class Property(models.Model):
 class Rating(models.Model):
     value = models.IntegerField()
     property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None, null=True)
+    is_anonymous = models.BooleanField(default=False)
     # renter = models.ForeignKey(User, on_delete=models.CASCADE)
     notes = models.CharField(max_length= 500)
 
