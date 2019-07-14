@@ -4,5 +4,5 @@ from . import example
 #notes: put frontend files to client/src/components/...js
 #implement the calss as a seperate file called Advertising module;
 urlpatterns = [
-    path('/example', example.exampleFunction),
+    path('example', example.exampleFunction),
 ]
