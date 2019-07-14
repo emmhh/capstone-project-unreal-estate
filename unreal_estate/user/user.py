@@ -103,7 +103,6 @@ def loginReq(request):
       login(request, user)
 
     responce = JsonResponse({'msg': 'Successfully logged in'})
-    responce._headers['']
     return responce
     
 def testLogin(request):

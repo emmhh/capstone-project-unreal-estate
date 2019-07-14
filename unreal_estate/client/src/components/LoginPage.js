@@ -49,7 +49,6 @@ class LoginPage extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
         email: this.state.email,
