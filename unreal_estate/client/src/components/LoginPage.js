@@ -43,8 +43,29 @@ class LoginPage extends Component {
   }
 
   handleConfirmationSubmit = async event => {
-    event.preventDefault();
-
+    // event.preventDefault();
+    await fetch('http://127.0.0.1:8000/user/login',{
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+      })
+    })
+    .then(result => {
+      console.log(result);
+      fetch('http://127.0.0.1:8000/user/testlogin')
+      .then((resultLogin) => {
+        console.log(resultLogin.json());
+        console.log(resultLogin.context);
+        localStorage.setItem('user_logged_in', true);
+        console.log('it is testing login');
+      })
+    })
     this.setState({ isLoading: true });
   }
 
@@ -70,7 +91,7 @@ class LoginPage extends Component {
               type="password"
             />
           </FormGroup>
-          <Button className="Submit" variant="contained" color="primary" >
+          <Button className="Submit" variant="contained" color="primary" onClick={this.handleConfirmationSubmit}>
             Continue
           </Button>
         </Form>

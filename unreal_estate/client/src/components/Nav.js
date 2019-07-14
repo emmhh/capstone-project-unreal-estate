@@ -43,8 +43,12 @@ class Nav extends Component {
                 Unreal Estate
             </Button>
             <div style={{flexGrow: 1}} />
-            <Button href="/signup" color="inherit">Signup</Button>
-            <Button href="/login" color="inherit">Login</Button>
+            <Link to='/signup' >
+              <Button >Signup</Button>
+            </Link>
+            <Link to='/login'>
+              <Button >Login</Button>
+            </Link>
           </Toolbar>
         </AppBar>
         <SwipeableDrawer open={this.state.drawerOpen}
