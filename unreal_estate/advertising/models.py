@@ -33,7 +33,7 @@ class Property(models.Model):
     features = models.ManyToManyField(Feature)
     # owner_ID = models.ForeignKey(User, on_delete=models.PROTECT)
     # rating_IDs = models.ForeignKey(Rating, on_delete=models.PROTECT)
-    # images = ImageField(blank=True, null=True)
+    images = URLField(max_lenght=300)
     
     def __str__ (self):
         return 'property name:'+self.name+'locatiosn:'+self.location+'num_Guests:'+self.num_Guests
