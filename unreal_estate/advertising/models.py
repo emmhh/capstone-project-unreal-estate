@@ -10,7 +10,12 @@ class Feature(models.Model):
 
 # Create your models here.
 class Property(models.Model):
-    address = models.CharField(max_length=30)
+    # address = models.CharField(max_length=30)
+    suburb = models.CharField(max_length=30)
+    city  = models.CharField(max_length=30)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    post_code = models.IntegerField()
     avg_Rating = models.IntegerField()
     num_Guests = models.IntegerField()
     description = models.CharField(max_length = 500)
@@ -46,7 +51,6 @@ class Property(models.Model):
         except Rating.DoesNotExist:
             print('property does not exist for calculation of avg rating')
             return 0
-
 
 class Rating(models.Model):
     value = models.IntegerField()
