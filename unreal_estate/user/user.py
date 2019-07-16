@@ -62,6 +62,7 @@ def user(request):
     del userDetails['password']
     del userDetails['username']
     responce = JsonResponse(userDetails)
+    responce.status_code = 201
     return responce
 
 def loginReq(request):
@@ -82,7 +83,7 @@ def loginReq(request):
       return responce
     print()
     print('email is {}'.format(email))
-    print('passwoed is {}'.format(password))
+    print('password is {}'.format(password))
     print()
     # Data Validation
     if not (email and password):
@@ -104,6 +105,18 @@ def loginReq(request):
 
     responce = JsonResponse({'msg': 'Successfully logged in'})
     return responce
+
+def logoutReq(request):
+  debugLogger.debug("***********")
+  debugLogger.debug("Logout user")
+  debugLogger.debug("***********")
+  if (request.user.is_authenticated):
+    logout(request)
+  responce = JsonResponse({
+        'msg': 'User logged out successfully.',
+        'user_logged_in' : False,
+  })
+  return responce
     
 def testLogin(request):
 

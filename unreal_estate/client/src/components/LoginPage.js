@@ -44,6 +44,7 @@ class LoginPage extends Component {
 
   handleConfirmationSubmit = async event => {
     // event.preventDefault();
+    this.setState({ isLoading: true });
     await fetch('http://127.0.0.1:8000/user/login',{
       method: "POST",
       headers: {
@@ -59,13 +60,23 @@ class LoginPage extends Component {
       console.log(result);
       fetch('http://127.0.0.1:8000/user/testlogin')
       .then((resultLogin) => {
-        console.log(resultLogin.json());
-        console.log(resultLogin.context);
-        localStorage.setItem('user_logged_in', true);
-        console.log('it is testing login');
+        return resultLogin.json() 
       })
+      .then((responce) => {
+        // console.log(resultLogin.context);
+        var user_logged_in;
+        if (responce && responce.user_logged_in) {
+          user_logged_in = true;
+        } else {
+          user_logged_in = false;
+        }
+        localStorage.setItem('is_user_logged_in', user_logged_in);
+        console.log(responce);
+        if (user_logged_in){
+          window.location.href = 'http://127.0.0.1:8000/';
+        }
+      });
     })
-    this.setState({ isLoading: true });
   }
 
   render() {
