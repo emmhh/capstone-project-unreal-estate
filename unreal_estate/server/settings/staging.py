@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'advertising',
     'client',
+    'booking',
+    'review',
+    'search',
     'user',
 ]
 

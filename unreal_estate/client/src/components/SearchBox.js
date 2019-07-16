@@ -1,9 +1,8 @@
 import React from 'react';
-import DatePickers from './DatePickers';
+import DateRangePickerWrapper from './DateRangePickerWrapper';
 import SearchTextBox from './SearchTextBox';
 import NumGuests from './NumGuests';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
 
 export default function SearchBox() {
 
@@ -32,7 +31,7 @@ export default function SearchBox() {
     <div>
       <div borderRadius={20}>
         <SearchTextBox/>
-        <DatePickers/>
+        <DateRangePickerWrapper/>
         <NumGuests/>
         <Button variant="contained" onClick={getProperties} style={{margin: "1%"}}>
           Search
