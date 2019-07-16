@@ -33,6 +33,7 @@ CORS_ORIGIN_ALLOW_ALL = DEBUG
 # Application definition
 
 INSTALLED_APPS = [
+    'user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'advertising',
     'client',
-    'user',
+    'booking',
+    'review',
+    'search',
+    # 'user',
 ]
 
 MIDDLEWARE = [
@@ -131,10 +136,13 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'URL': 'postgres://ihaomyre:WLU21zsEIHLruXMaGsq-QKXksmzMNR34@rosie.db.elephantsql.com:5432/ihaomyre',
-        },
+        'NAME': 'unrealdb',
+        'USER': 'unrealuser',
+        'PASSWORD': 'unrealpass',
+        'HOST': 'unrealdb.cyyegzf2dxxj.ap-southeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
