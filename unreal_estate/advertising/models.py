@@ -1,12 +1,12 @@
 from django.db import models
 # from ..user.models import User
 
-class Feature(models.Model):
-    description=models.CharField(max_length=50)
-    # if the proeprty is deleted, the feature should still exist
-    # property = models.ForeignKey(Property, on_delete=models.PROTECT)
-    def __str__ (self):
-        return self.description
+# class Feature(models.Model):
+#     description=models.CharField(max_length=50)
+#     # if the proeprty is deleted, the feature should still exist
+#     # property = models.ForeignKey(Property, on_delete=models.PROTECT)
+#     def __str__ (self):
+#         return self.description
 
 # Create your models here.
 class Property(models.Model):
@@ -16,12 +16,16 @@ class Property(models.Model):
     latitude = models.FloatField(default=None)
     longitude = models.FloatField(default=None)
     post_code = models.IntegerField(default=None)
-    avg_Rating = models.IntegerField()
-    num_Guests = models.IntegerField()
-    description = models.CharField(max_length = 500)
-    name = models.CharField(max_length=30)
+    num_room = models.IntegerField(default=None)
+    num_bathroom = models.FloatField(default=None)
+    num_guests = models.IntegerField(default=None)
+    description = models.CharField(max_length = 1500)
+    space = models.CharField(max_length=1500, default=None)
+    name = models.CharField(max_length=100)
     building_type = models.CharField(max_length=20)
-    prices = models.IntegerField()
+    prices = models.FloatField()
+    avg_rating = models.FloatField(default=None)
+    images = models.URLField(max_length=300, default=None, null=True)
     '''
         models.CASCADE -> when the referenced object is deleted, also delete the 
     objects that have references to it.
@@ -30,10 +34,9 @@ class Property(models.Model):
 
     # reservation_IDs = models.ForeignKey(Reservation, on_delete=models.PROTECT, default=0)
     #if the feature is deleted, the property should still exist;
-    features = models.ManyToManyField(Feature)
+    # features = models.ManyToManyField(Feature)
     # owner_ID = models.ForeignKey(User, on_delete=models.PROTECT)
     # rating_IDs = models.ForeignKey(Rating, on_delete=models.PROTECT)
-    images = models.URLField(max_length=300, default=None, null=True)
     
     def __str__ (self):
         return 'property name:'+self.name+'locatiosn:'+self.location+'num_Guests:'+self.num_Guests
