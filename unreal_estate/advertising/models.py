@@ -11,11 +11,11 @@ class Feature(models.Model):
 # Create your models here.
 class Property(models.Model):
     # address = models.CharField(max_length=30)
-    suburb = models.CharField(max_length=30)
-    city  = models.CharField(max_length=30)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    post_code = models.IntegerField()
+    suburb = models.CharField(max_length=30, default=None)
+    city  = models.CharField(max_length=30, default=None)
+    latitude = models.FloatField(default=None)
+    longitude = models.FloatField(default=None)
+    post_code = models.IntegerField(default=None)
     avg_Rating = models.IntegerField()
     num_Guests = models.IntegerField()
     description = models.CharField(max_length = 500)
@@ -33,7 +33,7 @@ class Property(models.Model):
     features = models.ManyToManyField(Feature)
     # owner_ID = models.ForeignKey(User, on_delete=models.PROTECT)
     # rating_IDs = models.ForeignKey(Rating, on_delete=models.PROTECT)
-    images = URLField(max_lenght=300)
+    images = models.URLField(max_length=300, default=None, null=True)
     
     def __str__ (self):
         return 'property name:'+self.name+'locatiosn:'+self.location+'num_Guests:'+self.num_Guests
