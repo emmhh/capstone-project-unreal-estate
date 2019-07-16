@@ -25,7 +25,7 @@ class Property(models.Model):
     building_type = models.CharField(max_length=20)
     prices = models.FloatField()
     avg_rating = models.FloatField(default=None)
-    images = models.URLField(max_length=300, default=None, null=True)
+    image = models.URLField(max_length=300, default=None, null=True)
     '''
         models.CASCADE -> when the referenced object is deleted, also delete the 
     objects that have references to it.
