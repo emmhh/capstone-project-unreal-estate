@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 # from ..user.models import User
 
 # class Feature(models.Model):
@@ -10,20 +11,17 @@ from django.db import models
 
 # Create your models here.
 class Property(models.Model):
-    # address = models.CharField(max_length=30)
-    suburb = models.CharField(max_length=30, default=None)
-    city  = models.CharField(max_length=30, default=None)
+    suburb = models.CharField(max_length=300, default=None)
+    city  = models.CharField(max_length=300, default=None)
     latitude = models.FloatField(default=None)
     longitude = models.FloatField(default=None)
     post_code = models.IntegerField(default=None)
-    num_room = models.IntegerField(default=None)
     num_bathroom = models.FloatField(default=None)
     num_guests = models.IntegerField(default=None)
     description = models.CharField(max_length = 1500)
     space = models.CharField(max_length=1500, default=None)
-    name = models.CharField(max_length=100)
-    building_type = models.CharField(max_length=20)
-    prices = models.FloatField()
+    name = models.CharField(max_length=300)
+    prices = models.CharField(max_length=30, default=None)
     avg_rating = models.FloatField(default=None)
     image = models.URLField(max_length=300, default=None, null=True)
     '''
@@ -31,15 +29,15 @@ class Property(models.Model):
     objects that have references to it.
         models.PROTECT -> Forbid the the deletion of referenced object.
     '''
+    def get_property_by_id(self, property_id):
+        try:
+            return Property.objects.get(property_ID=property_id)
+        except ObjectDoesNotExist:
+            print('property does not exist for calculation of avg rating')
+            return 0
 
-    # reservation_IDs = models.ForeignKey(Reservation, on_delete=models.PROTECT, default=0)
-    #if the feature is deleted, the property should still exist;
-    # features = models.ManyToManyField(Feature)
-    # owner_ID = models.ForeignKey(User, on_delete=models.PROTECT)
-    # rating_IDs = models.ForeignKey(Rating, on_delete=models.PROTECT)
-    
     def __str__ (self):
-        return 'property name:'+self.name+'locatiosn:'+self.location+'num_Guests:'+self.num_Guests
+        return 'name:' + self.name + 'suburb: ' + self.suburb + 'city: ' + self.city + 'latitude: ' + self.latitude + 'longitude: ' + self.longitude + 'post_code: ' + self.post_code + 'num_bathroom: ' + self.num_bathroom + 'num_guests: ' + self.num_guests + 'description: ' + self.description + 'space: ' + self.space + 'prices: ' + self.prices + 'avg_rating: ' + self.avg_rating + 'image: ' + self.image
 
     def ratings(self, property_ID):
         try:
@@ -51,7 +49,7 @@ class Property(models.Model):
                 count = count+1
             avg = sum/count
             return avg
-        except Rating.DoesNotExist:
+        except ObjectDoesNotExist:
             print('property does not exist for calculation of avg rating')
             return 0
 

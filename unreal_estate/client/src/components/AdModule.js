@@ -34,6 +34,9 @@ class AdModule extends Component {
     //     console.log(typeof property);
     //     this.setState({properties: [...this.state.properties, property] })
     // }
+    async addProperty () {
+
+    }
     render() {
         const {properties} = this.state
 

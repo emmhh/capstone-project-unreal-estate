@@ -1,41 +1,36 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Property
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Feature, Property, Rating, Reservation
-from django.http import Http404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+import json
+# import the logging library
+import logging
 
-# Create your views here.
-def property_func (request):
+def PropertyFunction (request, property_id):
+    print(property_id) # FIXME: debug
+    # GET
     if (request.method == "GET"):
-        # NOTE: need to make sure the request conatins 'property_id'
-        try:
-            property_id = request.GET.get('property_id')
-        except ObjectDoesNotExist:
-            response = JsonResponse({'error': 'failed to get the object since its not exist'})
-
-        property_ob = Property.objects.get(pk=property_id)
+        # The table "Property"
+        property_ob = Property.objects.get(id=property_id)
         response = {
-            # 'address': property.address,
-            #FIXME: make the attributes match up with property model.
             'suburb': property_ob.suburb,
             'city': property_ob.city,
             'latitude': property_ob.latitude,
             'longitude': property_ob.longitude,
             'post_code': property_ob.post_code,
-            'num_room': property_ob.num_room,
             'num_bathroom': property_ob.num_bathroom,
             'num_guests': property_ob.num_guests,
             'description': property_ob.description,
             'space': property_ob.space,
             'name': property_ob.name,
-            'building_type': property_ob.building_type,
             'prices': property_ob.prices,
-            'avg_Rating': property_ob.avg_Rating,
+            'avg_rating': property_ob.avg_rating,
             'image': property_ob.image,
-            # 'features': property_ob.features,  #this one should be a queryset,
         }
-        return JSONResponse(response)
-    
+        return JsonResponse(response)
+    #POST
     elif (request.methods == "POST"):
         propertyInfo = {
             'suburb': request.POST.get('suburb'),
@@ -52,12 +47,12 @@ def property_func (request):
             'building_type':request.POST.get('building_type'),
             'prices': request.POST.get('prices'),
             'avg_Rating': request.POST.get('avg_Rating'),
-            'image': request.POST.get('image'),
+            'images': request.POST.get('images'),
         }
-        if (!propertyInfo['address'] or !propertyInfo['avg_Rating']
-            or !propertyInfo['num_Guests'] or !propertyInfo['description']
-            or !propertyInfo['name'] or !propertyInfo[building_type]
-            or !propertyInfo['prices'])
+        if (not propertyInfo['address'] or not propertyInfo['avg_Rating']
+            or not propertyInfo['num_Guests'] or not propertyInfo['description']
+            or not propertyInfo['name'] or not propertyInfo['building_type']
+            or not propertyInfo['prices']):
             response = JsonResponse({'error': 'Required parameters not met.'})
             response.status_code = 400
             return response
@@ -77,8 +72,9 @@ def property_func (request):
         property_ob.building_type = propertyInfo['building_type']
         property_ob.prices = propertyInfo['prices']
         property_ob.avg_Rating = propertyInfo['avg_Rating']
-        property_ob.image = propertyInfo['image']
-        # NOTE: handle exception errors when there are calls relate to database;
+        property_ob.images = propertyInfo['images']
+
+        # property_ob.save()
         try:
             property_ob.save()
         except IntegrityError as ex:
@@ -86,23 +82,20 @@ def property_func (request):
                 response = JsonResponse({'error': 'property already exists.'})
                 response.status_code = 400
                 return response
-
+        
         response = JsonResponse(property_ob)
         return response
 
-    #to delete the property from the data base.
-    elif (request.methods == "DELETE") {
-        # NOTE: need to make sure the request conatins 'property_id'
+    #DELETE: to delete the property from the data base.
+    elif (request.methods == "DELETE"):
         property_id = request.GET.get('property_id')
         property_ob = Property.objects.get(pk=property_id)
-        try:
-            property_ob.delete()
-            response = JsonResponse({'success': 'successfully deleted property'})
-        except ProtectedError:
-            response = JsonResponse({'error': 'the property is protected, failed to delete'}) 
+        property_ob.delete()
+
+        response = JsonResponse({'success': 'successfully deleted property'})
         return response
-    }
+
 
 
 def property_list (request, user_id):
-    
+    pass
