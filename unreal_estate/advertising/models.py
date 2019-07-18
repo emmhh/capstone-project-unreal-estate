@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from user.models import User
 # from ..user.models import User
 
 # class Feature(models.Model):
@@ -11,6 +12,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Create your models here.
 class Property(models.Model):
+    # each property knows its property owner.
+    property_owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
     suburb = models.CharField(max_length=300, default=None)
     city  = models.CharField(max_length=300, default=None)
     latitude = models.FloatField(default=None)

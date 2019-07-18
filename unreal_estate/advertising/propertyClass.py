@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from .models import Property
+from user.models import User
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
@@ -95,7 +96,33 @@ def propertyFunction (request, property_id):
         response = JsonResponse({'success': 'successfully deleted property'})
         return response
 
+# INPUT: request, user_id
+# OUTPUT: list of properties owned by the user.
+def list_property (request, user_id):
+    #GET
+    if (request.method == "GET"):
+        # The table "Property"
+        property_set = User.objects.filter(id=user_id)
+        property_list = []
+        for ppt in property_set:
+            response = {
+                'suburb': ppt.suburb,
+                'city': ppt.city,
+                'latitude': ppt.latitude,
+                'longitude': ppt.longitude,
+                'post_code': ppt.post_code,
+                'num_bathroom': ppt.num_bathroom,
+                'num_guests': ppt.num_guests,
+                'description': ppt.description,
+                'space': ppt.space,
+                'name': ppt.name,
+                'prices': ppt.prices,
+                'avg_rating': ppt.avg_rating,
+                'image': ppt.image,
+            }
+            property_list.append(response)
 
+        return JsonResponse(property_list)
 
-def property_list (request, user_id):
-    pass
+    response = JsonResponse({'Error': 'no property returned from advertising.propertyClass.list_property'})
+    return response

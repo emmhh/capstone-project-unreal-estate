@@ -1,6 +1,9 @@
 from django.urls import path
-# from . import user
+from . import user
 
 urlpatterns = [
-    # path('test', user.test ),
+    path('', user.user ),
+    path('login', user.loginReq ),
+    path('logout', user.logoutReq ),
+    path('testlogin', user.testLogin),
 ]
