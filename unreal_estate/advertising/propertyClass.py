@@ -8,7 +8,7 @@ import json
 # import the logging library
 import logging
 
-def PropertyFunction (request, property_id):
+def propertyFunction (request, property_id):
     print(property_id) # FIXME: debug
     # GET
     if (request.method == "GET"):
