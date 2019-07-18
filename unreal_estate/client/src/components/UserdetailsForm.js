@@ -23,13 +23,17 @@ export default class UserdetailsForm extends Component {
 
     this.state = {
       isLoading: false,
-      email: "",
-      password: "",
-      confirmPassword: "",
-      confirmationCode: "",
-      newUser: null,
+      email: null,
+      password: null,
+      confirmPassword: null,
+      firstName: null,
+      lastName: null,
+      gender: "Male",
+      phone: null,
       birthdate: new Date()
     };
+
+    this.onFormChange = this.onFormChange.bind(this);
   }
 
   validateForm() {
@@ -50,15 +54,15 @@ export default class UserdetailsForm extends Component {
     });
   }
 
-  handleSubmit = async event => {
-    event.preventDefault();
+  // handleSubmit = async event => {
+  //   event.preventDefault();
 
-    this.setState({ isLoading: true });
+  //   this.setState({ isLoading: true });
 
-    this.setState({ newUser: "test" });
-
-    this.setState({ isLoading: false });
-  }
+  //   this.setState({ newUser: "test" });
+  //   this.props.userDetails = this.state;
+  //   this.setState({ isLoading: false });
+  // }
 
   handleConfirmationSubmit = async event => {
     event.preventDefault();
@@ -66,30 +70,34 @@ export default class UserdetailsForm extends Component {
     this.setState({ isLoading: true });
   }
 
-  renderConfirmationForm() {
-    return (
-      <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup as={Row} controlId="confirmationCode" bsSize="large">
-          <FormLabel>Confirmation Code</FormLabel>
-          <FormControl 
-            autoFocus
-            type="tel"
-            value={this.state.confirmationCode}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        {/* <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateConfirmationForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Verify"
-          loadingText="Verifying…"
-        /> */}
-      </form>
-    );
+  onFormChange() {
+    this.props.onFormChange(this.state);
   }
+
+  // renderConfirmationForm() {
+  //   return (
+  //     <form onSubmit={this.handleConfirmationSubmit}>
+  //       <FormGroup as={Row} controlId="confirmationCode" bsSize="large">
+  //         <FormLabel>Confirmation Code</FormLabel>
+  //         <FormControl 
+  //           autoFocus
+  //           type="tel"
+  //           value={this.state.confirmationCode}
+  //           onChange={this.handleChange}
+  //         />
+  //       </FormGroup>
+  //       {/* <LoaderButton
+  //         block
+  //         bsSize="large"
+  //         disabled={!this.validateConfirmationForm()}
+  //         type="submit"
+  //         isLoading={this.state.isLoading}
+  //         text="Verify"
+  //         loadingText="Verifying…"
+  //       /> */}
+  //     </form>
+  //   );
+  // }
 
   renderForm() {
     return (
@@ -141,6 +149,14 @@ export default class UserdetailsForm extends Component {
             </Grid>
           </MuiPickersUtilsProvider>
         </FormGroup>
+        <FormGroup as={Row} controlId="phoneNumber" bsSize="large">
+          <FormLabel>Phone Number</FormLabel>
+          <FormControl
+            value={this.state.phone}
+            onChange={this.handleChange}
+            type="text"
+          />
+        </FormGroup>
         <FormGroup as={Row} controlId="email" bsSize="large">
           <FormLabel>Email</FormLabel>
           <FormControl 
@@ -166,7 +182,7 @@ export default class UserdetailsForm extends Component {
             type="password"
           />
         </FormGroup>
-        <Button className="Submit" variant="contained" color="primary" >Continue</Button>
+        <Button variant="contained" color="primary" onClick={this.onFormChange}>Continue</Button>
       </Form>
     );
   }
@@ -174,9 +190,7 @@ export default class UserdetailsForm extends Component {
   render() {
     return (
       <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
+        {this.renderForm()}
       </div>
     );
   }

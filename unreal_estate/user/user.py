@@ -25,13 +25,14 @@ def user(request):
   # POST
   elif (request.method == "POST"):
     debugLogger.debug("Create new user")
+    json_data = json.loads(request.body)
     userDetails = {
-      'first_name': request.POST.get('firstName'),
-      'last_name': request.POST.get('lastName'),
-      'phone': request.POST.get('phone'),
-      'password': request.POST.get('password'),
-      'email': request.POST.get('email'),
-      'username': request.POST.get('email'),
+      'first_name': json_data['userDetails']['firstName'],
+      'last_name': json_data['userDetails']['lastName'],
+      'phone': json_data['userDetails']['phone'],
+      'password': json_data['userDetails']['password'],
+      'email': json_data['userDetails']['email'],
+      'username': json_data['userDetails']['email'],
     }
     debugLogger.debug(userDetails)
 
@@ -61,7 +62,7 @@ def user(request):
         return responce
     del userDetails['password']
     del userDetails['username']
-    responce = JsonResponse(userDetails)
+    responce = JsonResponse({'msg': '{} signed up successfully'.format(userDetails['first_name'])})
     responce.status_code = 201
     return responce
 
