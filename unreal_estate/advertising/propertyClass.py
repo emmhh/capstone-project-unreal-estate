@@ -9,26 +9,23 @@ import json
 import logging
 
 def PropertyFunction (request, property_id):
-    print("\n\n\n\nhere\n\n\n\n")
+    print(property_id)
     if (request.method == "GET"):
-        property_id = request.GET.get(property_id)
         # The table "Property"
-        property_ob = PropertyCliveTest.objects.get(pk=property_id)
+        property_ob = PropertyCliveTest.objects.get(id=property_id)
         response = {
             'suburb': property_ob.suburb,
             'city': property_ob.city,
             'latitude': property_ob.latitude,
             'longitude': property_ob.longitude,
             'post_code': property_ob.post_code,
-            'num_room': property_ob.num_room,
             'num_bathroom': property_ob.num_bathroom,
             'num_guests': property_ob.num_guests,
             'description': property_ob.description,
             'space': property_ob.space,
             'name': property_ob.name,
-            'building_type': property_ob.building_type,
             'prices': property_ob.prices,
-            'avg_Rating': property_ob.avg_Rating,
+            'avg_rating': property_ob.avg_rating,
             'image': property_ob.image,
         }
         return JsonResponse(response)

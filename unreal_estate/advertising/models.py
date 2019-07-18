@@ -29,9 +29,15 @@ class PropertyCliveTest(models.Model):
     objects that have references to it.
         models.PROTECT -> Forbid the the deletion of referenced object.
     '''
-    
+    def get_property_by_id(self, property_id):
+        try:
+            return PropertyCliveTest.objects.get(property_ID=property_id)
+        except ObjectDoesNotExist:
+            print('property does not exist for calculation of avg rating')
+            return 0
+
     def __str__ (self):
-        return 'property name:'+self.name+'location:'+self.location+'num_Guests:'+self.num_Guests
+        return 'name:' + self.name + 'suburb: ' + self.suburb + 'city: ' + self.city + 'latitude: ' + self.latitude + 'longitude: ' + self.longitude + 'post_code: ' + self.post_code + 'num_bathroom: ' + self.num_bathroom + 'num_guests: ' + self.num_guests + 'description: ' + self.description + 'space: ' + self.space + 'prices: ' + self.prices + 'avg_rating: ' + self.avg_rating + 'image: ' + self.image
 
     def ratings(self, property_ID):
         try:
