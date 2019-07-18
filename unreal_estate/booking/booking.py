@@ -12,14 +12,14 @@ import logging
 debugLogger = logging.getLogger('debugLogger')
 logger = logging.getLogger(__name__)
 
-def Booking(request):
+def Booking_function(request):
 
   # GET
     if (request.method == "GET"):
         debugLogger.debug("Get booking details")
         # Retrieve old booking
         try:
-            booking = Booking.objects.all().filter(id=request.GET.get(booking_id))
+            booking = Booking.objects.all().filter(id=request.GET.get(request.booking_id))
         except ObjectDoesNotExist:
             response = JsonResponse({'error': 'booking does not exist'})
             response.status_code = 403

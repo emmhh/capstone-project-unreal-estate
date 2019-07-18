@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from .models import Property
+from .models import PropertyCliveTest
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
@@ -8,10 +8,11 @@ import json
 # import the logging library
 import logging
 
-def PropertyFunction (request):
+def PropertyFunction (request, property_id):
     if (request.method == "GET"):
-        property_id = request.GET.get('property_id')
-        property_ob = Property.objects.get(pk=property_id)
+        property_id = request.GET.get(property_id)
+        # The table "Property"
+        property_ob = PropertyCliveTest.objects.get(pk=property_id)
         response = {
             'suburb': property_ob.suburb,
             'city': property_ob.city,
@@ -57,7 +58,7 @@ def PropertyFunction (request):
             response.status_code = 400
             return response
         
-        property_ob = Property()
+        property_ob = PropertyCliveTest()
         property_ob.suburb = propertyInfo['suburb']
         property_ob.city = propertyInfo['city']
         property_ob.latitude = propertyInfo['latitude']
@@ -82,7 +83,7 @@ def PropertyFunction (request):
     #to delete the property from the data base.
     elif (request.methods == "DELETE"):
         property_id = request.GET.get('property_id')
-        property_ob = Property.objects.get(pk=property_id)
+        property_ob = PropertyCliveTest.objects.get(pk=property_id)
         property_ob.delete()
 
         response = JsonResponse({'success': 'successfully deleted property'})

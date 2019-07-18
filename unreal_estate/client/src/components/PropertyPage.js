@@ -31,62 +31,44 @@ class PropertyPage extends Component {
             image : null,
           };
     }
-
     componentDidMount() {
-        // const {path} = this.props.location.pathname;
-        // window.location.pathname
-        fetch('http://127.0.0.1:8000/property',{
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify({
-                'property_id': 14250
+        fetch('http://127.0.0.1:8000/advertising/${property_id}')
+            .then((res) => {
+                console.log('maybe');
+                console.log(res);
+                this.setState(() => ({res}));
             })
-        })
-        .then((res) => {
-            console.log('maybe');
-            this.setState({
-                property_id : 14250
-            });
-            this.setState((res) => ({res}));
-        })
-        .then((res) => {
-            console.log(res);
-        })
     }
 
 
     render() {
+        const { match } = this.props;
+        console.log(match);
         return (
             <div>
-                <SearchBox/>
+                <img src={this.state.image}/>
+                <h1>{this.state.name}</h1>
+                <h2>{this.state.suburb}</h2>
                 <div>
-                    <img src={this.state.image}/>
-                    <h1>{this.state.name}</h1>
-                    <h2>{this.state.suburb}</h2>
-                    <div>
-                        <div>{this.state.numGuests}</div>
-                        <div>{this.state.numBeds}</div>
-                        <div>{this.state.numBaths}</div>
-                    </div>
-                    <div>
-                        <p>
-                            {this.state.description}
-                        </p>
-                        <h3>
-                            The space
-                        </h3>
-                        <p>
-                            {this.state.space}
-                        </p>
-                    </div>
+                    <div>{this.state.numGuests}</div>
+                    <div>{this.state.numBeds}</div>
+                    <div>{this.state.numBaths}</div>
                 </div>
-                <BookingComponent/>
+                <div>
+                    <p>
+                        {this.state.description}
+                    </p>
+                    <h3>
+                        The space
+                    </h3>
+                    <p>
+                        {this.state.space}
+                    </p>
+                </div>
             </div>
         );
     }
 }
 
 export default PropertyPage;
+

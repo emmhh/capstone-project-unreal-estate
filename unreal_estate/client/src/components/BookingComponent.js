@@ -8,7 +8,7 @@ import {
     FormGroup,
     FormControl,
     FormLabel
-  } from "react-bootstrap";
+} from "react-bootstrap";
 
 class BookingComponent extends Component {
 

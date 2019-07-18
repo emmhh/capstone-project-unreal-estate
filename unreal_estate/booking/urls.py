@@ -3,5 +3,5 @@ from . import booking
 # from . import views
 
 urlpatterns = [
-    path('', booking.Booking ),
+    path('', booking.Booking_function ),
 ]
