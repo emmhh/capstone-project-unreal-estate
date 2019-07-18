@@ -9,6 +9,7 @@ import json
 import logging
 
 def PropertyFunction (request, property_id):
+    print("\n\n\n\nhere\n\n\n\n")
     if (request.method == "GET"):
         property_id = request.GET.get(property_id)
         # The table "Property"
