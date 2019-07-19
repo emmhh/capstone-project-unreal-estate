@@ -31,26 +31,26 @@ class Nav extends Component {
 
   checkState = async function () {
     
-    await fetch('http://127.0.0.1:8000/user/testlogin')
-      .then((resultLogin) => {
-        return resultLogin.json()
-      })
-      .then((responce) => {
-        // console.log(resultLogin.context);
-        var is_user_logged_in;
-        if (responce && responce.user_logged_in) {
-          is_user_logged_in = true;
-        } else {
-          is_user_logged_in = false;
-        }
-        localStorage.setItem('is_user_logged_in', is_user_logged_in);
-        this.setState((previousState) => {
-          return {
-            drawerOpen: previousState.drawerOpen,
-            is_user_logged_in: is_user_logged_in,
-          }
-        });
-      });
+    // await fetch('http://127.0.0.1:8000/user/testlogin')
+    //   .then((resultLogin) => {
+    //     return resultLogin.json()
+    //   })
+    //   .then((responce) => {
+    //     // console.log(resultLogin.context);
+    //     var is_user_logged_in;
+    //     if (responce && responce.user_logged_in) {
+    //       is_user_logged_in = true;
+    //     } else {
+    //       is_user_logged_in = false;
+    //     }
+    //     localStorage.setItem('is_user_logged_in', is_user_logged_in);
+    //     this.setState((previousState) => {
+    //       return {
+    //         drawerOpen: previousState.drawerOpen,
+    //         is_user_logged_in: is_user_logged_in,
+    //       }
+    //     });
+    //   });
   }
 
   logout = async function () {

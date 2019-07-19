@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import SignupPage from './SignupPage';
+import PropertyPage from './PropertyPage'
 import ProfilePage from './ProfilePage';
 import LoginPage from './LoginPage';
 import ErrorPage from './ErrorPage';
@@ -21,6 +22,7 @@ class App extends Component {
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
+          <Route exact path='/property/:property_id' component={PropertyPage} />
           <Route component={ErrorPage}/>
         </Switch>
       </div>

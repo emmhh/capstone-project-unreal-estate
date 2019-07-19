@@ -7,7 +7,7 @@ class MyMiddleware:
 
     def __call__(self, request):
       response = self.get_response(request)
-      response['Access-Control-Allow-Origin'] = settings.LOCAL_FRONTEND_HEADER
+      response['Access-Control-Allow-Origin'] = "*"
       response['Access-Control-Allow-Credentials'] = True
       response['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept'
       return response

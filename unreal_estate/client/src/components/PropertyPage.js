@@ -5,15 +5,14 @@ import {
     Link,
     withRouter
 } from 'react-router-dom';
-import SearchBox from './SearchBox.js';
-import BookingComponent from './BookingComponent.js';
+
 
 class PropertyPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            property_id : null ,
+            prop_id: null,
             suburb : null,
             city  : null,
             latitude : null,
@@ -31,19 +30,27 @@ class PropertyPage extends Component {
             image : null,
           };
     }
+    
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/advertising/${property_id}')
+        const {property_id} =  this.props.match.params;
+        var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+        fetch(req, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            })
             .then((res) => {
-                console.log('maybe');
-                console.log(res);
-                this.setState(() => ({res}));
+                res.json().then(data => {
+                    this.setState(data)
+                    this.setState({prop_id: property_id})
+                });
             })
     }
 
 
     render() {
-        const { match } = this.props;
-        console.log(match);
         return (
             <div>
                 <img src={this.state.image}/>
