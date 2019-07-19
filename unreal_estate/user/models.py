@@ -6,4 +6,5 @@ class User(AbstractUser):
   last_name = models.CharField(max_length=30)
   phone = models.IntegerField(null=True, blank=True)
   is_property_owner = models.BooleanField(default=False)
+  gender = models.CharField(max_length=30)
   

@@ -23,14 +23,13 @@ export default class UserdetailsForm extends Component {
 
     this.state = {
       isLoading: false,
-      email: null,
+      email: props.email ? props.email : null,
       password: null,
       confirmPassword: null,
-      firstName: null,
-      lastName: null,
-      gender: "Male",
-      phone: null,
-      birthdate: new Date()
+      firstName: props.firstName ? props.firstName : null,
+      lastName: this.props.lastName ? this.props.lastName : null,
+      gender: this.props.gender ? this.props.gender : "Male",
+      phone: this.props.phone ? this.props.phone : null
     };
 
     this.onFormChange = this.onFormChange.bind(this);
@@ -71,6 +70,12 @@ export default class UserdetailsForm extends Component {
   }
 
   onFormChange() {
+    var userDetails = this.state;
+    delete userDetails.isLoading;
+    if (this.props.hidePassword){
+      delete userDetails.password;
+      delete userDetails.confirmPassword;
+    }
     this.props.onFormChange(this.state);
   }
 
@@ -100,6 +105,24 @@ export default class UserdetailsForm extends Component {
   // }
 
   renderForm() {
+    var passwordElement = <div>
+      <FormGroup as={Row} controlId="password" bsSize="large">
+      <FormLabel>Password</FormLabel>
+      <FormControl
+        value={this.state.password}
+        onChange={this.handleChange}
+        type="password"
+      />
+      </FormGroup>
+      <FormGroup as={Row} controlId="confirmPassword" bsSize="large">
+        <FormLabel>Confirm Password</FormLabel>
+        <FormControl
+          value={this.state.confirmPassword}
+          onChange={this.handleChange}
+          type="password"
+        />
+      </FormGroup></div>;
+
     return (
       <Form container onSubmit={this.handleSubmit}>
         <FormGroup as={Row} controlId="firstName" bsSize="large">
@@ -130,25 +153,6 @@ export default class UserdetailsForm extends Component {
             <option>Others</option>
           </FormControl>
         </FormGroup>
-        <FormGroup as={Row} controlId="birthdate" bsSize="large">
-          <FormLabel>Birthdate</FormLabel>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid justify="space-around">
-              <KeyboardDatePicker
-                margin="normal"
-                id="checkin-date"
-                label="Check In"
-                value={this.state.birthdate}
-                onChange={this.handleChange}
-                minDate={this.state.birthdate}
-                // className={classes.field}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
-        </FormGroup>
         <FormGroup as={Row} controlId="phoneNumber" bsSize="large">
           <FormLabel>Phone Number</FormLabel>
           <FormControl
@@ -166,22 +170,7 @@ export default class UserdetailsForm extends Component {
             onChange={this.handleChange}
           />
         </FormGroup>
-        <FormGroup as={Row} controlId="password" bsSize="large">
-          <FormLabel>Password</FormLabel>
-          <FormControl 
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <FormGroup as={Row} controlId="confirmPassword" bsSize="large">
-          <FormLabel>Confirm Password</FormLabel>
-          <FormControl 
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
+        {this.props.hidePassword !== true ? passwordElement : <div></div>}
         <Button variant="contained" color="primary" onClick={this.onFormChange}>Continue</Button>
       </Form>
     );

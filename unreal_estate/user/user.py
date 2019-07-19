@@ -17,10 +17,21 @@ def user(request):
   # GET
   if (request.method == "GET"):
     debugLogger.debug("Get user details")
-    testResponce = {
-      'test': 'test object'
-    }
-    return JsonResponse(testResponce)
+
+    if not (request.user.is_authenticated):
+      responce = JsonResponse({'error': 'User is not logged in.'})
+      responce.status_code = 400
+      return responce
+    else:
+      user = request.user
+      userDetails = {
+        'firstName': user.first_name,
+        'lastName': user.last_name,
+        'phone': user.phone,
+        'gender': user.gender,
+        'email': user.email,
+      }
+      return JsonResponse(userDetails)
 
   # POST
   elif (request.method == "POST"):
@@ -33,6 +44,7 @@ def user(request):
       'password': json_data['userDetails']['password'],
       'email': json_data['userDetails']['email'],
       'username': json_data['userDetails']['email'],
+      'gender': json_data['userDetails']['gender'],
     }
     debugLogger.debug(userDetails)
 
@@ -51,6 +63,7 @@ def user(request):
     user.last_name = userDetails['last_name']
     user.phone = userDetails['phone']
     user.email = userDetails['email']
+    user.gender = userDetails['gender']
     
     # Save new user 
     try:
@@ -64,6 +77,52 @@ def user(request):
     del userDetails['username']
     responce = JsonResponse({'msg': '{} signed up successfully'.format(userDetails['first_name'])})
     responce.status_code = 201
+    return responce
+
+
+  # PUT
+  elif (request.method == "PUT"):
+    debugLogger.debug("Update user details")
+    json_data = json.loads(request.body)
+    userDetails = {
+      'first_name': json_data['userDetails']['firstName'],
+      'last_name': json_data['userDetails']['lastName'],
+      'phone': json_data['userDetails']['phone'],
+      'email': json_data['userDetails']['email'],
+      'username': json_data['userDetails']['email'],
+      'gender': json_data['userDetails']['gender'],
+    }
+    debugLogger.debug(userDetails)
+
+    # Data Validation
+    if not (userDetails['first_name'] and \
+      userDetails['last_name'] and \
+      userDetails['email']):
+      responce = JsonResponse({'error': 'Required parameters not met.'})
+      responce.status_code = 400
+      return responce
+    user = User.objects.get(username=userDetails['email'])
+    if (user != request.user):
+      responce = JsonResponse({'error': 'Forbidden.'})
+      responce.status_code = 403
+      return responce
+    user.username = userDetails['username']
+    user.first_name = userDetails['first_name']
+    user.last_name = userDetails['last_name']
+    user.phone = userDetails['phone']
+    user.email = userDetails['email']
+    user.gender = userDetails['gender']
+    
+    # Save new user 
+    try:
+      user.save()
+    except IntegrityError as ex:
+      if (ex.__cause__.pgcode == '23505'):
+        responce = JsonResponse({'error': 'Email already exists.'})
+        responce.status_code = 400
+        return responce
+    responce = JsonResponse({'msg': 'Profile updated successfully'})
+    responce.status_code = 200
     return responce
 
 def loginReq(request):
