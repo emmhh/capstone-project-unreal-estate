@@ -1,112 +1,57 @@
-import re
 import googlemaps
-import json
-import datetime
-from dateutil import parser
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.db import models
+from advertising.models import Property
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D
 
 
 gmaps = googlemaps.Client(key='AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA')
-propertyManager = None
 # Create your models here.
 
-class PropertyManager():
-	def __init__(self, properties=[]):
-		self.properties = properties
+class PropertyManager(models.Model):
 
-	def primarySearch(self, location, startDate, endDate, numGuests, maxDistance=10):
-		properties = self.properties
-		properties = self.searchByLocation(location, maxDistance, properties)
-		properties = self.searchByPropertyAvailablity(startDate, endDate, properties)
-		properties = self.searchByPropertyNumGuests(numGuests, properties)
+	def primarySearch(location, startDate, endDate, numGuests, maxDistance=2):
+		geocode_result = gmaps.geocode(location)
+		lat = geocode_result[0]["geometry"]["location"]["lat"]
+		lng = geocode_result[0]["geometry"]["location"]["lng"]
+		ref_location = Point(lng, lat, srid=4326)
+		properties = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance)), numGuests=numGuests).values()
+		properties = pointToLatLng(properties)
 		return properties
 
 
-	def searchByPropertyName(self, name, properties=None):
-		if properties == None:
-				properties = self.properties
-		results = []
-		for p in properties:
-			if re.search(name, p.name, re.IGNORECASE):
-				results.append(p)
+	def searchByPropertyName(name):
+		results = Property.objects.filter(name__contains=name)
+		results = pointToLatLng(results)
 		return results
 
-	def searchByLocation(self, location, maxDistance=10, properties=None):
-		if properties == None:
-				properties = self.properties
-		maxDistance *= 1000 #km to m
-		results = []
-		for p in properties:
-			distance = gmaps.distance_matrix(location, p.location)['rows'][0]['elements'][0]
-			if distance['distance']['value'] <= maxDistance:
-				results.append(p)
+	def searchByLocation(location, maxDistance=10):
+		geocode_result = gmaps.geocode(location)
+		lat = geocode_result[0]["geometry"]["location"]["lat"]
+		lng = geocode_result[0]["geometry"]["location"]["lng"]
+		ref_location = Point(lat, lng, srid=4326)
+		results = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance))).values()
+		results = pointToLatLng(results)
 		return results
 
-	def searchByPropertyFeatures(self, features, properties=None):
-		if properties == None:
-				properties = self.properties
-		results = []
-		for p in properties:
-			for f in p.features:
-				if re.search(features, f, re.IGNORECASE):
-					results.append(p)
-					break
+	# needs features to be an array of features
+	def searchByPropertyFeatures(features):
+		results = Property.objects.filter(features__contains=features).values()
+		results = pointToLatLng(results)
 		return results
 
-	def searchByPropertyAvailablity(self, startDate, endDate, properties=None):
-		if properties == None:
-				properties = self.properties
-		results = []
-		for p in properties:
-			available = True
-			for b in p.bookings:
-				if startDate < b.endDate and endDate > b.startDate:
-					available = False
-					break
-			if available:
-				results.append(p)
+	def searchByPropertyAvailablity(startDate, endDate):
+		pass
+		# need help with this??, then fix it in primarySearch too
+
+	def searchByPropertyNumGuests(numGuests):
+		results = Property.objects.filter(numGuests=numGuests).values()
+		results = pointToLatLng(results)
 		return results
 
-	def searchByPropertyNumGuests(self, numGuests, properties=None):
-		if properties == None:
-			properties = self.properties		
-		results = []
-		for p in properties:
-			if p.numGuests == numGuests:
-				results.append(p)
-		return results
-
-
-	def addProperty(self, newProperty):
-		self.properties.append(newProperty)
-
-@csrf_exempt
-def handleRequests(request):
-	print("recieved request")
-	print(request.body.decode('utf-8'))
-	requestObj = json.loads(request.body.decode('utf-8'))
-	address = requestObj['address']
-	checkin = requestObj['checkin'].split("(")
-	checkin = checkin[0]
-	checkout = requestObj['checkout'].split("(")
-	checkout = checkout[0]
-	checkin = datetime.datetime.strptime(checkin, "%a %b %d %Y %H:%M:%S GMT%z ")
-	checkout = datetime.datetime.strptime(checkout, "%a %b %d %Y %H:%M:%S GMT%z ")
-	numGuests = requestObj['numGuests']
-	global propertyManager
-	if not propertyManager:
-		# You're gonne need to keep a global instance of this or something like that
-		# global propertyManager
-		propertyManager = PropertyManager()
-
-	properties = propertyManager.primarySearch(address, checkin, checkout, numGuests)
-	print(properties)
-	# usually uou would return properties but for testing purposes I will not
-	# return properties
-	test = {}
-	for i in range(0,10):
-		test[i] = "object here"
-	return HttpResponse(json.dumps(test))
-
-
+def pointToLatLng(properties):
+	for prop in properties:
+		prop['lat'] = prop['location'].x
+		prop['lng'] = prop['location'].y
+		prop['location'] = None
+	return properties

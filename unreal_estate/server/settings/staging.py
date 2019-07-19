@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# LOCAL_FRONTEND_HEADER = 'http://localhost:3000'  FIX_Me********
+LOCAL_FRONTEND_HEADER = 'http://localhost:3000'  
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'client',
+    'search',
+    'booking',
+    'review',
+    'advertising',
     'user',
 ]
 
@@ -59,11 +63,11 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 
 # change to app.example.com in production settings
-# CORS_ORIGIN_WHITELIST = ['http://localhost:3000']   FIX_Me********
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 
 CSRF_COOKIE_SECURE = False
 
-# CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']    FIX_Me********
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000'] 
 
 LOGGING = {
     'version': 1,
@@ -130,11 +134,14 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'URL': 'postgres://ihaomyre:WLU21zsEIHLruXMaGsq-QKXksmzMNR34@rosie.db.elephantsql.com:5432/ihaomyre',
-        },
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'unrealdb',
+        'USER': 'unrealuser',
+        'PASSWORD': 'unrealpass',
+        'HOST': 'unrealdb.cyyegzf2dxxj.ap-southeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

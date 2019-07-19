@@ -23,6 +23,7 @@ export default function SearchBox() {
     }).then(function(response) {
       response = response.json();
       setProperties(response);
+      console.log(response);
     });
   }
 
