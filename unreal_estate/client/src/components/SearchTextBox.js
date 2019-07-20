@@ -16,8 +16,14 @@ const useStyles = makeStyles({
 });
 
 export default function SearchTextBox() {
+  var initAddress;
+  if ("address" in localStorage) {
+      initAddress = localStorage.getItem('address');
+  } else {
+      initAddress = "";
+  }
   const classes = useStyles();
-  const [address, setAddress] = React.useState("");
+  const [address, setAddress] = React.useState(initAddress);
 
   function handleAddressChange(event) {
     localStorage.setItem('address', event.target.value)
@@ -36,6 +42,7 @@ export default function SearchTextBox() {
             </InputAdornment>
           }
           onChange={handleAddressChange}
+          value={address}
         />
       </FormControl>
     </span>

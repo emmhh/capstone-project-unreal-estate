@@ -8,6 +8,7 @@ import ErrorPage from './ErrorPage';
 import AdModule from './AdModule';
 import AdForm from './AdForm';
 import Nav from './Nav';
+import SearchResults from './SearchResults';
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
+          <Route exact path='/results' component={SearchResults} />
           <Route component={ErrorPage}/>
         </Switch>
       </div>

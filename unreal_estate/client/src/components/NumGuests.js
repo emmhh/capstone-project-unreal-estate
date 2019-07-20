@@ -15,8 +15,14 @@ const useStyles = makeStyles({
 });
 
 export default function NumGuestsSelector() {
+  var initNumGuests;
+  if ("numGuests" in localStorage) {
+      initNumGuests = localStorage.getItem('numGuests');
+  } else {
+      initNumGuests = 1;
+  }
   const classes = useStyles();
-  const [numGuests, setNumGuests] = React.useState(1);
+  const [numGuests, setNumGuests] = React.useState(initNumGuests);
   const [open, setOpen] = React.useState(false);
 
   function handleNumGuestsChange(event) {
