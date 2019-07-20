@@ -10,7 +10,7 @@ gmaps = googlemaps.Client(key='AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA')
 
 class PropertyManager(models.Model):
 
-	def primarySearch(location, startDate, endDate, numGuests, maxDistance=2):
+	def primarySearch(location, startDate, endDate, numGuests, maxDistance=1):
 		geocode_result = gmaps.geocode(location)
 		lat = geocode_result[0]["geometry"]["location"]["lat"]
 		lng = geocode_result[0]["geometry"]["location"]["lng"]

@@ -7,13 +7,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from '@material-ui/core/FormControl';
 
-const useStyles = makeStyles({
-  select: {
-    padding: "1%",
-    width: "5%",
-  }
-});
-
 export default function NumGuestsSelector() {
   var initNumGuests;
   if ("numGuests" in localStorage) {
@@ -21,7 +14,6 @@ export default function NumGuestsSelector() {
   } else {
       initNumGuests = 1;
   }
-  const classes = useStyles();
   const [numGuests, setNumGuests] = React.useState(initNumGuests);
   const [open, setOpen] = React.useState(false);
 
@@ -39,8 +31,8 @@ export default function NumGuestsSelector() {
   }
 
   return (
-    <span>
-      <FormControl className={classes.select}>
+    <div style={{textAlign: 'center', display: 'inline', verticalAlign: 'top'}}>
+      <FormControl style={{padding: "0 1%", width: "15%"}}>
         <InputLabel shrink>Number of Guests</InputLabel>
         <Select
           startAdornment={
@@ -70,7 +62,7 @@ export default function NumGuestsSelector() {
           <MenuItem value={10}>10</MenuItem>
         </Select>
       </FormControl>
-    </span>
+    </div>
 
   );
 }

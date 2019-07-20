@@ -106,15 +106,16 @@ export default class UserdetailsForm extends Component {
 
   renderForm() {
     var passwordElement = <div>
-      <FormGroup as={Row} controlId="password" bsSize="large">
-      <FormLabel>Password</FormLabel>
+      <FormGroup as={Row} controlId="password" bsSize="large" style={{width: "50%"}}>
+      <FormLabel >Password</FormLabel>
       <FormControl
+        className="input"
         value={this.state.password}
         onChange={this.handleChange}
         type="password"
       />
       </FormGroup>
-      <FormGroup as={Row} controlId="confirmPassword" bsSize="large">
+      <FormGroup as={Row} controlId="confirmPassword" bsSize="large" style={{width: "50%"}}>
         <FormLabel>Confirm Password</FormLabel>
         <FormControl
           value={this.state.confirmPassword}
@@ -125,7 +126,7 @@ export default class UserdetailsForm extends Component {
 
     return (
       <Form container onSubmit={this.handleSubmit}>
-        <FormGroup as={Row} controlId="firstName" bsSize="large">
+        <FormGroup as={Row} controlId="firstName" bsSize="large" style={{width: "50%"}}>
           <FormLabel>First Name</FormLabel>
           <FormControl 
             value={this.state.firstName}
@@ -133,7 +134,7 @@ export default class UserdetailsForm extends Component {
             type="text"
           />
         </FormGroup>
-        <FormGroup as={Row} controlId="lastName" bsSize="large">
+        <FormGroup as={Row} controlId="lastName" bsSize="large" style={{width: "50%"}}>
           <FormLabel>Last Name</FormLabel>
           <FormControl 
             value={this.state.lastName}
@@ -141,7 +142,7 @@ export default class UserdetailsForm extends Component {
             type="text"
           />
         </FormGroup>
-        <FormGroup as={Row} controlId="gender" bsSize="large">
+        <FormGroup as={Row} controlId="gender" bsSize="large" style={{width: "50%"}}>
           <FormLabel>Gender</FormLabel>
           <FormControl 
             value={this.state.gender}
@@ -153,7 +154,7 @@ export default class UserdetailsForm extends Component {
             <option>Others</option>
           </FormControl>
         </FormGroup>
-        <FormGroup as={Row} controlId="phoneNumber" bsSize="large">
+        <FormGroup as={Row} controlId="phoneNumber" bsSize="large" style={{width: "50%"}}>
           <FormLabel>Phone Number</FormLabel>
           <FormControl
             value={this.state.phone}
@@ -161,7 +162,7 @@ export default class UserdetailsForm extends Component {
             type="text"
           />
         </FormGroup>
-        <FormGroup as={Row} controlId="email" bsSize="large">
+        <FormGroup as={Row} controlId="email" bsSize="large" style={{width: "50%"}}>
           <FormLabel>Email</FormLabel>
           <FormControl 
             autoFocus

@@ -81,10 +81,10 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div className="login-div">
+      <div className="login-div" style={{textAlign: "-webkit-center"}}>
         <h1>Login</h1>
         <Form container onSubmit={this.handleSubmit}>
-          <FormGroup as={Row} controlId="email" bsSize="large">
+          <FormGroup as={Row} controlId="email" bsSize="large" style={{width: "50%"}}>
             <FormLabel>Email</FormLabel>
             <FormControl
               autoFocus
@@ -93,7 +93,7 @@ class LoginPage extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup as={Row} controlId="password" bsSize="large">
+          <FormGroup as={Row} controlId="password" bsSize="large" style={{width: "50%"}}>
             <FormLabel>Password</FormLabel>
             <FormControl
               value={this.state.password}

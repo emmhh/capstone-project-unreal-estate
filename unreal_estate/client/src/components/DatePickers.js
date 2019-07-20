@@ -8,17 +8,6 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-const useStyles = makeStyles({
-  grid: {
-    display: 'inline',
-  },
-  field: {
-    width: '10%',
-    padding: '1%',
-    margin: '0',
-  },
-});
-
 export default function DatePickers() {
   // The first commit of Material-UI
   var dateToday = new Date();
@@ -44,8 +33,6 @@ export default function DatePickers() {
   const [checkInDate, setCheckInDate] = React.useState(initCheckIn);
   const [checkOutDate, setCheckOutDate] = React.useState(initCheckOut);
 
-  const classes = useStyles();
-
   function handleCheckInChange(date) {
     setCheckInDate(date);
     localStorage.setItem('checkin', date)
@@ -63,9 +50,9 @@ export default function DatePickers() {
   }
 
   return (
-    <span>
+    <div style={{textAlign: 'center', display: 'inline-flex', width: "30%", verticalAlign: 'top'}}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Grid container className={classes.grid} justify="space-around">
+        <Grid container style={{display: "flex"}} justify="space-around">
           <KeyboardDatePicker
             margin="normal"
             id="checkin-date"
@@ -73,15 +60,15 @@ export default function DatePickers() {
             value={checkInDate}
             onChange={handleCheckInChange}
             minDate={dateToday}
-            className={classes.field}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}
+            style={{padding: "0 5%", margin: "0"}}
           />
         </Grid>
       </MuiPickersUtilsProvider>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Grid container className={classes.grid} justify="space-around">
+        <Grid container style={{display: "flex"}} justify="space-around">
           <KeyboardDatePicker
             margin="normal"
             id="checkout-date"
@@ -89,14 +76,14 @@ export default function DatePickers() {
             value={checkOutDate}
             onChange={handleCheckOutChange}
             minDate={minCheckOutDate}
-            className={classes.field}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}
+            style={{padding: "0 5%", margin: "0"}}
           />
         </Grid>
       </MuiPickersUtilsProvider>
-    </span>
+    </div>
 
   );
 }

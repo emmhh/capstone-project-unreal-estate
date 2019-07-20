@@ -76,7 +76,7 @@ class SignupPage extends Component {
 
   render() {
     return (
-      <div className="signup-div">
+      <div className="signup-div" style={{textAlign: "-webkit-center"}}>
         <h1>Signup Form</h1>
         <UserdetailsForm onFormChange={this.handleSubmit}/>
       </div>

@@ -1,10 +1,9 @@
-import React, { useEffect }  from 'react';
+import React  from 'react';
 import DatePickers from './DatePickers';
 import SearchTextBox from './SearchTextBox';
 import NumGuests from './NumGuests';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons'
 
@@ -14,7 +13,7 @@ export default function SearchResults() {
   const [searched, setSearched] = React.useState(false);
   const [properties, setProperties] = React.useState([]);
 
-  if(searched == false){
+  if(searched === false){
     getProperties();
   }
 
@@ -33,10 +32,8 @@ export default function SearchResults() {
         numGuests: localStorage.getItem('numGuests'),
       })
     }).then((response) => {
-      console.log(response);
       response.json().then((data) => {
         if (data['results'] != null) {
-          console.log(data['results']);
           setProperties(data['results']);
         }
         setSearched(true);
@@ -47,23 +44,25 @@ export default function SearchResults() {
   return (
     <div className="homepage-div">
       <h1>Unreal Estate</h1>
-      <div borderRadius={20}>
-        <SearchTextBox/>
-        <DatePickers/>
-        <NumGuests/>
-        <Button variant="contained" onClick={getProperties} style={{margin: "1%"}}>
-          Search
-        </Button>
+      <div style={{textAlign: "centre", display: "inlineBlock", width: "50%", margin: "0px auto"}}>
+        <div style={{padding: "20px 0px", display: "inlineBlock"}}>
+          <SearchTextBox/>
+          <DatePickers/>
+          <NumGuests/>
+          <Button variant="contained" onClick={getProperties} style={{margin: "1%", verticalAlign: 'top'}}>
+            Search
+          </Button>
+        </div>
       </div>
       <div>
-        <ul style={{listStyleType: 'none'}}>
+        <ul style={{listStyleType: 'none', padding: "0px"}}>
           {properties.map(prop => (
             <li key={prop['property_id']}>
-              <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px'}}>
-                <div>
-                  <img src={prop['images'][0]} style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
+              <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
+                <div style={{width: "35%"}}>
+                  <img src={prop['images'][0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
                 </div>
-                <div style={{width:'500px', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
+                <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
                   <div style={{float: 'left', display: 'inline-block'}}>
                     <h4 style={{margin: '0px'}}>{prop['name']}</h4>
                   </div>
@@ -89,7 +88,7 @@ export default function SearchResults() {
                     <p style={{margin: '0px', paddingLeft: "5px"}}>x.x</p>
                   </div>
                 </div>
-                <div style={{width:'150px', display: 'inline-block', padding: '10px'}}>
+                <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
                   <p style={{marginTop: '55px'}}>Price: ${prop['price']}</p>
                   <Link to='/property'  params={{property_id: prop['property_id']}}>
                     <Button variant="contained" style={{width: "120px"}}>

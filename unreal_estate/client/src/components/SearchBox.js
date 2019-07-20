@@ -9,13 +9,13 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 export default function SearchBox() {
 
   return (
-    <div>
-      <div borderRadius={20}>
+    <div style={{textAlign: "centre", display: "inlineBlock", width: "50%", margin: "0px auto"}}>
+      <div style={{padding: "20px 0px", display: "inlineBlock"}}>
         <SearchTextBox/>
         <DatePickers/>
         <NumGuests/>
-        <Link to='/results' >
-          <Button variant="contained" style={{margin: "1%"}}>
+        <Link to='/results'>
+          <Button variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
             Search
           </Button>
         </Link>
