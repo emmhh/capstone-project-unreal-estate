@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     display: 'inline',
   },
   field: {
-    width: '8%',
+    width: '10%',
     padding: '1%',
     margin: '0',
   },
@@ -27,8 +27,22 @@ export default function DatePickers() {
   minCheckOutDate.setHours(0,0,0,0)
   dateToday.setHours(0,0,0,0);
 
-  const [checkInDate, setCheckInDate] = React.useState(dateToday);
-  const [checkOutDate, setCheckOutDate] = React.useState(minCheckOutDate);
+  var initCheckIn;
+  if ("checkin" in localStorage) {
+      initCheckIn = new Date(localStorage.getItem('checkin'));
+  } else {
+      initCheckIn = dateToday;
+  }
+
+  var initCheckOut;
+  if ("checkout" in localStorage) {
+      initCheckOut = new Date(localStorage.getItem('checkout'));
+  } else {
+      initCheckOut = minCheckOutDate;
+  }
+
+  const [checkInDate, setCheckInDate] = React.useState(initCheckIn);
+  const [checkOutDate, setCheckOutDate] = React.useState(initCheckOut);
 
   const classes = useStyles();
 
