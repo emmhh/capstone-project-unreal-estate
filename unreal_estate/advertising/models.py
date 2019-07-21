@@ -28,7 +28,7 @@ class Property(models.Model):
     prices = models.CharField(max_length=30, default=None)
     avg_rating = models.FloatField(default=None)
     image = models.URLField(max_length=300, default=None, null=True)
-    location = PointField(srid=4326)    
+    location = PointField(srid=4326, default=None, null=True)
     buildingType = models.CharField(max_length=20)
 
 
@@ -40,7 +40,7 @@ class Property(models.Model):
 
     def get_property_by_id(self, property_id):
         try:
-            return Property.objects.get(property_ID=property_id)
+            return Property.objects.get(property_id=property_id)
         except ObjectDoesNotExist:
             print('property does not exist for calculation of avg rating')
             return 0

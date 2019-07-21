@@ -57,8 +57,8 @@ class PropertyPage extends Component {
 
 
     render() {
-        if (this.state.is_loding === false) {
-
+        const { is_loding } = this.state
+        if (is_loding === false) {
             return (
                 <div>
                     <img src={this.state.image}/>
@@ -82,8 +82,9 @@ class PropertyPage extends Component {
                     </div>
                 </div>
             );
-        } else {
-            return (<div></div>);
+        } 
+        else {
+            return null;
         }
     }
 }
