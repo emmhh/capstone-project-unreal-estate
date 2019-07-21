@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from .models import PropertyCliveTest
+from .models import Property
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
@@ -12,8 +12,8 @@ def PropertyFunction (request, property_id):
     print(property_id)
     if (request.method == "GET"):
         # The table "Property"
-        property_ob = PropertyCliveTest.objects.get(id=property_id)
-        response = {
+        property_ob = Property.objects.get(property_id=property_id)
+        PropertyValues = {
             'suburb': property_ob.suburb,
             'city': property_ob.city,
             'latitude': property_ob.latitude,
@@ -28,7 +28,7 @@ def PropertyFunction (request, property_id):
             'avg_rating': property_ob.avg_rating,
             'image': property_ob.image,
         }
-        return JsonResponse(response)
+        return JsonResponse(PropertyValues)
     
     elif (request.methods == "POST"):
         propertyInfo = {
@@ -52,11 +52,11 @@ def PropertyFunction (request, property_id):
             or not propertyInfo['num_Guests'] or not propertyInfo['description']
             or not propertyInfo['name'] or not propertyInfo['building_type']
             or not propertyInfo['prices']):
-            response = JsonResponse({'error': 'Required parameters not met.'})
-            response.status_code = 400
-            return response
+            PropertyResponce = JsonResponse({'error': 'Required parameters not met.'})
+            PropertyResponce.status_code = 400
+            return PropertyResponce
         
-        property_ob = PropertyCliveTest()
+        property_ob = Property()
         property_ob.suburb = propertyInfo['suburb']
         property_ob.city = propertyInfo['city']
         property_ob.latitude = propertyInfo['latitude']
@@ -75,17 +75,17 @@ def PropertyFunction (request, property_id):
 
         property_ob.save()
 
-        response = JsonResponse(property_ob)
-        return response
+        PropertyResponce = JsonResponse(property_ob)
+        return PropertyResponce
 
     #to delete the property from the data base.
     elif (request.methods == "DELETE"):
         property_id = request.GET.get('property_id')
-        property_ob = PropertyCliveTest.objects.get(pk=property_id)
+        property_ob = Property.objects.get(pk=property_id)
         property_ob.delete()
 
-        response = JsonResponse({'success': 'successfully deleted property'})
-        return response
+        PropertyResponce = JsonResponse({'success': 'successfully deleted property'})
+        return PropertyResponce
 
 
 

@@ -5,33 +5,47 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import json
+from django.views.decorators.csrf import csrf_exempt
 # import the logging library
 import logging
 
 # Get an instance of a logger
 debugLogger = logging.getLogger('debugLogger')
 logger = logging.getLogger(__name__)
-
+@csrf_exempt
 def user(request):
 
   # GET
   if (request.method == "GET"):
     debugLogger.debug("Get user details")
-    testResponce = {
-      'test': 'test object'
-    }
-    return JsonResponse(testResponce)
+
+    if not (request.user.is_authenticated):
+      responce = JsonResponse({'error': 'User is not logged in.'})
+      responce.status_code = 400
+      return responce
+    else:
+      user = request.user
+      userDetails = {
+        'firstName': user.first_name,
+        'lastName': user.last_name,
+        'phone': user.phone,
+        'gender': user.gender,
+        'email': user.email,
+      }
+      return JsonResponse(userDetails)
 
   # POST
   elif (request.method == "POST"):
     debugLogger.debug("Create new user")
+    json_data = json.loads(request.body)
     userDetails = {
-      'first_name': request.POST.get('firstName'),
-      'last_name': request.POST.get('lastName'),
-      'phone': request.POST.get('phone'),
-      'password': request.POST.get('password'),
-      'email': request.POST.get('email'),
-      'username': request.POST.get('email'),
+      'first_name': json_data['userDetails']['firstName'],
+      'last_name': json_data['userDetails']['lastName'],
+      'phone': json_data['userDetails']['phone'],
+      'password': json_data['userDetails']['password'],
+      'email': json_data['userDetails']['email'],
+      'username': json_data['userDetails']['email'],
+      'gender': json_data['userDetails']['gender'],
     }
     debugLogger.debug(userDetails)
 
@@ -50,6 +64,7 @@ def user(request):
     user.last_name = userDetails['last_name']
     user.phone = userDetails['phone']
     user.email = userDetails['email']
+    user.gender = userDetails['gender']
     
     # Save new user 
     try:
@@ -61,10 +76,56 @@ def user(request):
         return responce
     del userDetails['password']
     del userDetails['username']
-    responce = JsonResponse(userDetails)
+    responce = JsonResponse({'msg': '{} signed up successfully'.format(userDetails['first_name'])})
     responce.status_code = 201
     return responce
 
+
+  # PUT
+  elif (request.method == "PUT"):
+    debugLogger.debug("Update user details")
+    json_data = json.loads(request.body)
+    userDetails = {
+      'first_name': json_data['userDetails']['firstName'],
+      'last_name': json_data['userDetails']['lastName'],
+      'phone': json_data['userDetails']['phone'],
+      'email': json_data['userDetails']['email'],
+      'username': json_data['userDetails']['email'],
+      'gender': json_data['userDetails']['gender'],
+    }
+    debugLogger.debug(userDetails)
+
+    # Data Validation
+    if not (userDetails['first_name'] and \
+      userDetails['last_name'] and \
+      userDetails['email']):
+      responce = JsonResponse({'error': 'Required parameters not met.'})
+      responce.status_code = 400
+      return responce
+    user = User.objects.get(username=userDetails['email'])
+    if (user != request.user):
+      responce = JsonResponse({'error': 'Forbidden.'})
+      responce.status_code = 403
+      return responce
+    user.username = userDetails['username']
+    user.first_name = userDetails['first_name']
+    user.last_name = userDetails['last_name']
+    user.phone = userDetails['phone']
+    user.email = userDetails['email']
+    user.gender = userDetails['gender']
+    
+    # Save new user 
+    try:
+      user.save()
+    except IntegrityError as ex:
+      if (ex.__cause__.pgcode == '23505'):
+        responce = JsonResponse({'error': 'Email already exists.'})
+        responce.status_code = 400
+        return responce
+    responce = JsonResponse({'msg': 'Profile updated successfully'})
+    responce.status_code = 200
+    return responce
+@csrf_exempt
 def loginReq(request):
 
   # POST
@@ -105,7 +166,7 @@ def loginReq(request):
 
     responce = JsonResponse({'msg': 'Successfully logged in'})
     return responce
-
+@csrf_exempt
 def logoutReq(request):
   debugLogger.debug("***********")
   debugLogger.debug("Logout user")
@@ -117,13 +178,13 @@ def logoutReq(request):
         'user_logged_in' : False,
   })
   return responce
-    
+@csrf_exempt    
 def testLogin(request):
 
   # GET
   if (request.method == "GET"):
     debugLogger.debug("***********")
-    debugLogger.debug("Login user")
+    debugLogger.debug("Test Login")
     debugLogger.debug("***********")
     if not (request.user.is_authenticated):
       responce = JsonResponse({

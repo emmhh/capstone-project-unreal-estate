@@ -31,26 +31,26 @@ class Nav extends Component {
 
   checkState = async function () {
     
-    // await fetch('http://127.0.0.1:8000/user/testlogin')
-    //   .then((resultLogin) => {
-    //     return resultLogin.json()
-    //   })
-    //   .then((responce) => {
-    //     // console.log(resultLogin.context);
-    //     var is_user_logged_in;
-    //     if (responce && responce.user_logged_in) {
-    //       is_user_logged_in = true;
-    //     } else {
-    //       is_user_logged_in = false;
-    //     }
-    //     localStorage.setItem('is_user_logged_in', is_user_logged_in);
-    //     this.setState((previousState) => {
-    //       return {
-    //         drawerOpen: previousState.drawerOpen,
-    //         is_user_logged_in: is_user_logged_in,
-    //       }
-    //     });
-    //   });
+    await fetch('http://127.0.0.1:8000/user/testlogin')
+      .then((resultLogin) => {
+        return resultLogin.json()
+      })
+      .then((responce) => {
+        // console.log(resultLogin.context);
+        var is_user_logged_in;
+        if (responce && responce.user_logged_in) {
+          is_user_logged_in = true;
+        } else {
+          is_user_logged_in = false;
+        }
+        localStorage.setItem('is_user_logged_in', is_user_logged_in);
+        this.setState((previousState) => {
+          return {
+            drawerOpen: previousState.drawerOpen,
+            is_user_logged_in: is_user_logged_in,
+          }
+        });
+      });
   }
 
   logout = async function () {
@@ -89,13 +89,34 @@ class Nav extends Component {
 
   render() {
     var is_user_logged_in = this.state.is_user_logged_in;
-    let button;
+    let button, profileLink, bookingLink;
     if (is_user_logged_in){
       button =  <Button onClick={this.logout}>Logout</Button>;
+      
+      profileLink = <Link to='/profile' style={{ textDecoration: 'none' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
+        </Link>;
+      
+      bookingLink = 
+        <Link to='/bookings' style={{ textDecoration: 'none' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <Book />
+            </ListItemIcon>
+            <ListItemText primary="Bookings" />
+          </ListItem>
+        </Link>;
     } else {
       button = <Link to='/login'>
         <Button >Login</Button>
       </Link>;
+      profileLink = null;
+      bookingLink = null;
     }
     return (
       <div>
@@ -137,22 +158,8 @@ class Nav extends Component {
                         <ListItemText primary="Become a host" />
                       </ListItem>
                     </Link>
-                    <Link to='/profile' style={{ textDecoration: 'none' }}>
-                      <ListItem button>
-                        <ListItemIcon>
-                          <AccountCircle />
-                        </ListItemIcon>
-                        <ListItemText primary="Profile" />
-                      </ListItem>
-                    </Link>
-                    <Link to='/bookings' style={{ textDecoration: 'none' }}>
-                      <ListItem button>
-                        <ListItemIcon>
-                          <Book />
-                        </ListItemIcon>
-                        <ListItemText primary="Bookings" />
-                      </ListItem>
-                    </Link>
+                    {profileLink}
+                    {bookingLink}
                   </List>
                   <Divider />
               </div>

@@ -23,13 +23,16 @@ export default class UserdetailsForm extends Component {
 
     this.state = {
       isLoading: false,
-      email: "",
-      password: "",
-      confirmPassword: "",
-      confirmationCode: "",
-      newUser: null,
-      birthdate: new Date()
+      email: props.email ? props.email : null,
+      password: null,
+      confirmPassword: null,
+      firstName: props.firstName ? props.firstName : null,
+      lastName: this.props.lastName ? this.props.lastName : null,
+      gender: this.props.gender ? this.props.gender : "Male",
+      phone: this.props.phone ? this.props.phone : null
     };
+
+    this.onFormChange = this.onFormChange.bind(this);
   }
 
   validateForm() {
@@ -50,15 +53,15 @@ export default class UserdetailsForm extends Component {
     });
   }
 
-  handleSubmit = async event => {
-    event.preventDefault();
+  // handleSubmit = async event => {
+  //   event.preventDefault();
 
-    this.setState({ isLoading: true });
+  //   this.setState({ isLoading: true });
 
-    this.setState({ newUser: "test" });
-
-    this.setState({ isLoading: false });
-  }
+  //   this.setState({ newUser: "test" });
+  //   this.props.userDetails = this.state;
+  //   this.setState({ isLoading: false });
+  // }
 
   handleConfirmationSubmit = async event => {
     event.preventDefault();
@@ -66,35 +69,64 @@ export default class UserdetailsForm extends Component {
     this.setState({ isLoading: true });
   }
 
-  renderConfirmationForm() {
-    return (
-      <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup as={Row} controlId="confirmationCode" bsSize="large">
-          <FormLabel>Confirmation Code</FormLabel>
-          <FormControl 
-            autoFocus
-            type="tel"
-            value={this.state.confirmationCode}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        {/* <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateConfirmationForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Verify"
-          loadingText="Verifying…"
-        /> */}
-      </form>
-    );
+  onFormChange() {
+    var userDetails = this.state;
+    delete userDetails.isLoading;
+    if (this.props.hidePassword){
+      delete userDetails.password;
+      delete userDetails.confirmPassword;
+    }
+    this.props.onFormChange(this.state);
   }
 
+  // renderConfirmationForm() {
+  //   return (
+  //     <form onSubmit={this.handleConfirmationSubmit}>
+  //       <FormGroup as={Row} controlId="confirmationCode" bsSize="large">
+  //         <FormLabel>Confirmation Code</FormLabel>
+  //         <FormControl 
+  //           autoFocus
+  //           type="tel"
+  //           value={this.state.confirmationCode}
+  //           onChange={this.handleChange}
+  //         />
+  //       </FormGroup>
+  //       {/* <LoaderButton
+  //         block
+  //         bsSize="large"
+  //         disabled={!this.validateConfirmationForm()}
+  //         type="submit"
+  //         isLoading={this.state.isLoading}
+  //         text="Verify"
+  //         loadingText="Verifying…"
+  //       /> */}
+  //     </form>
+  //   );
+  // }
+
   renderForm() {
+    var passwordElement = <div>
+      <FormGroup as={Row} controlId="password" bsSize="large" style={{width: "50%"}}>
+      <FormLabel >Password</FormLabel>
+      <FormControl
+        className="input"
+        value={this.state.password}
+        onChange={this.handleChange}
+        type="password"
+      />
+      </FormGroup>
+      <FormGroup as={Row} controlId="confirmPassword" bsSize="large" style={{width: "50%"}}>
+        <FormLabel>Confirm Password</FormLabel>
+        <FormControl
+          value={this.state.confirmPassword}
+          onChange={this.handleChange}
+          type="password"
+        />
+      </FormGroup></div>;
+
     return (
       <Form container onSubmit={this.handleSubmit}>
-        <FormGroup as={Row} controlId="firstName" bsSize="large">
+        <FormGroup as={Row} controlId="firstName" bsSize="large" style={{width: "50%"}}>
           <FormLabel>First Name</FormLabel>
           <FormControl 
             value={this.state.firstName}
@@ -102,7 +134,7 @@ export default class UserdetailsForm extends Component {
             type="text"
           />
         </FormGroup>
-        <FormGroup as={Row} controlId="lastName" bsSize="large">
+        <FormGroup as={Row} controlId="lastName" bsSize="large" style={{width: "50%"}}>
           <FormLabel>Last Name</FormLabel>
           <FormControl 
             value={this.state.lastName}
@@ -110,7 +142,7 @@ export default class UserdetailsForm extends Component {
             type="text"
           />
         </FormGroup>
-        <FormGroup as={Row} controlId="gender" bsSize="large">
+        <FormGroup as={Row} controlId="gender" bsSize="large" style={{width: "50%"}}>
           <FormLabel>Gender</FormLabel>
           <FormControl 
             value={this.state.gender}
@@ -122,26 +154,15 @@ export default class UserdetailsForm extends Component {
             <option>Others</option>
           </FormControl>
         </FormGroup>
-        <FormGroup as={Row} controlId="birthdate" bsSize="large">
-          <FormLabel>Birthdate</FormLabel>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid justify="space-around">
-              <KeyboardDatePicker
-                margin="normal"
-                id="checkin-date"
-                label="Check In"
-                value={this.state.birthdate}
-                onChange={this.handleChange}
-                minDate={this.state.birthdate}
-                // className={classes.field}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
+        <FormGroup as={Row} controlId="phoneNumber" bsSize="large" style={{width: "50%"}}>
+          <FormLabel>Phone Number</FormLabel>
+          <FormControl
+            value={this.state.phone}
+            onChange={this.handleChange}
+            type="text"
+          />
         </FormGroup>
-        <FormGroup as={Row} controlId="email" bsSize="large">
+        <FormGroup as={Row} controlId="email" bsSize="large" style={{width: "50%"}}>
           <FormLabel>Email</FormLabel>
           <FormControl 
             autoFocus
@@ -150,23 +171,8 @@ export default class UserdetailsForm extends Component {
             onChange={this.handleChange}
           />
         </FormGroup>
-        <FormGroup as={Row} controlId="password" bsSize="large">
-          <FormLabel>Password</FormLabel>
-          <FormControl 
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <FormGroup as={Row} controlId="confirmPassword" bsSize="large">
-          <FormLabel>Confirm Password</FormLabel>
-          <FormControl 
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <Button className="Submit" variant="contained" color="primary" >Continue</Button>
+        {this.props.hidePassword !== true ? passwordElement : <div></div>}
+        <Button variant="contained" color="primary" onClick={this.onFormChange}>Continue</Button>
       </Form>
     );
   }
@@ -174,9 +180,7 @@ export default class UserdetailsForm extends Component {
   render() {
     return (
       <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
+        {this.renderForm()}
       </div>
     );
   }
