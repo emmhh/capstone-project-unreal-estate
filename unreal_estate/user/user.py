@@ -5,13 +5,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import json
+from django.views.decorators.csrf import csrf_exempt
 # import the logging library
 import logging
 
 # Get an instance of a logger
 debugLogger = logging.getLogger('debugLogger')
 logger = logging.getLogger(__name__)
-
+@csrf_exempt
 def user(request):
 
   # GET
@@ -124,7 +125,7 @@ def user(request):
     responce = JsonResponse({'msg': 'Profile updated successfully'})
     responce.status_code = 200
     return responce
-
+@csrf_exempt
 def loginReq(request):
 
   # POST
@@ -165,7 +166,7 @@ def loginReq(request):
 
     responce = JsonResponse({'msg': 'Successfully logged in'})
     return responce
-
+@csrf_exempt
 def logoutReq(request):
   debugLogger.debug("***********")
   debugLogger.debug("Logout user")
@@ -177,13 +178,13 @@ def logoutReq(request):
         'user_logged_in' : False,
   })
   return responce
-    
+@csrf_exempt    
 def testLogin(request):
 
   # GET
   if (request.method == "GET"):
     debugLogger.debug("***********")
-    debugLogger.debug("Login user")
+    debugLogger.debug("Test Login")
     debugLogger.debug("***********")
     if not (request.user.is_authenticated):
       responce = JsonResponse({

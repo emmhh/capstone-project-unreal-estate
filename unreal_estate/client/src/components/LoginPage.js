@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel
 } from "react-bootstrap";
+import { toast } from 'react-toastify';
 import Button from '@material-ui/core/Button';
 import "../css/LoginPage.css"
 
@@ -57,6 +58,9 @@ class LoginPage extends Component {
       })
     })
     .then(result => {
+      if (result.status !== 200) {
+        throw result;
+      }
       console.log(result);
       fetch('http://127.0.0.1:8000/user/testlogin')
       .then((resultLogin) => {
@@ -77,6 +81,12 @@ class LoginPage extends Component {
         }
       });
     })
+    .catch((error) => {
+      error.json()
+        .then((errorValue) => {
+          toast.error(errorValue.error);
+        });
+    });
   }
 
   render() {

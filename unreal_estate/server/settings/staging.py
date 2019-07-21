@@ -40,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'advertising',
     'client',
     'search',
     'booking',
     'review',
-    'advertising',
     'user',
 ]
 

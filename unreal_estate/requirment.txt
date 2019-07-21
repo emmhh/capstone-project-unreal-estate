@@ -2,3 +2,4 @@ psycopg2
 django
 googlemaps
 django-globals
+gdal
