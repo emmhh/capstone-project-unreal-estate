@@ -1,6 +1,6 @@
 from django.urls import path
-from . import models 
+from . import search
 
 urlpatterns = [
-	path('post', models.handleRequests),
+    path('post', search.handleRequests )
 ]

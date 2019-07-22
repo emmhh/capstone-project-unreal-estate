@@ -26,3 +26,9 @@ Week 5 (1/7-7/7)
   - Copied data from csv to AWS db
   - Tested data migration to AWS db
   - Meeting {7/7}
+
+Week 6 (8/7-14/7)
+  - Completed booking component with POST request
+  - Created booking model
+  - Began work on Property Details Page
+  - Meeting {8/7}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SearchBox from './SearchBox';
 import '../css/HomePage.css';
+import PropertyPage from './PropertyPage';
 
 class HomePage extends Component {
 
@@ -11,13 +12,9 @@ class HomePage extends Component {
     render() {
       return (
         <div className="homepage-div">
-          {/* <Nav/> */}
           <h1>Unreal Estate</h1>
           <SearchBox/>
-          <p>
-            Gagandeep Nain, z5137193<br/>
-            Emmanuel Kozman, z5120558<br/>
-          </p>
+          <PropertyPage/>
         </div>
       );
     }

@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+LOCAL_FRONTEND_HEADER = 'http://localhost:3000'  
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -25,7 +25,9 @@ SECRET_KEY = '_2fry+twt1tv@uud_7wx1qh)jnfj@ftc=d^fefu#qw7*t1$*gx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = DEBUG
+
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,19 +39,74 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'advertising',
     'client',
+    'search',
+    'booking',
+    'review',
     'user',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'server.middlewares.MyMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# change to app.example.com in production settings
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+
+CSRF_COOKIE_SECURE = False
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000'] 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    # 'filters': {
+    #     'require_debug_true': {
+    #         '()': 'django.utils.log.RequireDebugTrue',
+    #     },
+    # },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            # 'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'debugLogger': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': True,
+        },
+    }
+}
 
 ROOT_URLCONF = 'server.urls'
 
@@ -77,14 +134,23 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'URL': 'postgres://ihaomyre:WLU21zsEIHLruXMaGsq-QKXksmzMNR34@rosie.db.elephantsql.com:5432/ihaomyre',
-    },
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'unrealdb',
+        'USER': 'unrealuser',
+        'PASSWORD': 'unrealpass',
+        'HOST': 'unrealdb.cyyegzf2dxxj.ap-southeast-2.rds.amazonaws.com',
+        'PORT': '5432',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'user.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {

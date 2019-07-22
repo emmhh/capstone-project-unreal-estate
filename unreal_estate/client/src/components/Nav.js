@@ -21,8 +21,64 @@ class Nav extends Component {
     super(props);
     this.state = {
         drawerOpen: false,
+        is_user_logged_in: false,
     }
     this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.checkState = this.checkState.bind(this);
+    this.logout = this.logout.bind(this);
+    this.checkState();
+  }
+
+  checkState = async function () {
+    
+    await fetch('http://127.0.0.1:8000/user/testlogin')
+      .then((resultLogin) => {
+        return resultLogin.json()
+      })
+      .then((responce) => {
+        // console.log(resultLogin.context);
+        var is_user_logged_in;
+        if (responce && responce.user_logged_in) {
+          is_user_logged_in = true;
+        } else {
+          is_user_logged_in = false;
+        }
+        localStorage.setItem('is_user_logged_in', is_user_logged_in);
+        this.setState((previousState) => {
+          return {
+            drawerOpen: previousState.drawerOpen,
+            is_user_logged_in: is_user_logged_in,
+          }
+        });
+      });
+  }
+
+  logout = async function () {
+    await fetch('http://127.0.0.1:8000/user/logout', {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    })
+    .then((responce) => {
+      return responce.json();
+    })
+    .then((responce) => {
+      var is_user_logged_in;
+      if (responce && responce.user_logged_in) {
+        is_user_logged_in = true;
+      } else {
+        is_user_logged_in = false;
+      }
+      localStorage.setItem('is_user_logged_in', is_user_logged_in);
+      this.setState((previousState) => {
+        return {
+          drawerOpen: previousState.drawerOpen,
+          is_user_logged_in: is_user_logged_in,
+        }
+      });
+    })
   }
 
   toggleDrawer = (open) => () => {
@@ -32,6 +88,36 @@ class Nav extends Component {
   }
 
   render() {
+    var is_user_logged_in = this.state.is_user_logged_in;
+    let button, profileLink, bookingLink;
+    if (is_user_logged_in){
+      button =  <Button onClick={this.logout}>Logout</Button>;
+      
+      profileLink = <Link to='/profile' style={{ textDecoration: 'none' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
+        </Link>;
+      
+      bookingLink = 
+        <Link to='/bookings' style={{ textDecoration: 'none' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <Book />
+            </ListItemIcon>
+            <ListItemText primary="Bookings" />
+          </ListItem>
+        </Link>;
+    } else {
+      button = <Link to='/login'>
+        <Button >Login</Button>
+      </Link>;
+      profileLink = null;
+      bookingLink = null;
+    }
     return (
       <div>
         <AppBar position="static">
@@ -43,8 +129,10 @@ class Nav extends Component {
                 Unreal Estate
             </Button>
             <div style={{flexGrow: 1}} />
-            <Button href="/signup" color="inherit">Signup</Button>
-            <Button href="/login" color="inherit">Login</Button>
+            <Link to='/signup' >
+              <Button >Signup</Button>
+            </Link>
+            {button}
           </Toolbar>
         </AppBar>
         <SwipeableDrawer open={this.state.drawerOpen}
@@ -67,25 +155,11 @@ class Nav extends Component {
                           <ListItemIcon>
                               <HomeIcon/>
                           </ListItemIcon>
-                        <ListItemText primary="Become a host" />
+                        <ListItemText primary="My properties" />
                       </ListItem>
                     </Link>
-                    <Link to='/profile' style={{ textDecoration: 'none' }}>
-                      <ListItem button>
-                        <ListItemIcon>
-                          <AccountCircle />
-                        </ListItemIcon>
-                        <ListItemText primary="Profile" />
-                      </ListItem>
-                    </Link>
-                    <Link to='/bookings' style={{ textDecoration: 'none' }}>
-                      <ListItem button>
-                        <ListItemIcon>
-                          <Book />
-                        </ListItemIcon>
-                        <ListItemText primary="Bookings" />
-                      </ListItem>
-                    </Link>
+                    {profileLink}
+                    {bookingLink}
                   </List>
                   <Divider />
               </div>

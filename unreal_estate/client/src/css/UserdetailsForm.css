@@ -31,3 +31,9 @@ MuiPickersUtilsProvider Grid {
 .Signup form button {
   text-align: center;
 }
+
+.input {
+  margin: 0px;
+  margin-bottom: 20px;
+  width: 40%;
+}

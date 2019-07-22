@@ -8,16 +8,14 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Search from '@material-ui/icons/Search';
 
-const useStyles = makeStyles({
-  margin: {
-    width: '20%',
-    padding: '1%',
-  },
-});
-
 export default function SearchTextBox() {
-  const classes = useStyles();
-  const [address, setAddress] = React.useState("");
+  var initAddress;
+  if ("address" in localStorage) {
+      initAddress = localStorage.getItem('address');
+  } else {
+      initAddress = "";
+  }
+  const [address, setAddress] = React.useState(initAddress);
 
   function handleAddressChange(event) {
     localStorage.setItem('address', event.target.value)
@@ -25,8 +23,8 @@ export default function SearchTextBox() {
   }
 
   return (
-    <span>
-      <FormControl className={classes.margin}>
+    <div style={{textAlign: 'center', display: 'inline', verticalAlign: 'top'}}>
+      <FormControl style={{width: "40%", padding: "0 1% 0 0"}}>
         <InputLabel htmlFor="input-with-icon-adornment">Enter an Address</InputLabel>
         <Input
           id="input-with-icon-adornment"
@@ -36,8 +34,9 @@ export default function SearchTextBox() {
             </InputAdornment>
           }
           onChange={handleAddressChange}
+          value={address}
         />
       </FormControl>
-    </span>
+    </div>
   );
 }
