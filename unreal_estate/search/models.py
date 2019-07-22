@@ -15,14 +15,14 @@ class PropertyManager(models.Model):
 		lat = geocode_result[0]["geometry"]["location"]["lat"]
 		lng = geocode_result[0]["geometry"]["location"]["lng"]
 		ref_location = Point(lng, lat, srid=4326)
-		properties = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance)), numGuests=numGuests).values()
-		properties = pointToLatLng(properties)
+		properties = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance)), num_guests=numGuests).values()
+		properties = pointToNull(properties)
 		return properties
 
 
 	def searchByPropertyName(name):
 		results = Property.objects.filter(name__contains=name)
-		results = pointToLatLng(results)
+		results = pointToNull(results)
 		return results
 
 	def searchByLocation(location, maxDistance=10):
@@ -31,13 +31,13 @@ class PropertyManager(models.Model):
 		lng = geocode_result[0]["geometry"]["location"]["lng"]
 		ref_location = Point(lat, lng, srid=4326)
 		results = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance))).values()
-		results = pointToLatLng(results)
+		results = pointToNull(results)
 		return results
 
 	# needs features to be an array of features
 	def searchByPropertyFeatures(features):
 		results = Property.objects.filter(features__contains=features).values()
-		results = pointToLatLng(results)
+		results = pointToNull(results)
 		return results
 
 	def searchByPropertyAvailablity(startDate, endDate):
@@ -45,13 +45,11 @@ class PropertyManager(models.Model):
 		# need help with this??, then fix it in primarySearch too
 
 	def searchByPropertyNumGuests(numGuests):
-		results = Property.objects.filter(numGuests=numGuests).values()
-		results = pointToLatLng(results)
+		results = Property.objects.filter(num_guests=numGuests).values()
+		results = pointToNull(results)
 		return results
 
-def pointToLatLng(properties):
+def pointToNull(properties):
 	for prop in properties:
-		prop['lat'] = prop['location'].x
-		prop['lng'] = prop['location'].y
 		prop['location'] = None
 	return properties

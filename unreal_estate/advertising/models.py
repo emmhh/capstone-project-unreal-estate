@@ -2,47 +2,34 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.db.models import PointField
 from django.contrib.postgres.fields import ArrayField
-# from ..user.models import User
 
-# class Feature(models.Model):
-#     description=models.CharField(max_length=50)
-#     # if the proeprty is deleted, the feature should still exist
-#     # property = models.ForeignKey(Property, on_delete=models.PROTECT)
-#     def __str__ (self):
-#         return self.description
-
-# Create your models here.
 class Property(models.Model):
     property_id = models.IntegerField(primary_key=True)
-    street = models.CharField(max_length=300, default=None)
-    suburb = models.CharField(max_length=300, default=None)
-    city  = models.CharField(max_length=300, default=None)
-    latitude = models.FloatField(default=None)
-    longitude = models.FloatField(default=None)
-    post_code = models.IntegerField(default=None)
-    num_bathroom = models.FloatField(default=None)
-    num_guests = models.IntegerField(default=None)
-    description = models.CharField(max_length = 1500)
-    space = models.CharField(max_length=1500, default=None)
+    address = models.CharField(max_length=300)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    num_guests = models.IntegerField(default=1)
+    num_bathrooms = models.IntegerField(default=1)
+    num_beds = models.IntegerField(default=1)
+    num_rooms = models.IntegerField(default=1)
+    description = models.CharField(max_length=2000, default='', blank=True)
+    space = models.CharField(max_length=2000, default='', blank=True)
     name = models.CharField(max_length=300)
-    prices = models.CharField(max_length=30, default=None)
-    avg_rating = models.FloatField(default=None)
-    image = models.URLField(max_length=300, default=None, null=True)
+    features = ArrayField(models.CharField(max_length=250), default=list())
+    # This needs to be changed to foreign key once we have Property Owners table ready (both here and in pgAdmin4)
+    owner_id = models.IntegerField(null=True)
+    price = models.FloatField(default=100.0)
+    avg_rating = models.FloatField(default=0.0)
+    images = ArrayField(models.CharField(max_length=150), default=list('http://wtlrealty.my/admin/property/default.jpg'))
     location = PointField(srid=4326, default=None, null=True)
-    buildingType = models.CharField(max_length=20)
+    building_type = models.CharField(max_length=20, default='', blank=True)
 
-
-    '''
-      models.CASCADE -> when the referenced object is deleted, also delete the 
-    objects that have references to it.
-      models.PROTECT -> Forbid the the deletion of referenced object.
-    '''
 
     def get_property_by_id(self, property_id):
         try:
             return Property.objects.get(property_id=property_id)
         except ObjectDoesNotExist:
-            print('property does not exist for calculation of avg rating')
+            print('property does not exist')
             return 0
 
     def __str__ (self):
@@ -64,27 +51,14 @@ class Property(models.Model):
 
 
 class Rating(models.Model):
-    value = models.IntegerField()
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None, null=True)
+    rating_id = models.IntegerField(primary_key=True)
+    property_id = models.ForeignKey('Property', on_delete=models.CASCADE)
+    user_id = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    value = models.FloatField(default=5.0)
+    date=models.DateTimeField(auto_now_add=True )
     is_anonymous = models.BooleanField(default=False)
-    # renter = models.ForeignKey(User, on_delete=models.CASCADE)
-    notes = models.CharField(max_length= 500)
+    notes = models.CharField(max_length= 2000, default='', blank=True)
+    from_dataset = models.BooleanField(default=False)
 
     def __str__ (self):
-        return self.property + self.value
-
-
-class Reservation(models.Model):
-	start_date = models.DateField()
-	end_date = models.DateField()
-	# start_year = models.CharField(max_length=4)
-	# end_year = models.CharField(max_length=4)
-	# start_month = models.CharField(max_length=4)
-	# end_month = models.CharField(max_length=4)
-	notes = models.CharField(max_length=500)
-	property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None, null=True)
-	fee = models.IntegerField()
-	#user_id = models.ForeignKey(User, on_delete=models.PROTECT)FIXME: add these back after user is implemented
-	# owner_id = models.ForeignKey(User, on_delete=models.CACADE)FIXME:
-	def __str__ (self):
-		return 'start_date:'+self.start_date+'end_date'+self.end_date+'notes:'+self.notes
+        return self.rating_id + self.property_id + self.value

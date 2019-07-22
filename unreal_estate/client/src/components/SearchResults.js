@@ -3,7 +3,7 @@ import DatePickers from './DatePickers';
 import SearchTextBox from './SearchTextBox';
 import NumGuests from './NumGuests';
 import Button from '@material-ui/core/Button';
-import { BrowserRouter as Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons'
 
@@ -67,15 +67,15 @@ export default function SearchResults() {
                     <h4 style={{margin: '0px'}}>{prop['name']}</h4>
                   </div>
                   <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                    <p style={{margin: '0px'}}>{prop['buildingType']}</p>
+                    <p style={{margin: '0px'}}>{prop['building_type']}</p>
                   </div>
                   <div style={{clear:'both', display: 'flex'}}>
                     <FontAwesomeIcon icon={faBed} size="lg"/>
-                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['numBeds']}</p>
+                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_beds']}</p>
                     <FontAwesomeIcon icon={faBath} size="lg"/>
-                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['numBathrooms']}</p>
+                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_bathrooms']}</p>
                     <FontAwesomeIcon icon={faUser} size="lg"/>
-                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['numGuests']}</p>
+                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_guests']}</p>
                   </div>
                   <hr style={{margin: "2px"}}></hr>
                   <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
@@ -85,12 +85,12 @@ export default function SearchResults() {
                   <hr style={{margin: "2px"}}></hr>
                   <div style={{clear:'both', display: 'flex'}}>
                     <FontAwesomeIcon icon={faStar} size="lg"/>
-                    <p style={{margin: '0px', paddingLeft: "5px"}}>x.x</p>
+                    <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['avg_rating']}</p>
                   </div>
                 </div>
                 <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
                   <p style={{marginTop: '55px'}}>Price: ${prop['price']}</p>
-                  <Link to='/property'  params={{property_id: prop['property_id']}}>
+                  <Link to={'/property/' + prop['property_id']}>
                     <Button variant="contained" style={{width: "120px"}}>
                       View
                     </Button>

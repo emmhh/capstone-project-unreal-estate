@@ -37,7 +37,7 @@ def user(request):
   # POST
   elif (request.method == "POST"):
     debugLogger.debug("Create new user")
-    json_data = json.loads(request.body)
+    json_data = json.loads(request.body.decode('utf-8'))
     userDetails = {
       'first_name': json_data['userDetails']['firstName'],
       'last_name': json_data['userDetails']['lastName'],
@@ -84,7 +84,7 @@ def user(request):
   # PUT
   elif (request.method == "PUT"):
     debugLogger.debug("Update user details")
-    json_data = json.loads(request.body)
+    json_data = json.loads(request.body.decode('utf-8'))
     userDetails = {
       'first_name': json_data['userDetails']['firstName'],
       'last_name': json_data['userDetails']['lastName'],
@@ -134,7 +134,7 @@ def loginReq(request):
     debugLogger.debug("***********")
     debugLogger.debug("Login user")
     debugLogger.debug("***********")
-    json_data = json.loads(request.body)
+    json_data = json.loads(request.body.decode('utf-8'))
     try:
       password = json_data['password']
       email = json_data['email']

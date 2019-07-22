@@ -5,22 +5,24 @@ import {
     Link,
     withRouter
 } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
+import Button from '@material-ui/core/Button';
 
 class PropertyPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            is_loding: true,
+            is_loading: true,
             prop_id: null,
-            suburb : null,
+            address : null,
             city  : null,
             latitude : null,
             longitude : null,
-            post_code : null,
-            num_room : null,
-            num_bathroom : null,
+            num_beds: null,
+            num_rooms : null,
+            num_bathrooms : null,
             num_guests : null,
             description : null,
             space : null,
@@ -28,7 +30,7 @@ class PropertyPage extends Component {
             building_type : null,
             prices : null,
             avg_rating : null,
-            image : null,
+            images : null,
           };
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidMount();
@@ -49,7 +51,7 @@ class PropertyPage extends Component {
                     res.json().then(data => {
                         this.setState(data);
                         this.setState({prop_id: property_id});
-                        this.setState({ is_loding: false });
+                        this.setState({ is_loading: false });
                     });
                 });
         }
@@ -57,28 +59,40 @@ class PropertyPage extends Component {
 
 
     render() {
-        const { is_loding } = this.state
-        if (is_loding === false) {
+        const { is_loading } = this.state
+        if (is_loading === false) {
             return (
-                <div>
-                    <img src={this.state.image}/>
+                <div style={{textAlign: "centre", display: "block", width: "50%", margin: "0px auto"}}>
+                    <img src={this.state.images[0]}/>
                     <h1>{this.state.name}</h1>
-                    <h2>{this.state.suburb}</h2>
-                    <div>
-                        <div>{this.state.numGuests}</div>
-                        <div>{this.state.numBeds}</div>
-                        <div>{this.state.numBaths}</div>
+                    <div style={{clear:'both', display: 'inline-flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                        <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
+                        <h3 style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</h3>
                     </div>
                     <div>
-                        <p>
-                            {this.state.description}
-                        </p>
-                        <h3>
-                            The space
-                        </h3>
-                        <p>
-                            {this.state.space}
-                        </p>
+                      <div style={{clear:'both', display: 'inline-flex'}}>
+                        <FontAwesomeIcon icon={faBed} size="lg"/>
+                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_beds}</p>
+                        <FontAwesomeIcon icon={faBath} size="lg"/>
+                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
+                        <FontAwesomeIcon icon={faUser} size="lg"/>
+                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_guests}</p>
+                      </div>
+                    </div>
+                    <br></br>
+                    <hr></hr>
+                    <div>
+                        <h4>Summary</h4>
+                        <p>{this.state.description}</p>
+                    </div>
+                    {this.state.space == '' ? null: <div> <h4>Summary</h4> <p>{this.state.description}</p> </div>}
+                    <br></br>
+                    <hr></hr>
+                    <div style={{display: 'inline-block', padding: '10px'}}>
+                      <h5>Price per night: ${this.state.price}</h5>
+                        <Button variant="contained" style={{width: "120px"}}>
+                          Book
+                        </Button>
                     </div>
                 </div>
             );
