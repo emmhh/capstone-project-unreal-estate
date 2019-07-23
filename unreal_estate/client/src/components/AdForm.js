@@ -98,17 +98,17 @@ class AdForm extends Component {
     <div>
       <Form>
         <Form.Group controlId="city">
-          <Form.Label>Which city?</Form.Label>
+          <Form.Label>1. Which city?</Form.Label>
           <Form.Control type="city" placeholder="Enter city" />
         </Form.Group>
 
         <Form.Group controlId="address">
-          <Form.Label>Where is it located?</Form.Label>
+          <Form.Label>2. Where is it located?</Form.Label>
           <Form.Control type="address" placeholder="Enter the address" />
         </Form.Group>
 
         <Form.Group controlId="num_beds">
-          <Form.Label>How many bedrooms are there?</Form.Label>
+          <Form.Label>3. How many bedrooms are there?</Form.Label>
           {/* <Form.Control type="num_beds" placeholder="Enter the number of bedrooms" /> */}
           {/* sample for checkbox */}
           {['checkbox'].map(type => (
@@ -129,7 +129,7 @@ class AdForm extends Component {
         </Form.Group>
 
         <Form.Group controlId="num_rooms">
-          <Form.Label>How many rooms are there?</Form.Label>
+          <Form.Label>4. How many rooms are there?</Form.Label>
           {/* <Form.Control type="num_rooms" placeholder="Enter the number of rooms" /> */}
           {['checkbox'].map(type => (
             <div key={`inline-${type}`} className="mb-3">
@@ -149,7 +149,7 @@ class AdForm extends Component {
         </Form.Group>
 
         <Form.Group controlId="num_guests">
-          <Form.Label>How many guests are allowed?</Form.Label>
+          <Form.Label>5. How many guests are allowed?</Form.Label>
           {/* <Form.Control type="num_guests" placeholder="Enter the guests capacity" /> */}
           {['checkbox'].map(type => (
             <div key={`inline-${type}`} className="mb-3">
@@ -169,30 +169,32 @@ class AdForm extends Component {
         </Form.Group>
 
         <Form.Group controlId="descriptions">
-          <Form.Label>please add some descriptions to your property</Form.Label>
+          <Form.Label>6. please add some descriptions to your property</Form.Label>
           <Form.Control type="descriptions" placeholder="Descriptions" />
         </Form.Group>
 
         <Form.Group controlId="name">
-          <Form.Label>What is the name of your property ?</Form.Label>
+          <Form.Label>7. What is the name of your property ?</Form.Label>
           <Form.Control type="name" placeholder="Name of property" />
         </Form.Group>
 
         <Form.Group controlId="building_type">
-          <Form.Label>What type of building is it?</Form.Label>
+          <Form.Label>8. What type of building is it?</Form.Label>
           <Form.Control type="buiding_type" placeholder="The type of building" />
         </Form.Group>
         
         {/* maybe can introduce the average price on the neibourhood */}
         <Form.Group controlId="price">
-          <Form.Label>What is your prefered price?</Form.Label>
+          <Form.Label>9. What is your prefered price?</Form.Label>
           <Form.Control type="price" placeholder="price" />
         </Form.Group>
-        
-        
-        <Button variant="contained" style={{width: "150px"}} type="submit" onClick={this.submitForm}>
-          Submit
-        </Button>
+        {/* link to PropertyPage.js */}
+        {/* <Link to="{/property/ + this.state.property_id}"> */}
+        <Link to={'/property/' + this.state.prop_id}>
+          <Button variant="contained" style={{width: "150px"}} type="submit" onClick={this.submitForm}>
+            Submit
+          </Button>
+        </Link>
       </Form>
     </div>);
     if (this.state.prop_id == null){

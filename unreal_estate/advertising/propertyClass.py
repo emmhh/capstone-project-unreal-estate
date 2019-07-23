@@ -44,6 +44,7 @@ def PropertyFunction (request, property_id):
             'num_bathrooms': request.POST.get('num_bathroom'),
             'num_guests': request.POST.get('num_guests'),
             # missing num_beds
+            'num_beds': request.POST.get('num_beds'),
             'description': request.POST.get('description'),
             'space': request.POST.get('space'),
             'name': request.POST.get('name'),
@@ -52,7 +53,7 @@ def PropertyFunction (request, property_id):
             'price': request.POST.get('prices'),
             'avg_rating': request.POST.get('avg_rating'),
             'images': request.POST.get('image'),
-            # also needs owner id?
+            'owner_id': request.POST.get('owner_id'),
         }
         if (not propertyInfo['address'] or not propertyInfo['latitude'] or not propertyInfo['longitude']
             or not propertyInfo['name'] ):

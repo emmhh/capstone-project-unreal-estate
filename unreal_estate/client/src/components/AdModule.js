@@ -7,7 +7,7 @@ import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-sv
 import {Link} from 'react-router-dom';
 
 class AdModule extends Component {
-
+    // FIXME: need to pass in user_id to make fecth and initialise the state.
     constructor(props) {
         super(props)
         this.state = {
@@ -32,7 +32,7 @@ class AdModule extends Component {
                     avg_rating : 6.7,
                     images : "https://a0.muscache.com/im/pictures/56935671/fdb8c0bf_original.jpg?aki_policy=large" ,
                 },{
-                    prop_id: 1,
+                    prop_id: 2,
                     owner_id: 1,
                     address : "1008/4 Lachlan St",
                     city  : "Waterloo",
@@ -73,28 +73,48 @@ class AdModule extends Component {
         // this.componentDidMount = this.componentDidMount(this);
         // this.componentDidMount();
     }
-    // componentDidMount(){
-    //     // to fecth the list of owned properties from databse;
-    //     if (this.props && this.props.match && this.props.match.params){
-    //         const {property_id} =  this.props.match.params;
-    //         var req = 'http://127.0.0.1:8000/advertising/' + this.state.user_id;
-    //         fetch(req, {
-    //             method: "GET",
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/x-www-form-urlencoded',
-    //             },
-    //             })
-    //             .then((res) => {
-    //                 res.json().then(data => {
-    //                     this.setState(data);
-    //                     this.setState({prop_id: property_id});
-    //                     this.setState({ is_loading: false });
-    //                 });
-    //             });
-    //     }
-    // }
-    removeProperty = property_id => {
+    componentDidMount(){
+        // to fecth the list of owned properties from databse;
+        if (this.props && this.props.match && this.props.match.params){
+            const {property_id} =  this.props.match.params;
+            var req = 'http://127.0.0.1:8000/advertising/' + this.state.user_id;
+            fetch(req, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then((res) => {
+                res.json().then(data => {
+                    this.setState(data);
+                    this.setState({prop_id: property_id});
+                    // this.setState({ is_loading: false });
+                });
+            });
+        }
+    }
+    async removeProperty(property_id) {
+        var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+        await fetch(req, {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        })
+        .then((result)=>{
+            return result.json();
+        })
+        .then((result)=>{
+            console.log(result);
+        })
+        .then((property_id) => {
+            this.handle_deletion(property_id);
+        });
+    }
+    
+    handle_deletion = property_id => {
         const { properties } = this.state
         this.setState({
             properties: properties.filter((property) => {
@@ -124,9 +144,24 @@ class AdModule extends Component {
     //     console.log(typeof property);
     //     this.setState({properties: [...this.state.properties, property] })
     // }
-    async addProperty () {
-
-    }
+    // async addProperty () {
+    //     var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+    //     fetch(req, {
+    //         method: "POST",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //         body: JSON.stringify({
+    //             city: this.
+    //             // property_id: match.params.property_id,
+    //             // startDate: this.state.startDate,
+    //             // endDate: this.state.startDate,
+    //             // bookingTime: 
+    //             // price:
+    //         })
+    //     });
+    // }
     render() {
         // const {properties} = this.state.owned_properties;
 
@@ -138,16 +173,16 @@ class AdModule extends Component {
             this.setState({properties: [...this.state.properties, property] })
         }
         return (
-        <div className="container">
-            {/* <Nav /> */}
-            <h2>My Properties</h2>
+            <div className="container">
+                {/* <Nav /> */}
+                <h2>My Properties</h2>
 
-            {/* <AdTable propertyData={properties} removeProperty={this.removeProperty} addProperty={this.addProperty}/> */}
-            <AdTable propertyData={this.state.owned_properties} removeProperty={this.removeProperty} addProperty={this.addProperty}/>
-            
-            <Link to='/AdForm'><Button variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
-            {/* <AdForm handleSubmit={this.handleSubmit}/> */}
-        </div>
+                {/* <AdTable propertyData={properties} removeProperty={this.removeProperty} addProperty={this.addProperty}/> */}
+                <AdTable propertyData={this.state.owned_properties} removeProperty={this.removeProperty} addProperty={this.addProperty}/>
+                
+                <Link to='/AdForm'><Button variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
+                {/* <AdForm handleSubmit={this.handleSubmit}/> */}
+            </div>
         )
     }
 }
