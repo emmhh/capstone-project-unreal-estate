@@ -8,13 +8,22 @@ import {Link} from 'react-router-dom';
 
 class AdModule extends Component {
     // FIXME: need to pass in user_id to make fecth and initialise the state.
+    // AdModule: initialise the sate from GET request, to get the properties based on owner_ids;
+    //          Within the AdModule load the AdTable after the component is loaded.
+    // redirect to AdForm if "Add property" is clicked.
+    // redirect to AdForm if "Edit" is clicked. 
+    // redirect to PropertyPage if "view" is clicked,  need to form a new page as a preview page without "Book" button,
+    //
+
+    // in the AdForm: submit the form that contains the property data into property page, which is a preview page.
+        // if "submit is clicked, the page is redirected to confirmation page, user will be able to see the preview and click confirm to actually add the property into database"
     constructor(props) {
         super(props)
         this.state = {
             user_id: 1,
             owned_properties:[
                 {
-                    prop_id: 1,
+                    prop_id: 11156,
                     owner_id: 1,
                     address : "432/8 Victoria Park Parade",
                     city  : "Zetland",
@@ -32,7 +41,7 @@ class AdModule extends Component {
                     avg_rating : 6.7,
                     images : "https://a0.muscache.com/im/pictures/56935671/fdb8c0bf_original.jpg?aki_policy=large" ,
                 },{
-                    prop_id: 2,
+                    prop_id: null,
                     owner_id: 1,
                     address : "1008/4 Lachlan St",
                     city  : "Waterloo",
@@ -65,7 +74,7 @@ class AdModule extends Component {
                 space : null,
                 name : null,
                 building_type : null,
-                prices : null,
+                price : null,
                 avg_rating : null,
                 images : null,
             }
@@ -77,7 +86,7 @@ class AdModule extends Component {
         // to fecth the list of owned properties from databse;
         if (this.props && this.props.match && this.props.match.params){
             const {property_id} =  this.props.match.params;
-            var req = 'http://127.0.0.1:8000/advertising/' + this.state.user_id;
+            var req = 'http://127.0.0.1:8000/advertising/user/' + this.state.owner_id;
             fetch(req, {
                 method: "GET",
                 headers: {
@@ -165,13 +174,13 @@ class AdModule extends Component {
     render() {
         // const {properties} = this.state.owned_properties;
 
-        var propertyData = localStorage.getItem('property');
-        if (propertyData != null){
-            localStorage.removeItem('property');
-            var property = JSON.parse(propertyData);
-            console.log(property);
-            this.setState({properties: [...this.state.properties, property] })
-        }
+        // var propertyData = localStorage.getItem('property');
+        // if (propertyData != null){
+        //     localStorage.removeItem('property');
+        //     var property = JSON.parse(propertyData);
+        //     console.log(property);
+        //     this.setState({properties: [...this.state.properties, property] })
+        // }
         return (
             <div className="container">
                 {/* <Nav /> */}
@@ -179,8 +188,8 @@ class AdModule extends Component {
 
                 {/* <AdTable propertyData={properties} removeProperty={this.removeProperty} addProperty={this.addProperty}/> */}
                 <AdTable propertyData={this.state.owned_properties} removeProperty={this.removeProperty} addProperty={this.addProperty}/>
-                
-                <Link to='/AdForm'><Button variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
+                {/* need to know the id of current user, and if property id = 0, its adding new property; */}
+                <Link to={'/AdForm/' + this.state.user_id+ '/'+ null}><Button variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
                 {/* <AdForm handleSubmit={this.handleSubmit}/> */}
             </div>
         )
