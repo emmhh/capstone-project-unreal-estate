@@ -4,6 +4,7 @@ import DatePickers from './DatePickers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons';
 import NumGuests from './NumGuests';
+import { Redirect } from 'react-router-dom'
 
 class BookingForm extends Component {
     constructor(props) {
@@ -24,13 +25,34 @@ class BookingForm extends Component {
             name : null,
             building_type : null,
             price : null,
+            total_price : null,
             avg_rating : null,
             images : null,
             focusedInput: null,
             total_price : null,
-          };
+            redirect : false,
+            booking_id : null
+        };
         // this.onDatesChange = this.onDatesChange.bind(this);
         this.makeBooking = this.makeBooking.bind(this);
+    }
+
+    setRedirect = (result) => {
+        this.setState({
+            redirect: true,
+            booking_id: result
+        })
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            var confirmationUrl = '/confirmation/' + this.state.booking_id;
+            return <Redirect to={ confirmationUrl }/>
+        }
+    }
+
+    showTotal = () => {
+        return <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
     }
 
     async makeBooking() {
@@ -59,13 +81,12 @@ class BookingForm extends Component {
             })
         })
         .then(result => {
-            console.log(result);
             return result.json();
         })
         .then( (result) => {
-            console.log(result);
+            this.setRedirect(result.booking_id);
+            this.renderRedirect();
         })
-        this.setState({ is_loading: true });
     }
     onChange(field, value) {
         console.log('OC:1');        
@@ -123,6 +144,7 @@ class BookingForm extends Component {
     render() {
         return (
             <div style={{width:'80%', margin: '50px'}}>
+                {this.renderRedirect()}
                 <div className="mini-desc">
                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                         <div style={{width: "35%"}}>
@@ -156,7 +178,7 @@ class BookingForm extends Component {
                         </div>
                         <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
                         <p style={{marginTop: '55px'}}>Price: ${this.state.price}</p>
-                        <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
+                        {this.showTotal()}
                         </div>
                     </div>
                     <div className="BookingingComponent-div">

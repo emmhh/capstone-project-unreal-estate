@@ -23,7 +23,8 @@ def BookingFunction(request):
             responce = JsonResponse({'error': "User is not logged in."})
             responce.status_code = 403
             return responce
-        print(request.body.decode('utf-8'))
+        print("post: " + request.body.decode('utf-8'))
+        print("user: " + str(request.user.id))
         json_data = json.loads(request.body.decode('utf-8'))
         bookingDetails = {
             'user_id': request.user.id,
@@ -47,12 +48,12 @@ def BookingFunction(request):
         response.status_code = 400
         return response
     booking = Booking()
-    booking.user_id = bookingDetails['user_id']
     booking.property_id = bookingDetails['property_id']
+    booking.user_id = bookingDetails['user_id']
     booking.startDate = bookingDetails['startDate']
     booking.endDate = bookingDetails['endDate']
     booking.price = bookingDetails['price']
-    booking.num_guests = bookDetails['num_guests']
+    booking.num_guests = bookingDetails['num_guests']
     # Save new booking 
     try:
         booking.save()
@@ -71,14 +72,14 @@ def BookingDetails(request, booking_id):
         debugLogger.debug("Get booking details")
         # Retrieve old booking
         try:
-            booking = Booking.objects.all().filter(id=booking_id)
+            booking = Booking.objects.get(pk=booking_id)
         except ObjectDoesNotExist:
             response = JsonResponse({'error': 'booking does not exist'})
             response.status_code = 403
             return response
             
+        print(booking.user_id, booking.property_id, booking.startDate, booking.endDate, booking.bookingTime, booking.price, booking.num_guests)
         bookingDetails = {
-            'booking_id': booking.booking_id,
             'user_id': booking.user_id,
             'property_id': booking.property_id,
             'startDate': booking.startDate,

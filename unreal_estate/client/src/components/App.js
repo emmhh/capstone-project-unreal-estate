@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './HomePage';
 import SignupPage from './SignupPage';
@@ -35,8 +35,8 @@ class App extends Component {
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
-          <Route exact path='/booking/:property_id' component={BookingForm} />
-          <Route exact path='/booking/confirmed/:booking_id' component={BookingConfirmation} />
+          <Route exact path='/property_booking/:property_id' component={BookingForm} />
+          <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />
           <Route component={ErrorPage}/>
         </Switch>

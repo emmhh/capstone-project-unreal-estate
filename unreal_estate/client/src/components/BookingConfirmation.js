@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
-import DatePickers from './DatePickers';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons';
-import NumGuests from './NumGuests';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 class BookingConfirmation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            prop_id: null,
+            booking_id : null,
+            property_id : null,
             address : null,
-            city  : null,
+            city : null,
             num_guests : null,
             description : null,
             space : null,
@@ -19,14 +19,17 @@ class BookingConfirmation extends Component {
             building_type : null,
             images : null,
             total_price : null,
+            startDate : null,
+            endDate : null,
+            price : null,
+            total_price : null,
         };
-        this.makeBooking = this.makeBooking.bind(this);
     }
     componentDidMount() {
         if (this.props && this.props.match && this.props.match.params) {
-            console.log('CDM:2');
-            const {property_id} =  this.props.match.params;
-            var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+            const {booking_id} =  this.props.match.params;
+            this.setState({ booking_id: booking_id });
+            var req = 'http://127.0.0.1:8000/booking/' + booking_id;
             fetch(req, {
                 method: "GET",
                 headers: {
@@ -35,28 +38,41 @@ class BookingConfirmation extends Component {
                 },
             })
             .then((res) => {
-                res.json().then(data => {
-                    this.setState(data);
-                    this.setState({prop_id: property_id});
+                res.json()
+                .then(data => {
                     this.setState({ is_loading: false });
-                    this.setState({images: data.images[0]});
-                    console.log(data.price)
-                    var CheckInDate = new Date(localStorage.getItem('checkin'));
-                    var CheckOutDate = new Date(localStorage.getItem('checkout'));
-                    const diffTime = Math.abs(CheckOutDate.getTime() - CheckInDate.getTime());
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-                    localStorage.setItem('days', diffDays);
-                    var total = localStorage.getItem('days') * data.price;            
-                    this.setState({total_price: total});
+                    this.setState(data);
+                    this.setState({ total_price: data.price })
+                    // Get property details from property_id
+                    var req = 'http://127.0.0.1:8000/advertising/' + data.property_id;
+                    fetch(req, {
+                        method: "GET",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        })
+                        .then((res) => {
+                            res.json().then(data => {
+                                this.setState(data);
+                                this.setState({ images: data.images[0] });
+                            });
+                        });
+
                 });
             });
         }
+    }
+
+    showTotal = () => {
+        return <p style={{marginTop: '55px'}}>Total Price: ${this.state.price}</p>
     }
 
     render() {
         return (
             <div style={{width:'80%', margin: '50px'}}>
                 <div className="mini-desc">
+                    <h1> Booking Confirmation: {this.state.booking_id} </h1>
                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                         <div style={{width: "35%"}}>
                         <img src={this.state.images} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
@@ -68,37 +84,23 @@ class BookingConfirmation extends Component {
                         <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
                             <p style={{margin: '0px'}}>{this.state.buildingType}</p>
                         </div>
-                        <div style={{clear:'both', display: 'flex'}}>
-                            <FontAwesomeIcon icon={faBed} size="lg"/>
-                            <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_beds}</p>
-                            <FontAwesomeIcon icon={faBath} size="lg"/>
-                            <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
-                            <FontAwesomeIcon icon={faUser} size="lg"/>
-                            <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_guests}</p>
-                        </div>
                         <hr style={{margin: "2px"}}></hr>
                         <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
                             <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
                             <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
                         </div>
-                        <hr style={{margin: "2px"}}></hr>
-                        <div style={{clear:'both', display: 'flex'}}>
-                            <FontAwesomeIcon icon={faStar} size="lg"/>
-                            <p style={{margin: '0px', paddingLeft: "5px"}}>x.x</p>
-                        </div>
                         </div>
                         <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
-                            <p style={{marginTop: '55px'}}>Check In: ${this.state.startDate}</p>
-                            <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
+                            <p style={{marginTop: '55px'}}>Check In: {this.state.startDate}</p>
+                            <p style={{marginTop: '55px'}}>Check Out: {this.state.endDate}</p>
+                            {this.showTotal()}
                         </div>
                     </div>
-                    <div className="BookingingComponent-div">
-                        <div style={{padding: "20px 0px", display: "inlineBlock"}}>
-                            <DatePickers onChange={this.onChange.bind(this)}/>
-                            <NumGuests/>
-                            <Button onClick={this.makeBooking}>Confirm</Button>
-                        </div>
-                    </div>
+                    <Link to={''}>
+                            <Button variant="contained" style={{width: "120px"}}>
+                                Return to Homepage
+                            </Button>
+                        </Link>
                 </div>
             </div>
         )

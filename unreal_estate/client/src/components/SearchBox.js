@@ -16,9 +16,7 @@ export default function SearchBox() {
         <DatePickers/>
         <NumGuests/>
         <Link to='/results'>
-          <Button variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
-            Search
-          </Button>
+          <Button variant="contained" style={{margin: "1%", verticalAlign: 'top'}}> Search </Button>
         </Link>
       </div>
     </div>

@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    withRouter
-} from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
@@ -90,7 +84,7 @@ class PropertyPage extends Component {
                     <hr></hr>
                     <div style={{display: 'inline-block', padding: '10px'}}>
                       <h5>Price per night: ${this.state.price}</h5>
-                        <Link to={'/booking/' + this.state.prop_id}>
+                        <Link to={'/property_booking/' + this.state.prop_id}>
                             <Button variant="contained" style={{width: "120px"}}>
                                 Book
                             </Button>
