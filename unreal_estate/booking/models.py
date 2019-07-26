@@ -9,3 +9,4 @@ class Booking(models.Model):
     endDate = models.DateField()
     bookingTime = models.DateTimeField(auto_now_add=True)
     price = models.IntegerField()
+    num_guests = models.IntegerField(default=0)

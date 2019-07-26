@@ -18,11 +18,11 @@ def BookingFunction(request):
     # POST
     if (request.method == "POST"):
         debugLogger.debug("Create new booking")
-        # if not (request.user.is_authenticated):
-        #     debugLogger.info("the user is not logged in")
-        #     responce = JsonResponse({'error': "User is not logged in."})
-        #     responce.status_code = 403
-        #     return responce
+        if not (request.user.is_authenticated):
+            debugLogger.info("the user is not logged in")
+            responce = JsonResponse({'error': "User is not logged in."})
+            responce.status_code = 403
+            return responce
         print(request.body.decode('utf-8'))
         json_data = json.loads(request.body.decode('utf-8'))
         bookingDetails = {
@@ -32,10 +32,8 @@ def BookingFunction(request):
             'startDate':  json_data['startDate'],
             'endDate':  json_data['endDate'],
             'price': json_data['total_price'],
+            'num_guests' :json_data['guests']
         }
-        # bookingDetails['startDate'] = bookingDetails['startDate'][:bookingDetails['startDate'].find('T')]
-        # bookingDetails['endDate'] = bookingDetails['endDate'][:bookingDetails['endDate'].find('T')]
-
 
     # Data Validation
     if not (
@@ -43,7 +41,7 @@ def BookingFunction(request):
         bookingDetails['property_id'] and \
         bookingDetails['startDate'] and \
         bookingDetails['endDate'] and \
-        # bookingDetails['bookingTime'] and \
+        bookingDetails['num_guests'] and \
         bookingDetails['price']):
         response = JsonResponse({'error': 'Required parameters not met.'})
         response.status_code = 400
@@ -54,7 +52,7 @@ def BookingFunction(request):
     booking.startDate = bookingDetails['startDate']
     booking.endDate = bookingDetails['endDate']
     booking.price = bookingDetails['price']
-
+    booking.num_guests = bookDetails['num_guests']
     # Save new booking 
     try:
         booking.save()
@@ -87,5 +85,6 @@ def BookingDetails(request, booking_id):
             'endDate': booking.endDate,
             'bookingTime': booking.bookingTime,
             'price': booking.price,
+            'num_guests':booking.num_guests,
         }
         return JsonResponse(bookingDetails)
