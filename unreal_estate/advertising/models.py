@@ -5,7 +5,7 @@ from django.contrib.postgres.fields import ArrayField
 
 class Property(models.Model):
     property_id = models.IntegerField(primary_key=True)
-    address = models.CharField(max_length=300)
+    address = models.CharField(max_length=300, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
     num_guests = models.IntegerField(default=1)
@@ -51,11 +51,11 @@ class Property(models.Model):
 
 
 class Rating(models.Model):
-    rating_id = models.IntegerField(primary_key=True)
-    property_id = models.ForeignKey('Property', on_delete=models.CASCADE)
+    rating_id = models.AutoField(primary_key=True)
+    property_id = models.ForeignKey('Property', on_delete=models.CASCADE, default='11156')
     user_id = models.ForeignKey('user.User', on_delete=models.CASCADE)
     value = models.FloatField(default=5.0)
-    date=models.DateTimeField(auto_now_add=True )
+    date=models.DateTimeField(auto_now_add=True)
     is_anonymous = models.BooleanField(default=False)
     notes = models.CharField(max_length= 2000, default='', blank=True)
     from_dataset = models.BooleanField(default=False)

@@ -5,21 +5,75 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import json
+from django.views.decorators.csrf import csrf_exempt
 # import the logging library
 import logging
 
 # Get an instance of a logger
 debugLogger = logging.getLogger('debugLogger')
 logger = logging.getLogger(__name__)
+@csrf_exempt
+def BookingFunction(request):
 
-def Booking_function(request):
+    # POST
+    if (request.method == "POST"):
+        debugLogger.debug("Create new booking")
+        # if not (request.user.is_authenticated):
+        #     debugLogger.info("the user is not logged in")
+        #     responce = JsonResponse({'error': "User is not logged in."})
+        #     responce.status_code = 403
+        #     return responce
+        print(request.body.decode('utf-8'))
+        json_data = json.loads(request.body.decode('utf-8'))
+        bookingDetails = {
+            'user_id': request.user.id,
+            # 'user_id': json_data['user_id'],
+            'property_id': json_data['property_id'],
+            'startDate':  json_data['startDate'],
+            'endDate':  json_data['endDate'],
+            'price': json_data['total_price'],
+        }
+        # bookingDetails['startDate'] = bookingDetails['startDate'][:bookingDetails['startDate'].find('T')]
+        # bookingDetails['endDate'] = bookingDetails['endDate'][:bookingDetails['endDate'].find('T')]
 
-  # GET
+
+    # Data Validation
+    if not (
+        bookingDetails['user_id'] and \
+        bookingDetails['property_id'] and \
+        bookingDetails['startDate'] and \
+        bookingDetails['endDate'] and \
+        # bookingDetails['bookingTime'] and \
+        bookingDetails['price']):
+        response = JsonResponse({'error': 'Required parameters not met.'})
+        response.status_code = 400
+        return response
+    booking = Booking()
+    booking.user_id = bookingDetails['user_id']
+    booking.property_id = bookingDetails['property_id']
+    booking.startDate = bookingDetails['startDate']
+    booking.endDate = bookingDetails['endDate']
+    booking.price = bookingDetails['price']
+
+    # Save new booking 
+    try:
+        booking.save()
+    except IntegrityError as ex:
+        if (ex.__cause__.pgcode == '23505'):
+            response = JsonResponse({'error': 'duplicate entry'})
+            response.status_code = 400
+            return response
+    print("booking_id: " + str(booking.booking_id))
+    response = JsonResponse({'booking_id':booking.booking_id}) # return booking id to test
+    return response
+@csrf_exempt
+def BookingDetails(request, booking_id):
+    # GET
     if (request.method == "GET"):
         debugLogger.debug("Get booking details")
         # Retrieve old booking
         try:
-            booking = Booking.objects.all().filter(id=request.GET.get(request.booking_id))
+            booking = Booking.objects.all().filter(id=booking_id)
         except ObjectDoesNotExist:
             response = JsonResponse({'error': 'booking does not exist'})
             response.status_code = 403
@@ -28,7 +82,6 @@ def Booking_function(request):
         bookingDetails = {
             'booking_id': booking.booking_id,
             'user_id': booking.user_id,
-            'owner_id': booking.owner_id,
             'property_id': booking.property_id,
             'startDate': booking.startDate,
             'endDate': booking.endDate,
@@ -36,49 +89,3 @@ def Booking_function(request):
             'price': booking.price,
         }
         return JsonResponse(bookingDetails)
-
-    # POST
-    elif (request.method == "POST"):
-        debugLogger.debug("Create new booking")
-        bookingDetails = {
-            'user_id': request.POST.get('user_id'),
-            'owner_id': request.POST.get('owner_id'),
-            'property_id': request.POST.get('property_id'),
-            'startDate': request.POST.get('startDate'),
-            'endDate': request.POST.get('endDate'),
-            'bookingTime': request.POST.get('bookingTime'),
-            'price': request.POST.get('price'),
-        }
-        debugLogger.debug(bookingDetails)
-
-    # Data Validation
-    if not (
-        bookingDetails['user_id'] and \
-        bookingDetails['owner_id'] and \
-        bookingDetails['property_id'] and \
-        bookingDetails['startDate'] and \
-        bookingDetails['endDate'] and \
-        bookingDetails['bookingTime'] and \
-        bookingDetails['price']):
-        response = JsonResponse({'error': 'Required parameters not met.'})
-        response.status_code = 400
-        return response
-    booking = Booking()
-    booking.user_id = bookingDetails['user_id']
-    booking.owner_id = bookingDetails['owner_id']
-    booking.property_id = bookingDetails['property_id']
-    booking.startDate = bookingDetails['startDate']
-    booking.endDate = bookingDetails['endDate']
-    booking.bookingTime = bookingDetails['bookingTime']
-    booking.price = bookingDetails['price']
-
-    # Save new user 
-    try:
-        booking.save()
-    except IntegrityError as ex:
-        if (ex.__cause__.pgcode == '23505'):
-            response = JsonResponse({'error': 'Email already exists.'})
-            response.status_code = 400
-            return response
-    response = JsonResponse(bookingDetails)
-    return response

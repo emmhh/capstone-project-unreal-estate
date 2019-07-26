@@ -4,6 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './HomePage';
 import SignupPage from './SignupPage';
+import BookingConfirmation from './BookingConfirmation';
+import BookingForm from './BookingForm';
 import PropertyPage from './PropertyPage'
 import ProfilePage from './ProfilePage';
 import LoginPage from './LoginPage';
@@ -33,6 +35,8 @@ class App extends Component {
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
+          <Route exact path='/booking/:property_id' component={BookingForm} />
+          <Route exact path='/booking/confirmed/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />
           <Route component={ErrorPage}/>
         </Switch>

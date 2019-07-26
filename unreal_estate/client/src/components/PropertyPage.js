@@ -5,6 +5,7 @@ import {
     Link,
     withRouter
 } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
@@ -57,7 +58,6 @@ class PropertyPage extends Component {
         }
     }
 
-
     render() {
         const { is_loading } = this.state
         if (is_loading === false) {
@@ -85,14 +85,16 @@ class PropertyPage extends Component {
                         <h4>Summary</h4>
                         <p>{this.state.description}</p>
                     </div>
-                    {this.state.space == '' ? null: <div> <h4>Summary</h4> <p>{this.state.description}</p> </div>}
+                    {this.state.space == '' ? null: <div> <h4>Space</h4> <p>{this.state.space}</p> </div>}
                     <br></br>
                     <hr></hr>
                     <div style={{display: 'inline-block', padding: '10px'}}>
                       <h5>Price per night: ${this.state.price}</h5>
-                        <Button variant="contained" style={{width: "120px"}}>
-                          Book
-                        </Button>
+                        <Link to={'/booking/' + this.state.prop_id}>
+                            <Button variant="contained" style={{width: "120px"}}>
+                                Book
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             );

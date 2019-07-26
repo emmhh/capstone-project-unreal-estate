@@ -119,9 +119,6 @@ class BookingComponent extends Component {
     render() {
       return (
         <div className="BookingingComponent-div">
-            <h1>Price:</h1>
-            
-            <h1>Dates:</h1>
             <DateRangePickerWrapper
                 function={this.onDatesChange}
                 startDate={this.state.startDate}
