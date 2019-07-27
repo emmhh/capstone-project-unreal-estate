@@ -38,8 +38,8 @@ class BookingConfirmation extends Component {
                 },
             })
             .then((res) => {
-                res.json()
-                .then(data => {
+                res.json().then(data => {
+                    console.log(data);
                     this.setState({ is_loading: false });
                     this.setState(data);
                     this.setState({ total_price: data.price })
@@ -65,12 +65,12 @@ class BookingConfirmation extends Component {
     }
 
     showTotal = () => {
-        return <p style={{marginTop: '55px'}}>Total Price: ${this.state.price}</p>
+        return 
     }
 
     render() {
         return (
-            <div style={{width:'80%', margin: '50px'}}>
+            <div style={{width:'90%', margin: '50px'}}>
                 <div className="mini-desc">
                     <h1> Booking Confirmation: {this.state.booking_id} </h1>
                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
@@ -93,7 +93,7 @@ class BookingConfirmation extends Component {
                         <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
                             <p style={{marginTop: '55px'}}>Check In: {this.state.startDate}</p>
                             <p style={{marginTop: '55px'}}>Check Out: {this.state.endDate}</p>
-                            {this.showTotal()}
+                            <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
                         </div>
                     </div>
                     <Link to={''}>
