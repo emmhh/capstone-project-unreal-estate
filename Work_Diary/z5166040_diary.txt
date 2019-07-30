@@ -32,3 +32,10 @@ Week 6 (8/7-14/7)
   - Created booking model
   - Began work on Property Details Page
   - Meeting {8/7}
+
+Week 7 (15/7-23/7)
+  - Property Details Page frontend finished
+  - Meeting {15/7}
+  - Property Details Page GET request linked to backend
+  - Making Booking Page POST request linked to backend
+  - Phone Meeting {21/7}

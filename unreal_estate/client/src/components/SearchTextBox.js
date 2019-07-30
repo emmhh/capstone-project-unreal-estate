@@ -16,7 +16,6 @@ export default function SearchTextBox() {
       initAddress = "";
   }
   const [address, setAddress] = React.useState(initAddress);
-
   function handleAddressChange(event) {
     localStorage.setItem('address', event.target.value)
     setAddress(event.target.value);

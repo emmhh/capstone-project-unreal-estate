@@ -1,7 +1,8 @@
 from django.urls import path
 from . import booking
-# from . import views
 
 urlpatterns = [
-    path('', booking.Booking_function ),
+    path('', booking.BookingFunction ),
+    path('BID/<int:booking_id>', booking.BookingDetailsBID),
+    path('UID', booking.BookingDetailsUID)
 ]

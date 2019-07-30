@@ -32,4 +32,15 @@ Week 5 (1/7-7/7)
 
 Week 6 (8/7-14/7)
   - Working on user related module
+  - Added logger for backend
   - Compiled and merged everyone's code
+  - Fixed staging database
+  - Meeting {8/7}
+
+Week 7 (15/7-23/7)
+  - Finished user related module
+  - Added React toaster on the frontend
+  - Meeting {15/7}
+  - Compiled and merged code to master
+  - Resolved merge conflicts 
+  - Phone Meeting {21/7}
