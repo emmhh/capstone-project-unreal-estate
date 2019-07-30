@@ -3,7 +3,8 @@ import {
     BrowserRouter as Router,
     Route,
     Link,
-    withRouter
+    withRouter,
+    Redirect,
 } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
@@ -15,12 +16,9 @@ class PropertyPage extends Component {
     constructor(props) {
         super(props);
         this.initialState = {
-            prop_id: null,
+            owner_id: null,
             address : null,
-            city  : null,
-            latitude : null,
-            longitude : null,
-            num_beds: null,
+            // num_beds: null,
             num_rooms : null,
             num_bathrooms : null,
             num_guests : null,
@@ -45,39 +43,39 @@ class PropertyPage extends Component {
         }
     }
     //FIXME:  submit requests are forbidden for some reason
-    handleSubmit = (propertyInfo) => {
+    handleSubmit = async (propertyInfo) => {
+        console.log("propertyInfo that passed in: ")
         console.log(propertyInfo);
         propertyInfo = this.checkProperty(propertyInfo);
-        var req = 'http://127.0.0.1:8000/advertising/' + propertyInfo.prop_id;
+        var req = 'http://127.0.0.1:8000/advertising/new_property';
         if (propertyInfo){}
-            fetch(req, {
+            await fetch(req, {
                 credentials: 'include',
-                method: "PUT",
+                method: "POST",
                 headers:{
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify({
-                propertyInfo: propertyInfo,
-            })
+                },
+                body: JSON.stringify({
+                    propertyInfo: propertyInfo,
+                })
             })
             .then((result)=> {
-            if (result.status !== 201){
-                throw result;
-            }
-            return result.json();
+                if (result.status !== 200){
+                    throw result;
+                }
+                    return result.json();
             })
             .then((result) => {
-            toast.success(result.msg);
-            window.location.href = 'http://127.0.0.1:8000/';
+                toast.success("Successfully added new property.");
+                window.location.href = 'http://127.0.0.1:8000/';
             })
             .catch((error) => {
-            error.json()
-            .then( (errorValue) => {
-                console.log(errorValue);
-                toast.error(errorValue.error);
-            })
-            
+                error.json()
+                .then( (errorValue) => {
+                    console.log(errorValue);
+                    toast.error('Error...........');
+                })
             });
     }
 
@@ -89,6 +87,10 @@ class PropertyPage extends Component {
         if (!propertyInfo.price){
           toast.error('Please enter your preferred price')
           return null
+        }
+        if (!propertyInfo.description){
+            toast.error('Please enter some description')
+            return null
         }
         if (!propertyInfo.building_type){
           toast.error('Please enter your building type')
@@ -109,7 +111,7 @@ class PropertyPage extends Component {
                 <div>
                     <div style={{clear:'both', display: 'inline-flex'}}>
                     <FontAwesomeIcon icon={faBed} size="lg"/>
-                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_beds}</p>
+                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_rooms}</p>
                     <FontAwesomeIcon icon={faBath} size="lg"/>
                     <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
                     <FontAwesomeIcon icon={faUser} size="lg"/>
@@ -127,8 +129,8 @@ class PropertyPage extends Component {
                 <hr></hr>
                 <div style={{display: 'inline-block', padding: '10px'}}>
                     <h5>Price per night: ${this.state.price}</h5>
-                    <Button variant="contained" style={{width: "120px"}} onClick={this.handleSubmit}>
-                        Book
+                    <Button variant="contained" style={{width: "120px"}} onClick={()=>{this.handleSubmit(this.state)}}>
+                        Add Property
                     </Button>
                 </div>
             </div>

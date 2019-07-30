@@ -30,7 +30,7 @@ class App extends Component {
           <Route exact path='/' component={HomePage}/>
           <Route exact path='/AdModule' component={AdModule}/>
           <Route exact path='/AdPreview' component={AdPreview}/>
-          <Route exact path='/AdForm/:owner_id/:property_id' component={AdForm}/>
+          <Route exact path='/AdForm/:property_id' component={AdForm}/>
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />

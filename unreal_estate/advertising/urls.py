@@ -7,5 +7,6 @@ from . import propertyClass
 urlpatterns = [
     path('example', example.exampleFunction),
     path('<int:property_id>', propertyClass.PropertyFunction),
-    path('user/<int:user_id>', propertyClass.list_property),
+    path('user', propertyClass.list_property),
+    path('new_property', propertyClass.addNew),
 ]

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons';
 import AdModule from './AdModule';
+import { toast } from 'react-toastify';
 
 // const TableHeader = () => {
 //     return (
@@ -34,7 +35,36 @@ import AdModule from './AdModule';
 
 //   return <tbody>{rows}</tbody>
 // }
+const removeProperty = (property_id)=>{
+  var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+  // var req = 'http://127.0.0.1:8000/advertising/' + 34614813
+  console.log("prop_id in delete request: " + property_id)
+  fetch(req, {
+    method: "DELETE",
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+  .then((result)=>{
+    return result.json();
+  })
+  .then((result)=>{
+    // window.location.reload();
+    console.log(result);
+  }).then((result)=>{
+    // toast.success(result.msg);
+    window.location.href = 'http://127.0.0.1:8000/';  
+  })
+  .catch((error)=>{
+    console.log(error);
+  });
+  // .then(() => {
+  //   console.log("reload function called");
 
+  //   reload();
+  // });
+}
 const Entries = props => {
   // const {propertyData, removeProperty, addProperty} = props;
   const Entries = props.propertyData.map((prop) => {
@@ -61,7 +91,7 @@ const Entries = props => {
             </div>
             <div style={{clear:'both', display: 'flex'}}>
               <FontAwesomeIcon icon={faBed} size="lg"/>
-              <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_beds']}</p>
+              <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_rooms']}</p>
               <FontAwesomeIcon icon={faBath} size="lg"/>
               <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_bathrooms']}</p>
               <FontAwesomeIcon icon={faUser} size="lg"/>
@@ -81,21 +111,16 @@ const Entries = props => {
           <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
             <p style={{marginTop: '60px'}}>Price: ${prop.price}</p>
             {/* <Link to={'/property/' + 11156}> */}
-            <Link to={'/AdForm/' + prop['owner_id']+ '/'+ prop['prop_id']}>
-              <Button variant="contained" style={{width: "110px"}}>
-                View
-              </Button>
-            </Link>
-            {/* <Link to={'/AdForm'}>
+            <Link to={'/AdForm/'+ prop['prop_id']}>
               <Button variant="contained" style={{width: "110px"}}>
                 Edit
               </Button>
-            </Link> */}
-            <Link to={'/AdModule'}>
-              <Button variant="contained" style={{width: "110px"}} onClick={() => props.removeProperty(prop.prop_id)}>
+            </Link>
+            {/* <Link to={'/AdModule'}> */}
+              <Button variant="contained" style={{width: "110px"}} onClick={() => {removeProperty(prop['prop_id'])}}>
                 Delete
               </Button>
-            </Link>
+            {/* </Link> */}
           </div>
         </div>
       </li>
@@ -106,16 +131,11 @@ const Entries = props => {
 
 class AdTable extends Component {
   render() {
-    const { propertyData, removeProperty, addProperty} = this.props
+    const { propertyData} = this.props
     return (
-        // <table>
-            // <TableHeader />
-            // <TableBody propertyData={propertyData} removeProperty={removeProperty} addProperty={addProperty}/>
-            <ul style={{listStyleType: 'none', padding: "0px"}}> 
-              <Entries propertyData={propertyData} removeProperty={removeProperty} addProperty={addProperty}/>
-            </ul>
-            // <List propertyData={propertyData}/>
-        // </table>
+      <ul style={{listStyleType: 'none', padding: "0px"}}> 
+        <Entries propertyData={propertyData}/>
+      </ul>
     )
   }
 }

@@ -21,7 +21,7 @@ class AdForm extends Component {
 
     this.initialState = {
       existed: false,
-      owner_id: null,
+      // owner_id: null,
       prop_id: null,
       address : null,
       // city  : null,
@@ -32,7 +32,7 @@ class AdForm extends Component {
       num_bathrooms : null,
       num_guests : null,
       description : null,
-      space : null, //FIXME: add this attribute in the form
+      space : null,
       name : null,
       building_type : null,
       price : null,
@@ -56,14 +56,14 @@ class AdForm extends Component {
     // this.props.handleSubmit(this.state)
     var propertyData = JSON.stringify(this.state);
     localStorage.setItem('property', propertyData);
-    this.setState(this.initialState);
+    //this.setState(this.initialState);
   }
 
   componentWillMount() {
     if (this.props && this.props.match && this.props.match.params){
       // if the property_id passed in is null, it means user wants to add new property.
       // if the property_id is not null, it means user wants to edit existed property.
-      const {owner_id, property_id} =  this.props.match.params;
+      const {property_id} =  this.props.match.params;
       if (property_id != null){
         var req = 'http://127.0.0.1:8000/advertising/' + property_id;
         fetch(req, {
@@ -83,7 +83,7 @@ class AdForm extends Component {
         .then((res)=>{
           res.json().then(data=>{
             this.setState(data);
-            this.setState({owner_id: owner_id});
+            // this.setState({owner_id: owner_id});
             this.setState({prop_id: property_id});
             this.setState({existed: true});
           })
@@ -172,7 +172,7 @@ class AdForm extends Component {
           <Form.Label>2. Where is it located?</Form.Label>
           <Form.Control type="address" placeholder="Enter the address" value={this.state.address} onChange={this.handleChange}/>
         </Form.Group>
-
+        {/* FIXME: seprate the address. */}
         <Form.Group controlId="num_beds">
           <Form.Label>3. How many bedrooms are there?</Form.Label>
           {/* <Form.Control type="num_beds" placeholder="Enter the number of beds" /> */}
