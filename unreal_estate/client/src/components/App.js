@@ -12,6 +12,7 @@ import AdModule from './AdModule';
 import AdForm from './AdForm';
 import Nav from './Nav';
 import SearchResults from './SearchResults';
+import GoogleMaps from './google-maps/Route';
 
 toast.configure({
   autoClose: 8000,
@@ -34,6 +35,7 @@ class App extends Component {
           <Route exact path='/profile' component={ProfilePage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
           <Route exact path='/results' component={SearchResults} />
+          <Route exact path='/map' component={GoogleMaps} />
           <Route component={ErrorPage}/>
         </Switch>
       </div>
