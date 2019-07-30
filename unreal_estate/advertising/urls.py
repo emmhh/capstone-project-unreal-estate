@@ -5,5 +5,8 @@ from . import propertyClass
 #notes: put frontend files to client/src/components/...js
 #implement the calls as a seperate file called Advertising module;
 urlpatterns = [
-    path('<int:property_id>', propertyClass.PropertyFunction)
+    path('example', example.exampleFunction),
+    path('<int:property_id>', propertyClass.PropertyFunction),
+    path('user', propertyClass.list_property),
+    path('new_property', propertyClass.addNew),
 ]
