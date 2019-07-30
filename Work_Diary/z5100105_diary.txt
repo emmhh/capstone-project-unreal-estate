@@ -21,4 +21,10 @@ week 4 (23/6 - 30/6)
 week 5 (30/6 - 6/7)
 	- learnt javascript and react
 	- partially finished the front end for advertisement module
- 
+week 6 (8/7 - 14/7)
+	- implemented the property module and propertyclass
+week 7 (15/7 - 21/7)
+	- implemented the list of advertising for front-end, connection between frontend and backend
+	remain unfinished. Need to know how to setup the database and debug.
+	- updated the ER diagram corresponding to the advertising module.
+	- setted up database on admodule branch, need to fix the owner-id issue
