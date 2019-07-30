@@ -103,7 +103,7 @@ class Nav extends Component {
         </Link>;
       
       bookingLink = 
-        <Link to='/bookings' style={{ textDecoration: 'none' }}>
+        <Link to='/mybookings' style={{ textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
               <Book />

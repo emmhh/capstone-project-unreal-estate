@@ -163,9 +163,9 @@ def loginReq(request):
     debugLogger.info("User is {}".format(user))
     if user is not None:
       login(request, user)
-
-    responce = JsonResponse({'msg': 'Successfully logged in'})
-    return responce
+      debugLogger.info('user logged in successfully')
+      responce = JsonResponse({'msg': 'Successfully logged in'})
+      return responce
 @csrf_exempt
 def logoutReq(request):
   debugLogger.debug("***********")
@@ -186,6 +186,7 @@ def testLogin(request):
     debugLogger.debug("***********")
     debugLogger.debug("Test Login")
     debugLogger.debug("***********")
+    print(request.user)
     if not (request.user.is_authenticated):
       responce = JsonResponse({
         'msg': 'User is not logged in.',

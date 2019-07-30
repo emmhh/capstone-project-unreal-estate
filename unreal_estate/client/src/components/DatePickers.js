@@ -1,11 +1,10 @@
 import 'date-fns';
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
+  DatePicker,
 } from '@material-ui/pickers';
 
 export default function DatePickers() {
@@ -47,13 +46,20 @@ export default function DatePickers() {
   function handleCheckOutChange(date) {
     localStorage.setItem('checkout', date)
     setCheckOutDate(date);
+    if ("checkin" in localStorage) {
+      var CheckInDate = new Date(localStorage.getItem('checkin'));
+      var CheckOutDate = new Date(localStorage.getItem('checkout'));
+      const diffTime = Math.abs(CheckOutDate.getTime() - CheckInDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+      localStorage.setItem('days', diffDays - 1);
+    }
   }
 
   return (
     <div style={{textAlign: 'center', display: 'inline-flex', width: "30%", verticalAlign: 'top'}}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container style={{display: "flex"}} justify="space-around">
-          <KeyboardDatePicker
+          <DatePicker
             margin="normal"
             id="checkin-date"
             label="Check In"
@@ -69,7 +75,7 @@ export default function DatePickers() {
       </MuiPickersUtilsProvider>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid container style={{display: "flex"}} justify="space-around">
-          <KeyboardDatePicker
+          <DatePicker
             margin="normal"
             id="checkout-date"
             label="Check Out"
