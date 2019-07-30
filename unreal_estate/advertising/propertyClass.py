@@ -132,6 +132,10 @@ def PropertyFunction (request, property_id):
             propertyResponse.status_code = 400
             return propertyResponse
         user = request.user
+        if not (request.user.is_authenticated):
+            propertyResponse = JsonResponse({'error': 'User not logged in.'})
+            propertyResponse.status_code = 403
+            return propertyResponse
         property_ob = Property.objects.get(property_id=property_id)
         property_ob.property_id = property_id
         property_ob.owner_id = user.id
