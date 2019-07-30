@@ -21,7 +21,6 @@ class DateRangePickerWrapper extends Component {
           endDateId="endDate"
           startDate={this.props.startDate}
           endDate={this.props.endDate}
-          // onDatesChange={({ startDate, endDate }) => { this.setState({ startDate, endDate })}}
           onDatesChange={this.props.function}
           focusedInput={this.state.focusedInput}
           onFocusChange={(focusedInput) => { this.setState({ focusedInput })}}

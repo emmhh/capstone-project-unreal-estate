@@ -103,7 +103,7 @@ class Nav extends Component {
         </Link>;
       
       bookingLink = 
-        <Link to='/bookings' style={{ textDecoration: 'none' }}>
+        <Link to='/mybookings' style={{ textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
               <Book />
@@ -150,14 +150,18 @@ class Nav extends Component {
                           <ListItemText primary="Home" />
                       </ListItem>
                     </Link>
-                    <Link to='/AdModule' style={{ textDecoration: 'none' }}>
-                      <ListItem button>
-                          <ListItemIcon>
-                              <HomeIcon/>
-                          </ListItemIcon>
-                        <ListItemText primary="Become a host" />
-                      </ListItem>
-                    </Link>
+                    {is_user_logged_in?
+                      <Link to='/AdModule' style={{ textDecoration: 'none' }}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <HomeIcon/>
+                            </ListItemIcon>
+                          <ListItemText primary="My properties" />
+                        </ListItem>
+                      </Link>
+                    :
+                      null
+                    }
                     {profileLink}
                     {bookingLink}
                   </List>

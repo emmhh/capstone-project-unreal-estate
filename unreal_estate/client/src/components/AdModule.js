@@ -1,31 +1,104 @@
 import React, {Component} from 'react';
 import AdTable from './AdTable';
+import Button from '@material-ui/core/Button';
 // import AdForm from './AdForm'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 
 class AdModule extends Component {
-    
-    removeProperty = index => {
-        const { properties } = this.state
-        this.setState({
-            properties: properties.filter((property, i) => {
-                return i !== index
-            }),
+    // FIXME: need to pass in user_id to make fecth and initialise the state.
+    // AdModule: initialise the sate from GET request, to get the properties based on owner_ids;
+    //          Within the AdModule load the AdTable after the component is loaded.
+    // redirect to AdForm if "Add property" is clicked.
+    // redirect to AdForm if "Edit" is clicked. 
+    // redirect to PropertyPage if "view" is clicked,  need to form a new page as a preview page without "Book" button,
+    //
+
+    // in the AdForm: submit the form that contains the property data into property page, which is a preview page.
+        // if "submit is clicked, the page is redirected to confirmation page, user will be able to see the preview and click confirm to actually add the property into database"
+    constructor(props) {
+        super(props)
+        this.state = {
+            owned_properties:[
+                
+            ],
+        }
+    }
+    componentWillMount(){
+        var req = 'http://127.0.0.1:8000/advertising/user';
+        console.log("HELLOOOOO")
+        fetch(req, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
         })
+        .then((res) => {
+            res.json().then(data => {
+                this.setState({owned_properties : data});
+            });
+        });
+    }
+    // async removeProperty(property_id) {
+    //     var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+    //     await fetch(req, {
+    //         method: "DELETE",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //     })
+    //     .then((result)=>{
+    //         return result.json();
+    //     })
+    //     .then((result)=>{
+    //         console.log(result);
+    //     })
+    //     .then((property_id) => {
+    //         this.handle_deletion(property_id);
+    //     });
+    //   }
+    // handle_deletion = property_id => {
+    //     const { properties } = this.state
+    //     this.setState({
+    //         properties: properties.filter((property) => {
+    //             console.log("setstate called in handle_deletion, propertyid is " + property_id);
+    //             return property.prop_id !== property_id
+    //         }),
+    //     })
+    // }
+    reload = () => {
+        console.log("reload function took place ;)")
+        var req = 'http://127.0.0.1:8000/advertising/user';
+        fetch(req, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        })
+        .then((res) => {
+            res.json().then(data => {
+                this.setState({owned_properties : data});
+            });
+        });
     }
     // handleSubmit = property => {
     //     this.setState({ properties: [...this.state.properties, property] })
     // }
-    state = {
-        properties: [
-            {
-                name: 'UniLodge',
-                buildingType: 'unit',
-                location: 'Kensington',
-                avgRating: '3.7',
-            },
-        ],
-    }
+    // state = {
+    //     properties: [
+    //         {
+    //             name: 'UniLodge',
+    //             buildingType: 'unit',
+    //             location: 'Kensington',
+    //             avgRating: '3.7',
+    //         },
+    //     ],
+    // }
+    
     // static getDerivedStateFromProps(props, state) {
     //     console.log('HELLO');
     //     var propertyData = localStorage.getItem('property');
@@ -35,33 +108,15 @@ class AdModule extends Component {
     //     this.setState({properties: [...this.state.properties, property] })
     // }
     render() {
-        const {properties} = this.state
-
-        var propertyData = localStorage.getItem('property');
-        if (propertyData != null){
-            localStorage.removeItem('property');
-            var property = JSON.parse(propertyData);
-            console.log(property);
-            this.setState({properties: [...this.state.properties, property] })
-        }
+        console.log(this.state.owned_properties)
         return (
-        <div className="container">
-            {/* <Nav /> */}
-            <h2>My Properties</h2>
-            <AdTable propertyData={properties} removeProperty={this.removeProperty} addProperty={this.addProperty}/>
-            <Link to='/AdForm'><button type="button">Add new Property</button></Link>
-            {/* <AdForm handleSubmit={this.handleSubmit}/> */}
-        </div>
+            <div className="container">
+                {/* <Nav /> */}
+                <h2>My Properties</h2>
+                <AdTable propertyData={this.state.owned_properties} reload={this.reload}/>
+                <Link to={'/AdForm/'+ null}><Button variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
+            </div>
         )
     }
 }
-//notes:
-/**
- * 1. validation check for each input value, handle the error
- * 2. pathways for each html
- * 3. css
- * 4. how to connect frontend to backend
- * 5. build up the backend side for advertising Accomodation module
- * 6. add more attributes for each property
- * */
 export default AdModule;

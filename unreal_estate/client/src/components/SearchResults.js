@@ -90,7 +90,9 @@ export default function SearchResults() {
                 </div>
                 <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
                   <p style={{marginTop: '55px'}}>Price: ${prop['price']}</p>
-                  <Link to={'/property/' + prop['property_id']}>
+                  <Link to={{
+                    pathname: '/property/' + prop['property_id'],
+                  }}>
                     <Button variant="contained" style={{width: "120px"}}>
                       View
                     </Button>

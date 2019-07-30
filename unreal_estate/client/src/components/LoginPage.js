@@ -44,8 +44,6 @@ class LoginPage extends Component {
   }
 
   handleConfirmationSubmit = async event => {
-    // event.preventDefault();
-    this.setState({ isLoading: true });
     await fetch('http://127.0.0.1:8000/user/login',{
       method: "POST",
       headers: {
@@ -77,6 +75,7 @@ class LoginPage extends Component {
         localStorage.setItem('is_user_logged_in', user_logged_in);
         console.log(responce);
         if (user_logged_in){
+          console.log('it came to redirect.');
           window.location.href = 'http://127.0.0.1:8000/';
         }
       });
