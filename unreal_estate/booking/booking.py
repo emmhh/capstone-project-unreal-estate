@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import json
 from django.views.decorators.csrf import csrf_exempt
-# import the logging library
 import logging
 
 # Get an instance of a logger
@@ -66,10 +65,10 @@ def BookingFunction(request):
     response = JsonResponse({'booking_id':booking.booking_id}) # return booking id to test
     return response
 @csrf_exempt
-def BookingDetails(request, booking_id):
+def BookingDetailsBID(request, booking_id):
     # GET
     if (request.method == "GET"):
-        debugLogger.debug("Get booking details")
+        debugLogger.debug("Get booking details BID")
         # Retrieve old booking
         try:
             booking = Booking.objects.get(pk=booking_id)
@@ -78,7 +77,7 @@ def BookingDetails(request, booking_id):
             response.status_code = 403
             return response
             
-        print(booking.user_id, booking.property_id, booking.startDate, booking.endDate, booking.bookingTime, booking.price, booking.num_guests)
+        # print(booking.user_id, booking.property_id, booking.startDate, booking.endDate, booking.bookingTime, booking.price, booking.num_guests)
         bookingDetails = {
             'user_id': booking.user_id,
             'property_id': booking.property_id,
@@ -89,3 +88,16 @@ def BookingDetails(request, booking_id):
             'num_guests':booking.num_guests,
         }
         return JsonResponse(bookingDetails)
+@csrf_exempt
+def BookingDetailsUID(request):
+    # GET
+    if (request.method == "GET"):
+        debugLogger.debug("Get booking details UID")
+        # Retrieve old booking
+        try:
+            booking = Booking.objects.all().filter(user_id=request.user.id).values()
+        except ObjectDoesNotExist:
+            response = JsonResponse({'error': 'booking does not exist'})
+            response.status_code = 403
+            return response
+        return JsonResponse({'bookings': list(booking)})

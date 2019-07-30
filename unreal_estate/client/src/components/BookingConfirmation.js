@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
@@ -29,7 +29,7 @@ class BookingConfirmation extends Component {
         if (this.props && this.props.match && this.props.match.params) {
             const {booking_id} =  this.props.match.params;
             this.setState({ booking_id: booking_id });
-            var req = 'http://127.0.0.1:8000/booking/' + booking_id;
+            var req = 'http://127.0.0.1:8000/booking/BID' + booking_id;
             fetch(req, {
                 method: "GET",
                 headers: {
@@ -43,7 +43,7 @@ class BookingConfirmation extends Component {
                     this.setState({ is_loading: false });
                     this.setState(data);
                     this.setState({ total_price: data.price })
-                    // Get property details from property_id
+
                     var req = 'http://127.0.0.1:8000/advertising/' + data.property_id;
                     fetch(req, {
                         method: "GET",
@@ -95,12 +95,22 @@ class BookingConfirmation extends Component {
                             <p style={{marginTop: '55px'}}>Check Out: {this.state.endDate}</p>
                             <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
                         </div>
-                    </div>
-                    <Link to={''}>
-                            <Button variant="contained" style={{width: "120px"}}>
-                                Return to Homepage
+                        <Link to={''}>
+                            <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
+                                Change
                             </Button>
                         </Link>
+                        <Link to={''}>
+                            <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
+                                Cancel
+                            </Button>
+                        </Link>
+                    </div>
+                    <Link to={''}>
+                        <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
+                            Return to Homepage
+                        </Button>
+                    </Link>
                 </div>
             </div>
         )

@@ -3,5 +3,6 @@ from . import booking
 
 urlpatterns = [
     path('', booking.BookingFunction ),
-    path('<int:booking_id>', booking.BookingDetails)
+    path('BID/<int:booking_id>', booking.BookingDetailsBID),
+    path('UID', booking.BookingDetailsUID)
 ]

@@ -14,6 +14,7 @@ import AdModule from './AdModule';
 import AdForm from './AdForm';
 import Nav from './Nav';
 import SearchResults from './SearchResults';
+import MyBookingsPage from './MyBookingsPage';
 
 toast.configure({
   autoClose: 8000,
@@ -34,6 +35,7 @@ class App extends Component {
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
+          <Route exact path='/mybookings' component={MyBookingsPage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
           <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
