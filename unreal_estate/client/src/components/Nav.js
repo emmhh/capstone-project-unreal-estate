@@ -30,7 +30,7 @@ class Nav extends Component {
   }
 
   checkState = async function () {
-    
+
     await fetch('http://127.0.0.1:8000/user/testlogin')
       .then((resultLogin) => {
         return resultLogin.json()
@@ -78,6 +78,7 @@ class Nav extends Component {
           is_user_logged_in: is_user_logged_in,
         }
       });
+      window.location.href = 'http://127.0.0.1:8000/';
     })
   }
 
@@ -89,10 +90,10 @@ class Nav extends Component {
 
   render() {
     var is_user_logged_in = this.state.is_user_logged_in;
-    let button, profileLink, bookingLink;
+    let button, profileLink, bookingLink, signUpLink;
     if (is_user_logged_in){
       button =  <Button onClick={this.logout}>Logout</Button>;
-      
+
       profileLink = <Link to='/profile' style={{ textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
@@ -101,8 +102,8 @@ class Nav extends Component {
             <ListItemText primary="Profile" />
           </ListItem>
         </Link>;
-      
-      bookingLink = 
+
+      bookingLink =
         <Link to='/mybookings' style={{ textDecoration: 'none' }}>
           <ListItem button>
             <ListItemIcon>
@@ -111,10 +112,19 @@ class Nav extends Component {
             <ListItemText primary="Bookings" />
           </ListItem>
         </Link>;
+
+      signUpLink = null;
+
     } else {
+
       button = <Link to='/login'>
         <Button >Login</Button>
       </Link>;
+
+      signUpLink = <Link to='/signup' >
+        <Button >Signup</Button>
+      </Link>;
+
       profileLink = null;
       bookingLink = null;
     }
@@ -129,9 +139,7 @@ class Nav extends Component {
                 Unreal Estate
             </Button>
             <div style={{flexGrow: 1}} />
-            <Link to='/signup' >
-              <Button >Signup</Button>
-            </Link>
+            {signUpLink}
             {button}
           </Toolbar>
         </AppBar>
