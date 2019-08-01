@@ -15,6 +15,7 @@ import AdForm from './AdForm';
 import AdPreview from './AdPreview';
 import Nav from './Nav';
 import SearchResults from './SearchResults';
+import GoogleMaps from './google-maps/Route';
 import MyBookingsPage from './MyBookingsPage';
 
 toast.configure({
@@ -42,6 +43,7 @@ class App extends Component {
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
           <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />
+          <Route exact path='/map' component={GoogleMaps} />
           <Route component={ErrorPage}/>
         </Switch>
       </div>
