@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import SimpleMap from './google-maps/Route';
 
 class BookingConfirmation extends Component {
     constructor(props) {
@@ -23,14 +24,16 @@ class BookingConfirmation extends Component {
             endDate : null,
             price : null,
             total_price : null,
+            lat: null,
+            lng: null,
         };
     }
-    componentDidMount() {
+    async componentDidMount() {
         if (this.props && this.props.match && this.props.match.params) {
             const {booking_id} =  this.props.match.params;
             this.setState({ booking_id: booking_id });
             var req = 'http://127.0.0.1:8000/booking/BID' + booking_id;
-            fetch(req, {
+            await fetch(req, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -55,7 +58,10 @@ class BookingConfirmation extends Component {
                         .then((res) => {
                             res.json().then(data => {
                                 this.setState(data);
-                                this.setState({ images: data.images[0] });
+                                this.setState({ images: data.images[0],
+                                    lat: data.latitude,
+                                    lng: data.longitude
+                                });
                             });
                         });
 
@@ -65,7 +71,7 @@ class BookingConfirmation extends Component {
     }
 
     showTotal = () => {
-        return 
+        return
     }
 
     render() {
@@ -111,6 +117,8 @@ class BookingConfirmation extends Component {
                             Return to Homepage
                         </Button>
                     </Link>
+                    {/* <SimpleMap lat={this.state.lat} lng={this.state.lng}></SimpleMap> */}
+                    <SimpleMap lat={-35.28346} lng={149.12807}></SimpleMap>
                 </div>
             </div>
         )
