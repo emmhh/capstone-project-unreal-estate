@@ -3,3 +3,4 @@ django
 googlemaps
 django-globals
 gdal
+cloudinary
