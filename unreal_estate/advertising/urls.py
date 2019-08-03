@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:property_id>', propertyClass.PropertyFunction),
     path('user', propertyClass.list_property),
     path('new_property', propertyClass.addNew),
+    path('test_upload', propertyClass.testImageUpload)
 ]

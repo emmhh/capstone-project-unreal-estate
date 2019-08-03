@@ -10,6 +10,7 @@ from django.contrib.gis.geos import Point
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
+from django.http.multipartparser import MultiPartParser
 # import the logging library
 import logging
 
@@ -70,7 +71,7 @@ def PropertyFunction (request, property_id):
             'owner_id': json_data['propertyInfo']['owner_id'],
         }
         print(propertyInfo['price'])
-        if (not propertyInfo['price'] 
+        if (not propertyInfo['price']
             or not propertyInfo['address']
             or not propertyInfo['building_type']
             ):
@@ -124,7 +125,7 @@ def PropertyFunction (request, property_id):
         }
         print(propertyInfo['price'])
         # Basic attributes that shouldn't be missing
-        if (not propertyInfo['price'] 
+        if (not propertyInfo['price']
             or not propertyInfo['address']
             or not propertyInfo['building_type']
             ):
@@ -182,7 +183,7 @@ def PropertyFunction (request, property_id):
 
 # INPUT: request, user_id
 # OUTPUT: list of properties owned by the user.
-@csrf_exempt    
+@csrf_exempt
 def list_property (request):
     #GET
     user = request.user
@@ -239,7 +240,7 @@ def addNew (request):
             'owner_id': json_data['propertyInfo']['owner_id'],
         }
         print(propertyInfo['price'])
-        if (not propertyInfo['price'] 
+        if (not propertyInfo['price']
             or not propertyInfo['address']
             or not propertyInfo['building_type']
             ):
@@ -252,7 +253,7 @@ def addNew (request):
         print("max prop_id is: ")
         print(prop_id['property_id__max'])
         property_ob.property_id = prop_id['property_id__max'] + 1
-        print("new property_id is: ") 
+        print("new property_id is: ")
         print(property_ob.property_id)
         property_ob.address = propertyInfo['address']
         property_ob.latitude = getlat(propertyInfo['address'])
@@ -283,6 +284,19 @@ def addNew (request):
         propertyResponse = JsonResponse(property_ob_serialized, safe=False)
         # propertyResponse = JsonResponse(property_ob, safe=False)
         return propertyResponse
+
+@csrf_exempt
+def testImageUpload(request):
+    print('it came in testImageUpload')
+    # print(request)
+    print(request.headers)
+    print("********\n \n")
+    # parser = MultiPartParser(
+    #     request.META, request.body, request.upload_handlers)
+    # POST, FILES = parser.parse()
+    # print(FILES)
+    # print(json.loads(request.body))
+    print(request.FILES['0'])
 
 def getlat (address):
     geocode_result = gmaps.geocode(address)

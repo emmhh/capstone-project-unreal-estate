@@ -16,6 +16,7 @@ import AdPreview from './AdPreview';
 import Nav from './Nav';
 import SearchResults from './SearchResults';
 import MyBookingsPage from './MyBookingsPage';
+import FileUpload from './image-upload/ImageUpload';
 
 toast.configure({
   autoClose: 8000,
@@ -42,6 +43,7 @@ class App extends Component {
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
           <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />
+          <Route exact path='/image' component={FileUpload} />
           <Route component={ErrorPage}/>
         </Switch>
       </div>
