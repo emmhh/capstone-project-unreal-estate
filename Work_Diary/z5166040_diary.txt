@@ -1,0 +1,41 @@
+Week 1 (2/6 – 9/6)
+  - Chose topic
+  - Set up Trello
+
+Week 2 (10/6 – 16/6)
+  - Estimated page count
+  - Allocated sections for report
+  - Brainstormed vision for the project
+  - Phone meeting {13/6}
+
+Week 3 (17/6-23/6)
+  - Completed introduction for proposal
+  - Completed aim for proposal
+  - Completed user account user story for proposal
+  - Meeting {20/6}
+
+Week 4 (24/6-30/6)
+  - Discussed user stories to complete for week 6
+  - Planned meeting for 29/6
+  - Meeting {25/6}
+  - Researched methods for importing csv into postgres DB
+  - Meeting {30/6}
+  - Initialised AWS RDS PostgreSQL database
+
+Week 5 (1/7-7/7)
+  - Copied data from csv to AWS db
+  - Tested data migration to AWS db
+  - Meeting {7/7}
+
+Week 6 (8/7-14/7)
+  - Completed booking component with POST request
+  - Created booking model
+  - Began work on Property Details Page
+  - Meeting {8/7}
+
+Week 7 (15/7-23/7)
+  - Property Details Page frontend finished
+  - Meeting {15/7}
+  - Property Details Page GET request linked to backend
+  - Making Booking Page POST request linked to backend
+  - Phone Meeting {21/7}

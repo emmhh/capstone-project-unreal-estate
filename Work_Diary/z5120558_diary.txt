@@ -1,0 +1,37 @@
+Emmanuel Kozman - z5120558
+
+Week 1 (2/6 – 9/6
+	-Chose topic
+	-Set up Trello
+
+Week 2 (9/6 - 16/6)
+	-Discussed Project in more depth
+	-Discussed Project Proposal 
+	-Split up tasks for Project Proposal
+
+Week 3 (16/6 - 23/6)
+	- Defined our epics and the scope of the project
+	- Split parts of the Project Proposal up
+	- Completed the Project Proposal 
+	- Began setting up the code and a draft website
+Week 4 (23/6 - 30/6)
+	- Defined the epics we will work on in this sprint
+	- Chose the Search epic in this sprint
+	- Started working on search epic and learning react + django
+Week 5 (30/6 - 7/7)
+	- Met a couple times to work on our epics and discuss where everyone is at
+	- Continued to work on the Search Epic
+	- Will work on helping the team integrate all our different epics/work
+Week 6 (7/7 - 14/7)
+	- Met on 7/7 to discusss database models, and integration with our website.
+	- Worked on Search Epic and got the backend to filter out results
+	- Started working on the frontend for Search
+Week 7 (14/7 - 21/7)
+	- Met on 14/7 to discuss plans for the project and how to catch up, as well as work on project
+	- Met again on 16/7 so that we could work on the project and ask if anyone has questions
+	- Integrated dataset into our database for properties
+	- Finished working on Search frontend 
+Week 8 (21/7 - 28/7)
+	- Merged my branch to master, and worked out any conflicts
+	- Fixed some other conflicts and bugs with other merges
+	- Worked on the UI for some other pages
