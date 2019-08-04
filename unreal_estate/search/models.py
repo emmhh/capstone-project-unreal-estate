@@ -17,7 +17,7 @@ class PropertyManager(models.Model):
 		properties = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance)), num_guests=numGuests).values()
 		properties = pointToNull(properties)
 
-		# code to remove any properties that have an overlapping booking from the properties results 
+		# code to remove any properties that have an overlapping booking from the properties results
 		overlaps = []
 		for prop in properties:
 			bookings = Booking.objects.filter(property_id=prop['property_id']).values()
