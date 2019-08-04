@@ -37,6 +37,35 @@ class BookingForm extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    componentDidMount() {
+        if (this.props && this.props.match && this.props.match.params) {
+            const {property_id} =  this.props.match.params;
+            var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+            fetch(req, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then((res) => {
+                res.json().then(data => {
+                    this.setState(data);
+                    this.setState({prop_id: property_id});
+                    this.setState({ is_loading: false });
+                    this.setState({images: data.images[0]});
+                    var CheckInDate = new Date(localStorage.getItem('checkin'));
+                    var CheckOutDate = new Date(localStorage.getItem('checkout'));
+                    const diffTime = Math.abs(CheckOutDate.getTime() - CheckInDate.getTime());
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                    localStorage.setItem('days', diffDays);
+                    var total = localStorage.getItem('days') * data.price;            
+                    this.setState({total_price: total});
+                });
+            });
+        }
+    }
+
     setRedirect = (result) => {
         this.setState({
             redirect: true,
@@ -85,56 +114,21 @@ class BookingForm extends Component {
         })
         .then( (result) => {
             this.setRedirect(result.booking_id);
+            console.log(result.booking_id);
             this.renderRedirect();
         })
     }
-    onChange() {
-        console.log('OC:1');
-        return <p style={{marginTop: '55px'}}>Price: ${this.state.total_price}</p>
+    onChange = () => {
+        return <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
     }
 
     handleChange = event => {
-        console.log('heremaybes');
         this.setState({
             [event.target.id]: event.target.value
         });
-        // var CheckInDate = new Date(localStorage.getItem('checkin'));
-        // var CheckOutDate = new Date(localStorage.getItem('checkout'));
-        // const diffTime = Math.abs(CheckOutDate.getTime() - CheckInDate.getTime());
-        // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-        // localStorage.setItem('days', diffDays);
         var total = localStorage.getItem('days') * this.state.price;
         this.setState({total_price: total});
         console.log(total + "handle change");
-    }
-
-    componentDidMount() {
-        if (this.props && this.props.match && this.props.match.params) {
-            const {property_id} =  this.props.match.params;
-            var req = 'http://127.0.0.1:8000/advertising/' + property_id;
-            fetch(req, {
-                method: "GET",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            })
-            .then((res) => {
-                res.json().then(data => {
-                    this.setState(data);
-                    this.setState({prop_id: property_id});
-                    this.setState({ is_loading: false });
-                    this.setState({images: data.images[0]});
-                    var CheckInDate = new Date(localStorage.getItem('checkin'));
-                    var CheckOutDate = new Date(localStorage.getItem('checkout'));
-                    const diffTime = Math.abs(CheckOutDate.getTime() - CheckInDate.getTime());
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-                    localStorage.setItem('days', diffDays - 1);
-                    var total = localStorage.getItem('days') * data.price;            
-                    this.setState({total_price: total});
-                });
-            });
-        }
     }
 
     render() {
@@ -181,7 +175,7 @@ class BookingForm extends Component {
                         <div style={{padding: "20px 0px", display: "inlineBlock"}}>
                             <div onClick={this.handleChange}>
                                 <DatePickers/>
-                                <NumGuests/>
+                                <NumGuests maxGuests={this.state.num_guests}/>
                                 <Button onClick={this.makeBooking}>Confirm</Button>
                             </div>
                         </div>

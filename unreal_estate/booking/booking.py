@@ -89,6 +89,19 @@ def BookingDetailsBID(request, booking_id):
         }
         return JsonResponse(bookingDetails)
 @csrf_exempt
+def BookingDetailsDelete(request, booking_id):
+    # GET
+    if (request.method == "GET"):
+        debugLogger.debug("Delete booking details BID")
+        # Retrieve old booking
+        try:
+            Booking.objects.filter(pk=booking_id).delete()
+        except ObjectDoesNotExist:
+            response = JsonResponse({'error': 'booking does not exist'})
+            response.status_code = 403
+            return response
+        return JsonResponse({'success': 'booking deleted'})
+@csrf_exempt
 def BookingDetailsUID(request):
     # GET
     if (request.method == "GET"):
@@ -101,3 +114,17 @@ def BookingDetailsUID(request):
             response.status_code = 403
             return response
         return JsonResponse({'bookings': list(booking)})
+@csrf_exempt
+def BookingDetailsPID(request, property_id):
+    # GET
+    if (request.method == "GET"):
+        debugLogger.debug("Get booking details PID")
+        # Retrieve old booking
+        try:
+            booking = Booking.objects.all().filter(property_id=property_id).values()
+        except ObjectDoesNotExist:
+            response = JsonResponse({'error': 'no bookings'})
+            response.status_code = 403
+            return response
+        return JsonResponse({'bookings': list(booking)})
+        

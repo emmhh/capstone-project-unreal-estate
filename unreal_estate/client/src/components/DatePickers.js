@@ -51,7 +51,7 @@ export default function DatePickers() {
       var CheckOutDate = new Date(localStorage.getItem('checkout'));
       const diffTime = Math.abs(CheckOutDate.getTime() - CheckInDate.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-      localStorage.setItem('days', diffDays - 1);
+      localStorage.setItem('days', diffDays);
     }
   }
 
