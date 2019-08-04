@@ -111,16 +111,23 @@ class AdForm extends Component {
     var fullAddress;
     this.state.autocomplete.getPlace()["address_components"].forEach(element => {
       var excludeElement = false;
-      // element['type'].forEach(elementType => {
-      //   if (elementType.toLowerCase() === "administrative_area_level_2"){
-      //     excludeElement = true;
-      //   }
-      // });
+      element['types'].forEach(elementType => {
+        if (elementType.toLowerCase() === "administrative_area_level_2"){
+          excludeElement = true;
+        }
+      });
       if (!excludeElement){
-        // fullAddress = fullAddress +
+        if (fullAddress){
+          fullAddress = fullAddress + element['long_name'] + ", "
+        } else {
+          fullAddress = element['long_name'] + ", "
+        }
       }
     });
-
+    console.log(fullAddress.slice(0, -2));
+    this.setState({
+      ["address"]: fullAddress.slice(0, -2)
+    });
   }
 
   //FIXME: submit requests are forbidden
@@ -130,7 +137,7 @@ class AdForm extends Component {
     var req = 'http://127.0.0.1:8000/advertising/' + propertyInfo.prop_id;
     if (propertyInfo){}
       await fetch(req, {
-        credentials: 'include',
+        // credentials: 'include',
         method: "PUT",
         headers:{
           'Accept': 'application/json',
