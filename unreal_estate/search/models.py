@@ -4,8 +4,6 @@ from advertising.models import Property
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from booking.models import Booking
-
-
 gmaps = googlemaps.Client(key='AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA')
 # Create your models here.
 
@@ -27,7 +25,7 @@ class PropertyManager(models.Model):
 				# from https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
 				# note that we do not count two date ranges that end and start on the same day as an overlap and hence
 				# there is no <= and >= in the code below
-				if booking['startDate'] < endDate and booking['endDate'] > startDate:
+				if booking['startDate'] < endDate.date() and booking['endDate'] > startDate.date():
 					overlaps.append(prop)
 					break
 		# removes any property thats inside the overlaps list
