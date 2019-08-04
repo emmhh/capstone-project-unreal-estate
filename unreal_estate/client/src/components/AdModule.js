@@ -27,7 +27,6 @@ class AdModule extends Component {
     }
     componentWillMount(){
         var req = 'http://127.0.0.1:8000/advertising/user';
-        console.log("HELLOOOOO")
         fetch(req, {
             method: "GET",
             headers: {

@@ -65,6 +65,21 @@ class BookingConfirmation extends Component {
         }
     }
     
+    async handleCancellation(BID) {
+        console.log("handleCancellation");
+        var cancelUrl = 'http://127.0.0.1:8000/booking/delete/' + BID;
+        await fetch(cancelUrl ,{
+            method: "GET",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(result => {
+            console.log(result.json());
+        });
+    }
+
     render() {
         return (
             <div style={{width:'90%', margin: '50px'}}>
@@ -93,11 +108,14 @@ class BookingConfirmation extends Component {
                             <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
                         </div>
                         <Link to={''}>
-                            <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
+                            {/* <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
                                 Change
+                            </Button> */}
+                            <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(this.state.booking_id)}>
+                                Cancel Booking
                             </Button>
                         </Link>
-                        <CancelBooking/>
+
                     </div>
                     <Link to={''}>
                         <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>

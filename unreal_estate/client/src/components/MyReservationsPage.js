@@ -20,6 +20,7 @@ class MyReservationsPage extends Component {
     async init() {
         const {property_id} =  this.props.match.params;
         var req = 'http://127.0.0.1:8000/booking/PID/' + property_id;
+        var propUrl = 'http://127.0.0.1:8000/advertising/' + property_id;
         await fetch(req, {
             method: "GET",
             headers: {
@@ -30,58 +31,8 @@ class MyReservationsPage extends Component {
             response.json().then( async (data) => { 
                 this.setState({
                     bookings: data['bookings'],
-                    isLoading : false
+                    isLoading: false
                 });
-            });
-        });
-
-        var propUrl = 'http://127.0.0.1:8000/advertising/' + property_id;
-        await fetch(propUrl, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        }).then((response) => {
-            response.json().then((data) => {
-                this.setState({
-                    property: data
-                });
-            });
-        });
-    }
-
-    propertySummary = async () => {
-        const {property_id} =  this.props.match.params;
-        var propUrl = 'http://127.0.0.1:8000/advertising/' + property_id;
-        await fetch(propUrl, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        }).then((response) => {
-            response.json().then((data) => {
-                return (
-                    <div>
-                        <div style={{width: "35%"}}>
-                            <img src={data.images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-                        </div>
-                        <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-                            <div style={{float: 'left', display: 'inline-block'}}>
-                                <h4 style={{margin: '0px'}}>{data.name}</h4>
-                            </div>
-                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                                <p style={{margin: '0px'}}>{data.buildingType}</p>
-                            </div>
-                            <hr style={{margin: "2px"}}></hr>
-                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                                <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-                                <p style={{margin: '0px', paddingLeft: "5px"}}>{data.address}</p>
-                            </div>
-                        </div>
-                    </div>
-                );
             });
         });
     }
@@ -135,7 +86,7 @@ class MyReservationsPage extends Component {
                                             <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
-                                        <Button variant="contained" style={{width: "120px"}} onClick={this.handleCancellation(booking['booking_id'])}>
+                                        <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
                                             Cancel Reservation
                                         </Button>
                                     </div>
@@ -150,7 +101,8 @@ class MyReservationsPage extends Component {
     }
 
     async handleCancellation(BID) {
-        this.setState({isLoading:true});
+        console.log("handleCancellation");
+        // this.setState({isLoading:false});
         const {property_id} =  this.props.match.params;
         var propertyUrl = 'http://127.0.0.1:8000/booking/PID/' + property_id;
         var cancelUrl = 'http://127.0.0.1:8000/booking/delete/' + BID;
@@ -173,7 +125,6 @@ class MyReservationsPage extends Component {
             response.json().then(async (data) => { 
                 this.setState({
                     bookings: data['bookings'],
-                    isLoading : false
                 });
             });
         })
