@@ -135,9 +135,11 @@ class Nav extends Component {
               <IconButton color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
                   <MenuIcon />
               </IconButton>
-            <Button href="/" variant="title" color="inherit">
-                Unreal Estate
-            </Button>
+            <Link to='/'>
+              <Button href="/" variant="title" color="inherit">
+                  Unreal Estate
+              </Button>
+            </Link>
             <div style={{flexGrow: 1}} />
             {signUpLink}
             {button}
