@@ -40,7 +40,7 @@ class AdForm extends Component {
       price : null,
       avg_rating : 0,
       images : null, //FIXME: add this attribute in the form
-      autocomplete: null, //FIXME: add this attribute in the form
+      autocomplete: null,
     }
 
     this.state = this.initialState
@@ -57,6 +57,7 @@ class AdForm extends Component {
   submitForm = () => {
     // save the new property data to localStorage, but seems like on the other page, localStorage doesnt contain this data.
     // this.props.handleSubmit(this.state)
+    delete this.state.autocomplete;
     var propertyData = JSON.stringify(this.state);
     localStorage.setItem('property', propertyData);
     //this.setState(this.initialState);
@@ -102,40 +103,39 @@ class AdForm extends Component {
     var input = document.getElementById('address');
     this.state.autocomplete = new google.maps.places.Autocomplete(input);
     this.state.autocomplete.setFields(['address_components']);
-    // this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+    this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
   }
 
 
-  // onSelected() {
-  //   console.log(this.state.autocomplete.getPlace());
-  //   var fullAddress;
-  //   this.state.autocomplete.getPlace()["address_components"].forEach(element => {
-  //     var excludeElement = false;
-  //     element['types'].forEach(elementType => {
-  //       if (elementType.toLowerCase() === "administrative_area_level_2"){
-  //         excludeElement = true;
-  //       }
-  //     });
-  //     if (!excludeElement){
-  //       if (fullAddress){
-  //         fullAddress = fullAddress + element['long_name'] + ", "
-  //       } else {
-  //         fullAddress = element['long_name'] + ", "
-  //       }
-  //     }
-  //   });
-  //   console.log(fullAddress.slice(0, -2));
-  //   this.setState({
-  //     ["address"]: fullAddress.slice(0, -2)
-  //   });
-  // }
+  onSelected() {
+    var fullAddress;
+    this.state.autocomplete.getPlace()["address_components"].forEach(element => {
+      var excludeElement = false;
+      element['types'].forEach(elementType => {
+        if (elementType.toLowerCase() === "administrative_area_level_2"){
+          excludeElement = true;
+        }
+      });
+      if (!excludeElement){
+        if (fullAddress){
+          fullAddress = fullAddress + element['long_name'] + ", "
+        } else {
+          fullAddress = element['long_name'] + ", "
+        }
+      }
+    });
+    this.setState({
+      ["address"]: fullAddress.slice(0, -2)
+    });
+  }
 
   //FIXME: submit requests are forbidden
   async makeSubmission (propertyUpdateInfo){
     console.log(propertyUpdateInfo);
+    delete propertyUpdateInfo.autocomplete
     propertyUpdateInfo = this.checkProperty(propertyUpdateInfo);
     var req = 'http://127.0.0.1:8000/advertising/' + propertyUpdateInfo.prop_id;
-    if (propertyUpdateInfo){}
+    if (propertyUpdateInfo){
       await fetch(req, {
         // credentials: 'include',
         method: "PUT",
@@ -175,6 +175,7 @@ class AdForm extends Component {
         })
 
       });
+    }
   }
 
 
