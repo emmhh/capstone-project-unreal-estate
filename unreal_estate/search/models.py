@@ -33,21 +33,21 @@ class PropertyManager(models.Model):
 
 		return properties
 
-		'''
-		# AND NOW FOR A SINGLE PROPERTY - assuming prop is the property
-		overlap = False
-		bookings = Booking.objects.filter(property_id=prop['property_id']).values()
-		for booking in bookings:
-			if booking['startDate'] < endDate and booking['endDate'] > startDate:
-				overlap = True
-				break
-		# now whether there is an overlpa or not is stored in overlap
-		if overlap:
-			Foo()
-		else:
-			Bar()
+	'''
+	# AND NOW FOR A SINGLE PROPERTY - assuming prop is the property
+	overlap = False
+	bookings = Booking.objects.filter(property_id=prop['property_id']).values()
+	for booking in bookings:
+		if booking['startDate'] < endDate and booking['endDate'] > startDate:
+			overlap = True
+			break
+	# now whether there is an overlpa or not is stored in overlap
+	if overlap:
+		Foo()
+	else:
+		Bar()
 
-		'''
+	'''
 
 
 	def searchByPropertyName(name):
