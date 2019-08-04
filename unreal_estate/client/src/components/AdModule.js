@@ -11,7 +11,7 @@ class AdModule extends Component {
     // AdModule: initialise the sate from GET request, to get the properties based on owner_ids;
     //          Within the AdModule load the AdTable after the component is loaded.
     // redirect to AdForm if "Add property" is clicked.
-    // redirect to AdForm if "Edit" is clicked. 
+    // redirect to AdForm if "Edit" is clicked.
     // redirect to PropertyPage if "view" is clicked,  need to form a new page as a preview page without "Book" button,
     //
 
@@ -21,14 +21,14 @@ class AdModule extends Component {
         super(props)
         this.state = {
             owned_properties:[
-                
+
             ],
         }
     }
-    componentWillMount(){
+    async componentWillMount(){
         var req = 'http://127.0.0.1:8000/advertising/user';
         console.log("HELLOOOOO")
-        fetch(req, {
+        await fetch(req, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -69,10 +69,10 @@ class AdModule extends Component {
     //         }),
     //     })
     // }
-    reload = () => {
+    reload = async () => {
         console.log("reload function took place ;)")
         var req = 'http://127.0.0.1:8000/advertising/user';
-        fetch(req, {
+        await fetch(req, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -98,7 +98,7 @@ class AdModule extends Component {
     //         },
     //     ],
     // }
-    
+
     // static getDerivedStateFromProps(props, state) {
     //     console.log('HELLO');
     //     var propertyData = localStorage.getItem('property');

@@ -102,40 +102,40 @@ class AdForm extends Component {
     var input = document.getElementById('address');
     this.state.autocomplete = new google.maps.places.Autocomplete(input);
     this.state.autocomplete.setFields(['address_components']);
-    this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+    // this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
   }
 
 
-  onSelected() {
-    console.log(this.state.autocomplete.getPlace());
-    var fullAddress;
-    this.state.autocomplete.getPlace()["address_components"].forEach(element => {
-      var excludeElement = false;
-      element['types'].forEach(elementType => {
-        if (elementType.toLowerCase() === "administrative_area_level_2"){
-          excludeElement = true;
-        }
-      });
-      if (!excludeElement){
-        if (fullAddress){
-          fullAddress = fullAddress + element['long_name'] + ", "
-        } else {
-          fullAddress = element['long_name'] + ", "
-        }
-      }
-    });
-    console.log(fullAddress.slice(0, -2));
-    this.setState({
-      ["address"]: fullAddress.slice(0, -2)
-    });
-  }
+  // onSelected() {
+  //   console.log(this.state.autocomplete.getPlace());
+  //   var fullAddress;
+  //   this.state.autocomplete.getPlace()["address_components"].forEach(element => {
+  //     var excludeElement = false;
+  //     element['types'].forEach(elementType => {
+  //       if (elementType.toLowerCase() === "administrative_area_level_2"){
+  //         excludeElement = true;
+  //       }
+  //     });
+  //     if (!excludeElement){
+  //       if (fullAddress){
+  //         fullAddress = fullAddress + element['long_name'] + ", "
+  //       } else {
+  //         fullAddress = element['long_name'] + ", "
+  //       }
+  //     }
+  //   });
+  //   console.log(fullAddress.slice(0, -2));
+  //   this.setState({
+  //     ["address"]: fullAddress.slice(0, -2)
+  //   });
+  // }
 
   //FIXME: submit requests are forbidden
-  async makeSubmission (propertyInfo){
-    console.log(propertyInfo);
-    propertyInfo = this.checkProperty(propertyInfo);
-    var req = 'http://127.0.0.1:8000/advertising/' + propertyInfo.prop_id;
-    if (propertyInfo){}
+  async makeSubmission (propertyUpdateInfo){
+    console.log(propertyUpdateInfo);
+    propertyUpdateInfo = this.checkProperty(propertyUpdateInfo);
+    var req = 'http://127.0.0.1:8000/advertising/' + propertyUpdateInfo.prop_id;
+    if (propertyUpdateInfo){}
       await fetch(req, {
         // credentials: 'include',
         method: "PUT",
@@ -154,7 +154,7 @@ class AdForm extends Component {
           // name: s.name,
           // building_type: s.building_type,
           // price: s.price,
-          propertyInfo: propertyInfo,
+          propertyInfo: propertyUpdateInfo,
         })
       })
       .then((result)=> {
@@ -286,13 +286,13 @@ class AdForm extends Component {
           check the info provided, and user is able to click submit button from preview page to post the info to the databse. */}
         { this.state.existed ?
           <Link to='/AdModule'>
-            <Button variant="contained" style={{width: "150px"}} type="submit" onClick={()=>{this.makeSubmission(this.state)}}>
+            <Button variant="contained" style={{width: "150px"}} onClick={this.makeSubmission(this.state)}>
               Update
             </Button>
           </Link>
         :
           <Link to='/AdPreview'>
-            <Button variant="contained" style={{width: "150px"}} type="submit" onClick={this.submitForm}>
+            <Button variant="contained" style={{width: "150px"}} onClick={this.submitForm}>
               Preview
             </Button>
           </Link>
