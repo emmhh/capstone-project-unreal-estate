@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
-
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 class MyBookingsPage extends Component {
 
@@ -51,11 +50,40 @@ class MyBookingsPage extends Component {
                         properties: propertiesList,
                         isLoading : false
                     });
-                    console.log('MyBookingsPage.js/componentDidMount/fetch/this.state.properties: ');                    
-                    console.log(this.state.properties);
+                    // console.log('MyBookingsPage.js/componentDidMount/fetch/this.state.properties: ');                    
+                    // console.log(this.state.properties);
                 }
             });
         });
+    }
+
+    async handleCancellation(BID) {
+        var userUrl = 'http://127.0.0.1:8000/booking/UID';
+        var cancelUrl = 'http://127.0.0.1:8000/booking/delete/' + BID;
+        await fetch(cancelUrl ,{
+            method: "GET",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(result => {
+            console.log(result.json());
+            // this.setState({bookings: null});
+        }).then(() => fetch(userUrl, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }).then((response) => {
+            response.json().then(async (data) => { 
+                this.setState({
+                    bookings: data['bookings'],
+                });
+            });
+        })
+        );
     }
 
     propertyDetailsFunc = async (PID) => {
@@ -99,24 +127,17 @@ class MyBookingsPage extends Component {
             return <h2> No Upcoming Bookings </h2>
         }
         else {
-            // console.log('MyBookingsPage.js/showBookings/this.state.properties: ');
-            // console.log(this.state.properties);
-            // console.log('MyBookingsPage.js/showBookings/this.state.properties[parts]: ');
-            // console.log(this.state.properties);
-            // console.log(typeof this.state.properties);
-            // var pro = this.state.properties;
-            // console.log(pro[17027417]);
             return (
                 <ul style={{listStyleType: 'none', padding: "0px"}}>
                     { this.state.bookings.map(booking => (
                         <li key={booking['property_id']}>
-                            {console.log(booking)}
+                            {/* {console.log(booking)} */}
                             <div style={{width:'90%', margin: '50px'}}>
                                 <div className="mini-desc">
                                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                                         <div style={{width: "35%"}}>
-                                            {console.log(this.state.properties[booking['property_id']])}
-                                            {console.log(booking['property_id'])}
+                                            {/* {console.log(this.state.properties[booking['property_id']])} */}
+                                            {/* {console.log(booking['property_id'])} */}
                                             {this.state.properties[booking['property_id']] ?
                                                 <img src={this.state.properties[booking['property_id']].images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
                                                 : null
@@ -149,9 +170,9 @@ class MyBookingsPage extends Component {
                                             <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
-                                        <Link to={''}>
-                                            <Button variant="contained" style={{width: "120px"}}>
-                                                Cancel
+                                        <Link to={'/mybookings'}>
+                                            <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
+                                                Cancel Booking
                                             </Button>
                                         </Link>
                                     </div>

@@ -19,6 +19,7 @@ export default function SearchResults() {
 
 
   async function getProperties() {
+
     await fetch('http://127.0.0.1:8000/search/post', {
       method: 'POST',
       headers: {
@@ -56,7 +57,9 @@ export default function SearchResults() {
       </div>
       <div>
         <ul style={{listStyleType: 'none', padding: "0px"}}>
-          {properties.map(prop => (
+          {properties.length === 0 ? 
+            <h2>No Results Found</h2> :
+            properties.map(prop => (
             <li key={prop['property_id']}>
               <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                 <div style={{width: "35%"}}>

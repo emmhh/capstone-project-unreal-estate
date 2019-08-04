@@ -15,8 +15,9 @@ import AdForm from './AdForm';
 import AdPreview from './AdPreview';
 import Nav from './Nav';
 import SearchResults from './SearchResults';
+import GoogleMaps from './google-maps/Route';
 import MyBookingsPage from './MyBookingsPage';
-import FileUpload from './image-upload/ImageUpload';
+import MyReservationsPage from './MyReservationsPage';
 
 toast.configure({
   autoClose: 8000,
@@ -35,6 +36,7 @@ class App extends Component {
           <Route exact path='/AdModule' component={AdModule}/>
           <Route exact path='/AdPreview' component={AdPreview}/>
           <Route exact path='/AdForm/:property_id' component={AdForm}/>
+          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage}/>
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
@@ -43,7 +45,7 @@ class App extends Component {
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
           <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />
-          <Route exact path='/image' component={FileUpload} />
+          <Route exact path='/map' component={GoogleMaps} />
           <Route component={ErrorPage}/>
         </Switch>
       </div>

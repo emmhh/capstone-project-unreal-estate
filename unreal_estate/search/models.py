@@ -4,8 +4,6 @@ from advertising.models import Property
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from booking.models import Booking
-
-
 gmaps = googlemaps.Client(key='AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA')
 # Create your models here.
 
@@ -19,7 +17,7 @@ class PropertyManager(models.Model):
 		properties = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance)), num_guests=numGuests).values()
 		properties = pointToNull(properties)
 
-		# code to remove any properties that have an overlapping booking from the properties results 
+		# code to remove any properties that have an overlapping booking from the properties results
 		overlaps = []
 		for prop in properties:
 			bookings = Booking.objects.filter(property_id=prop['property_id']).values()
@@ -27,7 +25,7 @@ class PropertyManager(models.Model):
 				# from https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
 				# note that we do not count two date ranges that end and start on the same day as an overlap and hence
 				# there is no <= and >= in the code below
-				if booking['startDate'] < endDate and booking['endDate'] > startDate:
+				if booking['startDate'] < endDate.date() and booking['endDate'] > startDate.date():
 					overlaps.append(prop)
 					break
 		# removes any property thats inside the overlaps list
@@ -35,21 +33,21 @@ class PropertyManager(models.Model):
 
 		return properties
 
-		'''
-		# AND NOW FOR A SINGLE PROPERTY - assuming prop is the property
-		overlap = False
-		bookings = Booking.objects.filter(property_id=prop['property_id']).values()
-		for booking in bookings:
-			if booking['startDate'] < endDate and booking['endDate'] > startDate:
-				overlap = True
-				break
-		# now whether there is an overlpa or not is stored in overlap
-		if overlap:
-			Foo()
-		else:
-			Bar()
+	'''
+	# AND NOW FOR A SINGLE PROPERTY - assuming prop is the property
+	overlap = False
+	bookings = Booking.objects.filter(property_id=prop['property_id']).values()
+	for booking in bookings:
+		if booking['startDate'] < endDate and booking['endDate'] > startDate:
+			overlap = True
+			break
+	# now whether there is an overlpa or not is stored in overlap
+	if overlap:
+		Foo()
+	else:
+		Bar()
 
-		'''
+	'''
 
 
 	def searchByPropertyName(name):

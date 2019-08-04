@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import SimpleMap from './google-maps/Route';
+import CancelBooking from './CancelBooking';
 
 class BookingConfirmation extends Component {
     constructor(props) {
@@ -24,16 +24,14 @@ class BookingConfirmation extends Component {
             endDate : null,
             price : null,
             total_price : null,
-            lat: null,
-            lng: null,
         };
     }
-    async componentDidMount() {
+    componentDidMount() {
         if (this.props && this.props.match && this.props.match.params) {
             const {booking_id} =  this.props.match.params;
             this.setState({ booking_id: booking_id });
-            var req = 'http://127.0.0.1:8000/booking/BID' + booking_id;
-            await fetch(req, {
+            var req = 'http://127.0.0.1:8000/booking/BID/' + booking_id;
+            fetch(req, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -58,10 +56,7 @@ class BookingConfirmation extends Component {
                         .then((res) => {
                             res.json().then(data => {
                                 this.setState(data);
-                                this.setState({ images: data.images[0],
-                                    lat: data.latitude,
-                                    lng: data.longitude
-                                });
+                                this.setState({ images: data.images[0] });
                             });
                         });
 
@@ -69,9 +64,20 @@ class BookingConfirmation extends Component {
             });
         }
     }
-
-    showTotal = () => {
-        return
+    
+    async handleCancellation(BID) {
+        console.log("handleCancellation");
+        var cancelUrl = 'http://127.0.0.1:8000/booking/delete/' + BID;
+        await fetch(cancelUrl ,{
+            method: "GET",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(result => {
+            console.log(result.json());
+        });
     }
 
     render() {
@@ -102,23 +108,20 @@ class BookingConfirmation extends Component {
                             <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
                         </div>
                         <Link to={''}>
-                            <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
+                            {/* <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
                                 Change
+                            </Button> */}
+                            <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(this.state.booking_id)}>
+                                Cancel Booking
                             </Button>
                         </Link>
-                        <Link to={''}>
-                            <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
-                                Cancel
-                            </Button>
-                        </Link>
+
                     </div>
                     <Link to={''}>
                         <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
                             Return to Homepage
                         </Button>
                     </Link>
-                    {/* <SimpleMap lat={this.state.lat} lng={this.state.lng}></SimpleMap> */}
-                    <SimpleMap lat={-35.28346} lng={149.12807}></SimpleMap>
                 </div>
             </div>
         )

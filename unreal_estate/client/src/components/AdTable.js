@@ -110,6 +110,11 @@ const Entries = props => {
           </div>
           <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
             <p style={{marginTop: '60px'}}>Price: ${prop.price}</p>
+            <Link to={'/AdReservations/'+ prop['prop_id']}>
+              <Button variant="contained" style={{width: "110px"}}>
+                Show Reservations
+              </Button>
+            </Link>
             {/* <Link to={'/property/' + 11156}> */}
             <Link to={'/AdForm/'+ prop['prop_id']}>
               <Button variant="contained" style={{width: "110px"}}>
