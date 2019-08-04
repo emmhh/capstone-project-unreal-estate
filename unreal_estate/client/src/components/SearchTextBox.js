@@ -4,9 +4,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Search from '@material-ui/icons/Search';
-const google = window.google
+import scriptLoader from 'react-async-script-loader'
 
-export default class SearchTextBox extends Component {
+class SearchTextBox extends Component {
 
   constructor(props) {
     super(props)
@@ -22,13 +22,15 @@ export default class SearchTextBox extends Component {
     this.handleAddressChange = this.handleAddressChange.bind(this);
   }
 
-
-
-  componentDidMount() {
-    var input = document.getElementById('input-with-icon-adornment');
-    this.state.autocomplete = new google.maps.places.Autocomplete(input);
-    this.state.autocomplete.setFields(['address_components']);
-    this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+  componentWillReceiveProps({ isScriptLoaded, isScriptLoadSucceed }) {
+    if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
+      if (isScriptLoadSucceed) {
+        var input = document.getElementById('input-with-icon-adornment');
+        this.state.autocomplete = new window.google.maps.places.Autocomplete(input);
+        this.state.autocomplete.setFields(['address_components']);
+        this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+      }
+    }
   }
 
   onSelected() {
@@ -83,3 +85,7 @@ export default class SearchTextBox extends Component {
     );
   }
 }
+
+export default scriptLoader(
+  ["https://maps.googleapis.com/maps/api/js?key=AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA&libraries=places"]
+)(SearchTextBox)

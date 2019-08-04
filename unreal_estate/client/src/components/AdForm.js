@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import { elementType } from 'prop-types';
-const google = window.google
+import scriptLoader from 'react-async-script-loader'
 
 // import '../css/AdForm.css';
 
@@ -99,11 +99,15 @@ class AdForm extends Component {
     }
   }
 
-  componentDidMount() {
-    var input = document.getElementById('address');
-    this.state.autocomplete = new google.maps.places.Autocomplete(input);
-    this.state.autocomplete.setFields(['address_components']);
-    this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+  componentWillReceiveProps({ isScriptLoaded, isScriptLoadSucceed }) {
+    if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
+      if (isScriptLoadSucceed) {
+        var input = document.getElementById('address');
+        this.state.autocomplete = new window.google.maps.places.Autocomplete(input);
+        this.state.autocomplete.setFields(['address_components']);
+        this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+      }
+    }
   }
 
 
@@ -354,4 +358,6 @@ class AdForm extends Component {
   // </form>
 
 }
-export default AdForm;
+export default scriptLoader(
+  ["https://maps.googleapis.com/maps/api/js?key=AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA&libraries=places"]
+)(AdForm)
