@@ -19,6 +19,7 @@ export default class SearchTextBox extends Component {
     this.state = {
       address: initAddress
     };
+    this.handleAddressChange = this.handleAddressChange.bind(this);
   }
 
 
@@ -54,10 +55,14 @@ export default class SearchTextBox extends Component {
   }
 
 
-  // handleAddressChange(event) {
-  //   localStorage.setItem('address', event.target.value)
-  //   setAddress(event.target.value);
-  // }
+  handleAddressChange(event) {
+    localStorage.setItem('address', event.target.value)
+    this.setState({
+      ["address"]: event.target.value
+    });
+  }
+
+
   render() {
     return (
       <div style={{textAlign: 'center', display: 'inline', verticalAlign: 'top'}}>
@@ -70,7 +75,7 @@ export default class SearchTextBox extends Component {
                 <Search />
               </InputAdornment>
             }
-            // onChange={handleAddressChange}
+            onChange={this.handleAddressChange}
             value={this.state.address}
           />
         </FormControl>
