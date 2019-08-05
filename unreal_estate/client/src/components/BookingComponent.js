@@ -9,6 +9,7 @@ import {
     FormControl,
     FormLabel
 } from "react-bootstrap";
+var ConfigFile = require('../config');
 
 class BookingComponent extends Component {
 
@@ -37,7 +38,7 @@ class BookingComponent extends Component {
                     guests: prevState.guests,
                 }
             });
-            
+
             if (dateChange.endDate) {
                 console.log('change enddate');
                 // this.DateRangePickerWrapper.endDate = dateChange.endDate;
@@ -86,14 +87,14 @@ class BookingComponent extends Component {
                 menuItems.push(<option> {parseInt(i)} </option>);
             }
             else {
-                menuItems.push(<option> {parseInt(i)} </option>);            
+                menuItems.push(<option> {parseInt(i)} </option>);
             }
         }
         return menuItems;
     }
 
     async makeBooking() {
-        await fetch('http://127.0.0.1:8000/booking',{
+        await fetch(ConfigFile.Config.server + 'booking',{
             method: "POST",
             headers: {
               'Accept': 'application/json',
@@ -103,7 +104,7 @@ class BookingComponent extends Component {
                 // property_id: match.params.property_id,
                 // startDate: this.state.startDate,
                 // endDate: this.state.startDate,
-                // bookingTime: 
+                // bookingTime:
                 // price:
             })
           })
@@ -112,7 +113,7 @@ class BookingComponent extends Component {
           })
           .then( (result) => {
             console.log(result);
-           // 
+           //
           })
           this.setState({ isLoading: true });
     }
@@ -126,7 +127,7 @@ class BookingComponent extends Component {
             />
             <FormGroup as={Row} controlId="guests" bsSize="large">
             <FormLabel>Guests</FormLabel>
-                <FormControl 
+                <FormControl
                     value={this.state.guests}
                     onChange={this.handleChange}
                     as="select">

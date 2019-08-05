@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
+var ConfigFile = require('../config');
 
 class FileUpload extends Component {
   constructor() {
@@ -24,7 +25,7 @@ class FileUpload extends Component {
     files.forEach((file, i) => {
       formData.append(i, file)
     })
-    await fetch(`http://127.0.0.1:8000/advertising/test_upload`, {
+    await fetch(`${ConfigFile.Config.server}advertising/test_upload`, {
       method: "POST",
       body: formData
     }).then(response => {

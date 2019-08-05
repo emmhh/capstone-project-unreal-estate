@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
+var ConfigFile = require('../config');
 
 class PropertyPage extends Component {
 
@@ -30,11 +31,11 @@ class PropertyPage extends Component {
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidMount();
     }
-    
+
     componentDidMount() {
         if (this.props && this.props.match && this.props.match.params){
             const {property_id} =  this.props.match.params;
-            var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+            var req = ConfigFile.Config.server + 'advertising/' + property_id;
             fetch(req, {
                 method: "GET",
                 headers: {
@@ -92,7 +93,7 @@ class PropertyPage extends Component {
                     </div>
                 </div>
             );
-        } 
+        }
         else {
             return null;
         }

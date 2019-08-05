@@ -11,11 +11,13 @@ import {
   FormLabel
 } from "react-bootstrap";
 import { toast } from 'react-toastify';
-
+import { elementType } from 'prop-types';
+import scriptLoader from 'react-async-script-loader'
+var ConfigFile = require('../config');
 // import '../css/AdForm.css';
 
 class AdForm extends Component {
-  
+
   constructor(props) {
     super(props)
 
@@ -38,6 +40,7 @@ class AdForm extends Component {
       price : null,
       avg_rating : 0,
       images : null, //FIXME: add this attribute in the form
+      autocomplete: null,
     }
 
     this.state = this.initialState
@@ -54,6 +57,7 @@ class AdForm extends Component {
   submitForm = () => {
     // save the new property data to localStorage, but seems like on the other page, localStorage doesnt contain this data.
     // this.props.handleSubmit(this.state)
+    delete this.state.autocomplete;
     var propertyData = JSON.stringify(this.state);
     localStorage.setItem('property', propertyData);
     //this.setState(this.initialState);
@@ -65,7 +69,7 @@ class AdForm extends Component {
       // if the property_id is not null, it means user wants to edit existed property.
       const {property_id} =  this.props.match.params;
       if (property_id != null){
-        var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+        var req = ConfigFile.Config.server + 'advertising/' + property_id;
         fetch(req, {
           method: "GET",
           headers: {
@@ -94,14 +98,50 @@ class AdForm extends Component {
       }
     }
   }
+
+  componentWillReceiveProps({ isScriptLoaded, isScriptLoadSucceed }) {
+    if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
+      if (isScriptLoadSucceed) {
+        var input = document.getElementById('address');
+        this.state.autocomplete = new window.google.maps.places.Autocomplete(input);
+        this.state.autocomplete.setFields(['address_components']);
+        this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+      }
+    }
+  }
+
+
+  onSelected() {
+    var fullAddress;
+    this.state.autocomplete.getPlace()["address_components"].forEach(element => {
+      var excludeElement = false;
+      element['types'].forEach(elementType => {
+        if (elementType.toLowerCase() === "administrative_area_level_2"){
+          excludeElement = true;
+        }
+      });
+      if (!excludeElement){
+        if (fullAddress){
+          fullAddress = fullAddress + element['long_name'] + ", "
+        } else {
+          fullAddress = element['long_name'] + ", "
+        }
+      }
+    });
+    this.setState({
+      ["address"]: fullAddress.slice(0, -2)
+    });
+  }
+
   //FIXME: submit requests are forbidden
-  async makeSubmission (propertyInfo){
-    console.log(propertyInfo);
-    propertyInfo = this.checkProperty(propertyInfo);
-    var req = 'http://127.0.0.1:8000/advertising/' + propertyInfo.prop_id;
-    if (propertyInfo){}
+  async makeSubmission (propertyUpdateInfo){
+    console.log(propertyUpdateInfo);
+    delete propertyUpdateInfo.autocomplete
+    propertyUpdateInfo = this.checkProperty(propertyUpdateInfo);
+    var req = ConfigFile.Config.server + 'advertising/' + propertyUpdateInfo.prop_id;
+    if (propertyUpdateInfo){
       await fetch(req, {
-        credentials: 'include',
+        // credentials: 'include',
         method: "PUT",
         headers:{
           'Accept': 'application/json',
@@ -118,7 +158,7 @@ class AdForm extends Component {
           // name: s.name,
           // building_type: s.building_type,
           // price: s.price,
-          propertyInfo: propertyInfo,
+          propertyInfo: propertyUpdateInfo,
         })
       })
       .then((result)=> {
@@ -129,7 +169,7 @@ class AdForm extends Component {
       })
       .then((result) => {
         toast.success(result.msg);
-        window.location.href = 'http://127.0.0.1:8000/';
+        window.location.href = ConfigFile.Config.server;
       })
       .catch((error) => {
         error.json()
@@ -137,11 +177,12 @@ class AdForm extends Component {
           console.log(errorValue);
           toast.error(errorValue.error);
         })
-        
+
       });
+    }
   }
-  
-  
+
+
   checkProperty (propertyInfo){
     if (!propertyInfo.address){
       toast.error('Please enter your address')
@@ -157,7 +198,7 @@ class AdForm extends Component {
     }
     return propertyInfo;
   }
-  
+
   render() {
     // const { name, buildingType, location, avgRating } = this.state;
     return(
@@ -168,9 +209,9 @@ class AdForm extends Component {
           <Form.Control type="city" placeholder="Enter the city" value={this.state.city} onChange={this.handleChange}/>
         </Form.Group> */}
 
-        <Form.Group controlId="address">
+        <Form.Group >
           <Form.Label>2. Where is it located?</Form.Label>
-          <Form.Control type="address" placeholder="Enter the address" value={this.state.address} onChange={this.handleChange}/>
+            <Form.Control id="address" type="address" placeholder="Enter the address" value={this.state.address} onChange={this.handleChange}/>
         </Form.Group>
         {/* FIXME: seprate the address. */}
         <Form.Group controlId="num_beds">
@@ -239,7 +280,7 @@ class AdForm extends Component {
           <Form.Label>9. What type of building is it?</Form.Label>
           <Form.Control type="buiding_type" placeholder="The type of building" value={this.state.building_type} onChange={this.handleChange}/>
         </Form.Group>
-        
+
         {/* maybe can introduce the average price on the neibourhood */}
         <Form.Group controlId="price">
           <Form.Label>10. What is your prefered price?</Form.Label>
@@ -250,13 +291,13 @@ class AdForm extends Component {
           check the info provided, and user is able to click submit button from preview page to post the info to the databse. */}
         { this.state.existed ?
           <Link to='/AdModule'>
-            <Button variant="contained" style={{width: "150px"}} type="submit" onClick={()=>{this.makeSubmission(this.state)}}>
+            <Button variant="contained" style={{width: "150px"}} onClick={this.makeSubmission(this.state)}>
               Update
             </Button>
           </Link>
         :
           <Link to='/AdPreview'>
-            <Button variant="contained" style={{width: "150px"}} type="submit" onClick={this.submitForm}>
+            <Button variant="contained" style={{width: "150px"}} onClick={this.submitForm}>
               Preview
             </Button>
           </Link>
@@ -273,7 +314,7 @@ class AdForm extends Component {
     //     <editExitingProp/>
     //   );
     // }
-    
+
   }
   // <form>
   //   <br/>
@@ -317,4 +358,6 @@ class AdForm extends Component {
   // </form>
 
 }
-export default AdForm;
+export default scriptLoader(
+  ["https://maps.googleapis.com/maps/api/js?key=AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA&libraries=places"]
+)(AdForm)

@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import CancelBooking from './CancelBooking';
+import SimpleMap from './google-maps/Route';
+var ConfigFile = require('../config');
 
 class BookingConfirmation extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            is_loading: true,
             booking_id : null,
             property_id : null,
             address : null,
@@ -24,14 +27,17 @@ class BookingConfirmation extends Component {
             endDate : null,
             price : null,
             total_price : null,
+            lat: null,
+            lng: null,
         };
     }
-    componentDidMount() {
+    async componentDidMount() {
         if (this.props && this.props.match && this.props.match.params) {
             const {booking_id} =  this.props.match.params;
             this.setState({ booking_id: booking_id });
-            var req = 'http://127.0.0.1:8000/booking/BID/' + booking_id;
-            fetch(req, {
+            var req = ConfigFile.Config.server + 'booking/BID/' + booking_id;
+            var dataAdvertisingValues, bookingDataValues;
+            await fetch(req, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -39,14 +45,10 @@ class BookingConfirmation extends Component {
                 },
             })
             .then((res) => {
-                res.json().then(data => {
-                    console.log(data);
-                    this.setState({ is_loading: false });
-                    this.setState(data);
-                    this.setState({ total_price: data.price })
-
-                    var req = 'http://127.0.0.1:8000/advertising/' + data.property_id;
-                    fetch(req, {
+                res.json().then( async bookingData => {
+                    bookingDataValues = bookingData
+                    var req = ConfigFile.Config.server + 'advertising/' + bookingData.property_id;
+                    await fetch(req, {
                         method: "GET",
                         headers: {
                             'Accept': 'application/json',
@@ -54,9 +56,17 @@ class BookingConfirmation extends Component {
                         },
                         })
                         .then((res) => {
-                            res.json().then(data => {
-                                this.setState(data);
-                                this.setState({ images: data.images[0] });
+                            res.json().then(dataAdvertising => {
+                                dataAdvertisingValues = dataAdvertising
+                                this.setState({ is_loading: false });
+                                this.setState(bookingData);
+                                this.setState({ total_price: bookingData.price })
+                                this.setState(dataAdvertising);
+                                this.setState({
+                                    images: dataAdvertising.images[0],
+                                    lat: dataAdvertising.latitude,
+                                    lng: dataAdvertising.longitude,
+                                });
                             });
                         });
 
@@ -64,10 +74,10 @@ class BookingConfirmation extends Component {
             });
         }
     }
-    
+
     async handleCancellation(BID) {
         console.log("handleCancellation");
-        var cancelUrl = 'http://127.0.0.1:8000/booking/delete/' + BID;
+        var cancelUrl = ConfigFile.Config.server + 'booking/delete/' + BID;
         await fetch(cancelUrl ,{
             method: "GET",
             headers: {
@@ -122,6 +132,9 @@ class BookingConfirmation extends Component {
                             Return to Homepage
                         </Button>
                     </Link>
+                    {this.state.is_loading ? null :
+                        <SimpleMap lat={this.state.lat} lng={this.state.lng}></SimpleMap>
+                    }
                 </div>
             </div>
         )

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import UserdetailsForm from "./UserdetailsForm"
 import "../css/SignupPage.css"
+var ConfigFile = require('../config');
 
 class SignupPage extends Component {
 
@@ -14,7 +15,7 @@ class SignupPage extends Component {
   async handleSubmit(userDetails){
     userDetails = this.checkDetails(userDetails);
     if (userDetails) {
-      await fetch('http://127.0.0.1:8000/user/', {
+      await fetch(ConfigFile.Config.server + 'user/', {
         method: "POST",
         headers: {
           'Accept': 'application/json',
@@ -32,7 +33,7 @@ class SignupPage extends Component {
       })
       .then((result) => {
         toast.success(result.msg);
-        window.location.href = 'http://127.0.0.1:8000/';
+        window.location.href = ConfigFile.Config.server + '';
       })
       .catch((error) => {
         error.json()
@@ -40,7 +41,7 @@ class SignupPage extends Component {
           console.log(errorValue);
           toast.error(errorValue.error);
         })
-        
+
       });
     }
   }

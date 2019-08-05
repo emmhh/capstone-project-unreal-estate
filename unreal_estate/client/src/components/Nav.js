@@ -15,6 +15,8 @@ import Book from '@material-ui/icons/Book';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import '../css/Nav.css';
+var ConfigFile = require('../config');
+
 class Nav extends Component {
 
   constructor(props) {
@@ -31,7 +33,7 @@ class Nav extends Component {
 
   checkState = async function () {
 
-    await fetch('http://127.0.0.1:8000/user/testlogin')
+    await fetch(ConfigFile.Config.server + 'user/testlogin')
       .then((resultLogin) => {
         return resultLogin.json()
       })
@@ -54,7 +56,7 @@ class Nav extends Component {
   }
 
   logout = async function () {
-    await fetch('http://127.0.0.1:8000/user/logout', {
+    await fetch(ConfigFile.Config.server + 'user/logout', {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -78,7 +80,7 @@ class Nav extends Component {
           is_user_logged_in: is_user_logged_in,
         }
       });
-      window.location.href = 'http://127.0.0.1:8000/';
+      window.location.href = ConfigFile.Config.server + '';
     })
   }
 
@@ -135,9 +137,11 @@ class Nav extends Component {
               <IconButton color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
                   <MenuIcon />
               </IconButton>
-            <Button href="/" variant="title" color="inherit">
-                Unreal Estate
-            </Button>
+            <Link to='/'>
+              <Button href="/" variant="title" color="inherit">
+                  Unreal Estate
+              </Button>
+            </Link>
             <div style={{flexGrow: 1}} />
             {signUpLink}
             {button}
