@@ -109,6 +109,9 @@ class PropertyPage extends Component {
                     <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
                     <h3 style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</h3>
                 </div>
+                <div style={{ width: "35%" }}>
+                    <img src={this.state.images[0]} alt="image of property" style={{ width: '300px', height: '200px', float: 'left', display: 'inline-block', padding: '4px' }}></img>
+                </div>
                 <div>
                     <div style={{clear:'both', display: 'inline-flex'}}>
                     <FontAwesomeIcon icon={faBed} size="lg"/>
@@ -125,7 +128,7 @@ class PropertyPage extends Component {
                     <h4>Summary</h4>
                     <p>{this.state.description}</p>
                 </div>
-                {this.state.space ? null: <div> <h4>Summary</h4> <p>{this.state.space}</p> </div>}
+                {this.state.space ? <div> <h4>Summary</h4> <p>{this.state.space}</p> </div>: null}
                 <br></br>
                 <hr></hr>
                 <div style={{display: 'inline-block', padding: '10px'}}>
