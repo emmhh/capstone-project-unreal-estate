@@ -7,6 +7,7 @@ from . import propertyClass
 urlpatterns = [
     path('example', example.exampleFunction),
     path('<int:property_id>', propertyClass.PropertyFunction),
+    path('reviews/<int:property_id>', propertyClass.RatingFunction),
     path('user', propertyClass.list_property),
     path('new_property', propertyClass.addNew),
     path('test_upload', propertyClass.testImageUpload)
