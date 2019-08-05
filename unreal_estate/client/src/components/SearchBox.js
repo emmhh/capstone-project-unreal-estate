@@ -4,7 +4,6 @@ import SearchTextBox from './SearchTextBox';
 import NumGuests from './NumGuests';
 import DatePickers from './DatePickers';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 export default function SearchBox() {

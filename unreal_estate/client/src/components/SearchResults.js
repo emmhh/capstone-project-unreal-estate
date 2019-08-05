@@ -15,6 +15,7 @@ export default function SearchResults() {
   const [showMore, setShowMore] = React.useState(false);
   const [allProperties, setAllProperties] = React.useState([]);
   const [showProperties, setShowProperties] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(true);
 
   if(searched === false){
     getProperties();
@@ -22,8 +23,9 @@ export default function SearchResults() {
 
 
   async function getProperties() {
-
+    setLoading(true);
     await fetch(ConfigFile.Config.server + 'search/post', {
+
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -52,6 +54,7 @@ export default function SearchResults() {
           setProperties(varShowProperties);
         }
         setSearched(true);
+        setLoading(false);
       });
     });
   }
@@ -88,7 +91,9 @@ export default function SearchResults() {
       </div>
       <div>
         <ul style={{listStyleType: 'none', padding: "0px"}}>
-          {properties.length === 0 ?
+          {isLoading ?
+            <h4>Loading...</h4> :
+            properties.length === 0 ? 
             <h2>No Results Found</h2> :
             properties.map(prop => (
             <li key={prop['property_id']}>
