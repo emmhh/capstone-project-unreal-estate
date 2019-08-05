@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 var ConfigFile = require('../config');
+
 class MyBookingsPage extends Component {
 
     constructor(props) {
@@ -11,13 +12,19 @@ class MyBookingsPage extends Component {
         this.state = {
             bookings: null,
             properties: [],
-            isLoading: true
+            isLoading: true,
+            date: new Date(),
         };
         this.init = this.init.bind(this);
         this.init();
     }
 
     async init() {
+        // var today = new Date();
+        // var dd = String(today.getDate()).padStart(2, '0');
+        // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        // var yyyy = today.getFullYear();
+        // today = mm + '/' + dd + '/' + yyyy;
         var req = ConfigFile.Config.server + 'booking/UID';
         await fetch(req, {
             method: "GET",
@@ -124,22 +131,22 @@ class MyBookingsPage extends Component {
     render() {
         return (
             <div className="homepage-div">
-                <h1>Your Upcoming Trips</h1>
+                <h1>Your Trips</h1>
                 <div>
                     <ul style={{listStyleType: 'none', padding: "0px"}}>
                         {this.state.isLoading ?
                         <h4>Loading...</h4> :
                         this.state.bookings.length === 0 ?
-                        <h2>No Upcoming Bookings</h2> :
+                        <h2>No Trips</h2> :
                         this.state.bookings.map(booking => (
                         <li key={booking['property_id']}>
                             {/* {console.log(booking)} */}
+                            {/* {console.log(this.state.properties[booking['property_id']])} */}
+                            {/* {console.log(booking['property_id'])} */}
                             <div style={{width:'90%', margin: '50px'}}>
                                 <div className="mini-desc">
                                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                                         <div style={{width: "35%"}}>
-                                            {/* {console.log(this.state.properties[booking['property_id']])} */}
-                                            {/* {console.log(booking['property_id'])} */}
                                             {this.state.properties[booking['property_id']] ?
                                                 <img src={this.state.properties[booking['property_id']].images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
                                                 : null
@@ -172,11 +179,15 @@ class MyBookingsPage extends Component {
                                             <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
-                                        <Link to={'/mybookings'}>
-                                            <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-                                                Cancel Booking
+                                        {Date.parse(booking['endDate']) < Math.round(new Date()) ?
+                                        <Link to={'/submitReview/' + booking['booking_id']}>
+                                            <Button variant="contained" style={{width: "120px"}}>
+                                                Write Review
                                             </Button>
-                                        </Link>
+                                        </Link>:
+                                        <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
+                                            Cancel Booking
+                                        </Button>}
                                     </div>
                                 </div>
                             </div>
@@ -190,3 +201,7 @@ class MyBookingsPage extends Component {
 }
 
 export default MyBookingsPage;
+
+INSERT INTO public.booking_booking(
+	booking_id, user_id, property_id, "startDate", "endDate", "bookingTime", price, num_guests)
+	VALUES (1, 5, ?, ?, ?, ?, ?, ?);

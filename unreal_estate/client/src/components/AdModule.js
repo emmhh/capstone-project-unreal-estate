@@ -28,7 +28,6 @@ class AdModule extends Component {
     }
     async componentWillMount(){
         var req = ConfigFile.Config.server + 'advertising/user';
-        console.log("HELLOOOOO")
         await fetch(req, {
             method: "GET",
             headers: {

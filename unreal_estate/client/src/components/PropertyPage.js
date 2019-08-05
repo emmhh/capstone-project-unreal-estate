@@ -12,6 +12,7 @@ class PropertyPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            logged_in: null,
             is_loading: true,
             prop_id: null,
             address : null,
@@ -36,6 +37,8 @@ class PropertyPage extends Component {
     }
 
     componentDidMount() {
+        var login = localStorage.getItem('is_user_logged_in');
+        this.setState({logged_in: login});
         if (this.props && this.props.match && this.props.match.params){
             const {property_id} =  this.props.match.params;
             var req = ConfigFile.Config.server + 'advertising/' + property_id;
@@ -54,7 +57,7 @@ class PropertyPage extends Component {
                         this.setState(data);
                         this.setState({prop_id: property_id});
                         loading1 = false
-                        if(loading2 == false){
+                        if(loading2 === false){
                            this.setState({ is_loading: false }); 
                         }
                     });
@@ -74,7 +77,7 @@ class PropertyPage extends Component {
                         }
                         console.log(this.state.reviews);
                         loading2 = false
-                        if(loading1 == false){
+                        if(loading1 === false){
                            this.setState({ is_loading: false }); 
                         }
                     });
@@ -115,16 +118,22 @@ class PropertyPage extends Component {
                         <h4>Summary</h4>
                         <p>{this.state.description}</p>
                     </div>
-                    {this.state.space == '' ? null: <div> <h4>Space</h4> <p>{this.state.space}</p> </div>}
+                    {this.state.space === '' ? null: <div> <h4>Space</h4> <p>{this.state.space}</p> </div>}
                     <br></br>
                     <hr></hr>
                     <div style={{display: 'inline-block', padding: '10px'}}>
                       <h5>Price per night: ${this.state.price}</h5>
+                        {this.state.logged_in ?
                         <Link to={'/property_booking/' + this.state.prop_id}>
                             <Button variant="contained" style={{width: "120px"}}>
                                 Book
                             </Button>
-                        </Link>
+                        </Link> :
+                        <Link to={'/login'}>
+                            <Button variant="contained" style={{width: "240px"}}>
+                                Login to Book
+                            </Button>
+                        </Link>}
                     </div>
                     <br></br>
                     <hr></hr>

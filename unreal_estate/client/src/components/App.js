@@ -7,6 +7,7 @@ import SignupPage from './SignupPage';
 import BookingConfirmation from './BookingConfirmation';
 import BookingForm from './BookingForm';
 import PropertyPage from './PropertyPage'
+// import PropertyReviewPage from './PropertyReviewPage'
 import ProfilePage from './ProfilePage';
 import LoginPage from './LoginPage';
 import ErrorPage from './ErrorPage';
@@ -42,6 +43,7 @@ class App extends Component {
           <Route exact path='/profile' component={ProfilePage} />
           <Route exact path='/mybookings' component={MyBookingsPage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
+          {/* <Route exact path='/reviews/:booking_id' component={PropertyReviewPage} /> */}
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
           <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />

@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import CancelBooking from './CancelBooking';
 import SimpleMap from './google-maps/Route';
 var ConfigFile = require('../config');
 
@@ -57,7 +56,7 @@ class BookingConfirmation extends Component {
                         })
                         .then((res) => {
                             res.json().then(dataAdvertising => {
-                                dataAdvertisingValues = dataAdvertising
+                                dataAdvertisingValues = dataAdvertising;
                                 this.setState({ is_loading: false });
                                 this.setState(bookingData);
                                 this.setState({ total_price: bookingData.price })
