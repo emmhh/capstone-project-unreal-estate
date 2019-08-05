@@ -58,11 +58,20 @@ class PropertyManager(models.Model):
 		results = pointToNull(results)
 		return results
 
-	def searchByLocation(location, maxDistance=10):
+	# def searchByLocation(location, maxDistance=10):
+	# 	geocode_result = gmaps.geocode(location)
+	# 	lat = geocode_result[0]["geometry"]["location"]["lat"]
+	# 	lng = geocode_result[0]["geometry"]["location"]["lng"]
+	# 	ref_location = Point(lat, lng, srid=4326)
+	# 	results = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance))).values()
+	# 	results = pointToNull(results)
+	# 	return results
+
+	def searchByLocation(location, maxDistance=1):
 		geocode_result = gmaps.geocode(location)
 		lat = geocode_result[0]["geometry"]["location"]["lat"]
 		lng = geocode_result[0]["geometry"]["location"]["lng"]
-		ref_location = Point(lat, lng, srid=4326)
+		ref_location = Point(lng, lat, srid=4326)
 		results = Property.objects.filter(location__distance_lte=(ref_location, D(km=maxDistance))).values()
 		results = pointToNull(results)
 		return results
