@@ -6,7 +6,8 @@ django.setup()
 from runner import load_glove_embeddings, embedd_data
 import implementation as imp
 import tensorflow as tf
-from advertising.models import Property, Rating
+from advertising.models import Property
+from review.models import Rating
 
 def classifyAll():
     allRatings = Rating.objects.all()

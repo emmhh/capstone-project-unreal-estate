@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.db.models import PointField
 from django.contrib.postgres.fields import ArrayField
+from review.models import Rating
 
 class Property(models.Model):
     property_id = models.AutoField(primary_key=True)
@@ -20,7 +21,7 @@ class Property(models.Model):
     owner_id = models.IntegerField(null=True)
     price = models.FloatField(default=100.0)
     avg_rating = models.FloatField(default=0.0)
-    images = ArrayField(models.CharField(max_length=150), default=list('http://wtlrealty.my/admin/property/default.jpg'))
+    images = ArrayField(models.CharField(max_length=150), default=list().append('http://wtlrealty.my/admin/property/default.jpg'))
     location = PointField(srid=4326, default=None, null=True)
     building_type = models.CharField(max_length=20, default='', blank=True)
 
@@ -48,17 +49,3 @@ class Property(models.Model):
       except ObjectDoesNotExist:
         print('property does not exist for calculation of avg rating')
         return 0
-
-
-class Rating(models.Model):
-    rating_id = models.AutoField(primary_key=True)
-    property_id = models.ForeignKey('Property', on_delete=models.CASCADE, null=True)
-    user_id = models.ForeignKey('user.User', on_delete=models.CASCADE, null=True)
-    value = models.FloatField(default=0.0)
-    date=models.DateTimeField(auto_now_add=True)
-    is_anonymous = models.BooleanField(default=False)
-    notes = models.CharField(max_length= 2000, default='', blank=True)
-    from_dataset = models.BooleanField(default=False)
-
-    def __str__ (self):
-        return self.rating_id + self.property_id + self.value
