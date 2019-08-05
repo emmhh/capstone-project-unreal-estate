@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faUser, faMapMarkerAlt, faStar} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 var ConfigFile = require('../config');
+
 
 class PropertyPage extends Component {
 
@@ -28,6 +30,7 @@ class PropertyPage extends Component {
             prices : null,
             avg_rating : null,
             images : null,
+            reviews : null,
           };
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidMount();
@@ -40,6 +43,9 @@ class PropertyPage extends Component {
         if (this.props && this.props.match && this.props.match.params){
             const {property_id} =  this.props.match.params;
             var req = ConfigFile.Config.server + 'advertising/' + property_id;
+            var req2 = ConfigFile.Config.server + 'advertising/reviews/' + property_id;
+            var loading1 = true
+            var loading2 = true
             fetch(req, {
                 method: "GET",
                 headers: {
@@ -51,7 +57,30 @@ class PropertyPage extends Component {
                     res.json().then(data => {
                         this.setState(data);
                         this.setState({prop_id: property_id});
-                        this.setState({ is_loading: false });
+                        loading1 = false
+                        if(loading2 == false){
+                           this.setState({ is_loading: false }); 
+                        }
+                    });
+                });
+
+                fetch(req2, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                })
+                .then((res) => {
+                    res.json().then(data => {
+                        if (data['results'] != null) {
+                          this.state.reviews = data['results'];
+                        }
+                        console.log(this.state.reviews);
+                        loading2 = false
+                        if(loading1 == false){
+                           this.setState({ is_loading: false }); 
+                        }
                     });
                 });
         }
@@ -67,6 +96,12 @@ class PropertyPage extends Component {
                     <div style={{clear:'both', display: 'inline-flex', paddingTop: '5px', paddingBottom: '5px'}}>
                         <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
                         <h3 style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</h3>
+                    </div>
+                    <div>
+                      <div style={{clear:'both', display: 'inline-flex'}}>
+                        <FontAwesomeIcon icon={faStar} size="lg"/>
+                        <h4 style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.avg_rating}</h4>
+                      </div>
                     </div>
                     <div>
                       <div style={{clear:'both', display: 'inline-flex'}}>
@@ -101,6 +136,32 @@ class PropertyPage extends Component {
                             </Button>
                         </Link>}
                     </div>
+                    <br></br>
+                    <hr></hr>
+                    <div>
+                        <h4>Reviews</h4>
+                    </div>
+                    <div>
+                      <ul style={{listStyleType: 'none', padding: "0px"}}>
+                        {this.state.reviews.map(r => (
+                          <li key={r['rating_id']}>
+                              <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', margin: '10px'}}>
+                                <div style={{width:'100%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
+                                  <div style={{clear:'both', display: 'inline-flex'}}>
+                                    <FontAwesomeIcon icon={faStar} size="lg"/>
+                                    <h4 style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{r['value']}</h4>
+                                    <p>published on {r['date']}</p>
+                                  </div>
+                                  <div style={{clear:'both', display: 'inline-flex'}}>
+                                    <p>{r['notes']}</p>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                 </div>
             );
         }
