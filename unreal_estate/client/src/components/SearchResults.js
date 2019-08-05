@@ -10,20 +10,31 @@ var ConfigFile = require('../config');
 
 export default function SearchResults() {
 
-  const [searched, setSearched] = React.useState(false);
-  const [properties, setProperties] = React.useState([]);
-  const [showMore, setShowMore] = React.useState(false);
-  const [allProperties, setAllProperties] = React.useState([]);
-  const [showProperties, setShowProperties] = React.useState([]);
-  const [isLoading, setLoading] = React.useState(true);
+  const { useState, useEffect } = React;
 
-  if(searched === false){
+  function useMergeState(initialState) {
+    const [state, setState] = useState(initialState);
+    const setMergedState = newState =>
+      setState(prevState => Object.assign({}, prevState, newState)
+      );
+    return [state, setMergedState];
+  }
+
+
+  const [propertyObject, setPropertyObject] = useMergeState({
+    searched: false,
+    properties: [],
+    showMore: false,
+    allProperties: [],
+    isLoading: true,
+  });
+
+  if (propertyObject.searched === false){
     getProperties();
   }
 
 
   async function getProperties() {
-    setLoading(true);
     await fetch(ConfigFile.Config.server + 'search/post', {
 
       method: 'POST',
@@ -39,42 +50,51 @@ export default function SearchResults() {
       })
     }).then((response) => {
       response.json().then((data) => {
+        setPropertyObject({isLoading: true});
         if (data['results'] != null) {
-          setAllProperties(data['results']);
-          var varShowProperties;
+          var varShowProperties, varShowMore;
           if (data['results'].length >= 10){
             varShowProperties = data['results'].slice(0, 10);
-            setShowProperties(data['results'].slice(0, 10));
-            setShowMore(true);
+            varShowMore = true;
           } else {
             varShowProperties = data['results'];
-            setShowProperties(data['results']);
-            setShowMore(false);
+            varShowMore = false;
           }
-          setProperties(varShowProperties);
+          setPropertyObject({
+            searched: true,
+            properties: varShowProperties,
+            showMore: varShowMore,
+            allProperties: data['results'],
+            isLoading: false,
+          });
         }
-        setSearched(true);
-        setLoading(false);
       });
     });
   }
 
 
   function showMoreProperties() {
-    console.log(showProperties)
-    if (showProperties && allProperties &&
-      showProperties.length < allProperties.length){
-      var newLength = showProperties.length + 10;
-      if (newLength < allProperties.length){
-        setShowProperties(allProperties.slice(0, newLength));
-        setShowMore(true);
+    console.log(propertyObject.properties)
+    if (propertyObject.properties && propertyObject.allProperties &&
+      propertyObject.properties.length < propertyObject.allProperties.length){
+      var newLength = propertyObject.properties.length + 10;
+      var varShowProperties, varShowMore;
+      if (newLength < propertyObject.allProperties.length){
+        varShowProperties = propertyObject.allProperties.slice(0, newLength);
+        varShowMore = true;
       } else {
-        setShowProperties(allProperties);
-        setShowMore(false);
+        varShowProperties = propertyObject.allProperties;
+        varShowMore = false;
       }
-      setProperties(showProperties);
+      setPropertyObject({
+        properties: varShowProperties,
+        showMore: varShowMore,
+        isLoading: false,
+      });
     }
   }
+
+  const { searched, properties, showMore, allProperties, isLoading } = propertyObject;
 
   return (
     <div className="homepage-div">
@@ -91,9 +111,10 @@ export default function SearchResults() {
       </div>
       <div>
         <ul style={{listStyleType: 'none', padding: "0px"}}>
-          {isLoading ?
+          {
+            isLoading ?
             <h4>Loading...</h4> :
-            properties.length === 0 ? 
+            properties.length === 0 ?
             <h2>No Results Found</h2> :
             properties.map(prop => (
             <li key={prop['property_id']}>
@@ -141,7 +162,7 @@ export default function SearchResults() {
             </li>
           ))}
         </ul>
-        {showMore ? <Button onClick={showMoreProperties}>Show More Properties</Button> : null}
+        {propertyObject.showMore ? <Button onClick={showMoreProperties}>Show More Properties</Button> : null}
       </div>
     </div>
   );
