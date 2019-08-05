@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
-var ConfigFile = require('../config');
 import Avatar from '@material-ui/core/Avatar';
+var ConfigFile = require('../config');
+
 
 class PropertyPage extends Component {
 
@@ -38,6 +39,9 @@ class PropertyPage extends Component {
         if (this.props && this.props.match && this.props.match.params){
             const {property_id} =  this.props.match.params;
             var req = ConfigFile.Config.server + 'advertising/' + property_id;
+            var req2 = ConfigFile.Config.server + 'advertising/reviews/' + property_id;
+            var loading1 = true
+            var loading2 = true
             fetch(req, {
                 method: "GET",
                 headers: {
@@ -49,8 +53,14 @@ class PropertyPage extends Component {
                     res.json().then(data => {
                         this.setState(data);
                         this.setState({prop_id: property_id});
+                        loading1 = false
+                        if(loading2 == false){
+                           this.setState({ is_loading: false }); 
+                        }
                     });
-                }).then(fetch(req, {
+                });
+
+                fetch(req2, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -63,9 +73,12 @@ class PropertyPage extends Component {
                           this.state.reviews = data['results'];
                         }
                         console.log(this.state.reviews);
-                        this.setState({ is_loading: false });
+                        loading2 = false
+                        if(loading1 == false){
+                           this.setState({ is_loading: false }); 
+                        }
                     });
-                }));
+                });
         }
     }
 
@@ -113,11 +126,16 @@ class PropertyPage extends Component {
                             </Button>
                         </Link>
                     </div>
+                    <br></br>
+                    <hr></hr>
+                    <div>
+                        <h4>Reviews</h4>
+                    </div>
                     <div>
                       <ul style={{listStyleType: 'none', padding: "0px"}}>
                         {this.state.reviews.map(r => (
                           <li key={r['rating_id']}>
-                              <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
+                              <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', margin: '10px'}}>
                                 <div style={{width:'100%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
                                   <div style={{clear:'both', display: 'inline-flex'}}>
                                     <FontAwesomeIcon icon={faStar} size="lg"/>
@@ -129,6 +147,7 @@ class PropertyPage extends Component {
                                   </div>
                                 </div>
                               </div>
+
                             </li>
                           ))}
                         </ul>
