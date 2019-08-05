@@ -1,7 +1,6 @@
 import numpy as np
 import tensorflow as tf
 from random import randint
-import datetime
 import os
 from pathlib import Path
 import pickle as pk
@@ -17,17 +16,17 @@ EMBEDDING_SIZE = imp.EMBEDDING_SIZE  # Dimensions for each word vector
 
 SAVE_FREQ = 5000
 iterations = 100000
-
-checkpoints_dir = "./checkpoints"
+dir_path = os.path.dirname(os.path.realpath(__file__))
+checkpoints_dir = dir_path + "/checkpoints"
 glove_array_global = None
 glove_dict_global = None 
 
-def load_data(path='./data/train'):
+def load_data(path=dir_path + '/data/train'):
     print("Loading IMDB Data...")
     data = []
 
     dir = os.path.dirname(__file__)
-    file_list = glob.glob(os.path.join(dir, path + '/1/*'))
+    file_list = glob.glob(os.path.join(dir, path + '/1/*')) 
     file_list.extend(glob.glob(os.path.join(dir, path + '/2/*')))
     file_list.extend(glob.glob(os.path.join(dir, path + '/3/*')))
     file_list.extend(glob.glob(os.path.join(dir, path + '/4/*')))
@@ -41,23 +40,17 @@ def load_data(path='./data/train'):
 
 
 def load_glove_embeddings():
-
-    global glove_array_global
-    global glove_dict_global
-
-    if glove_dict_global != None and glove_array_global != None:
-        return glove_array_global, glove_dict_global
-
-    emmbed_file = Path("./embeddings.pkl")
+    print(dir_path)
+    emmbed_file = Path(dir_path + "/embeddings.pkl")
     if emmbed_file.is_file():
         # embeddings already serialized, just load them
         print("Local Embeddings pickle found, loading...")
-        with open("./embeddings.pkl", 'rb') as f:
+        with open(dir_path + "/embeddings.pkl", 'rb') as f:
             return pk.load(f)
     else:
         # create the embeddings
         print("Building embeddings dictionary...")
-        data = open("glove.6B.50d.txt", 'r', encoding="utf-8")
+        data = open(dir_path + "/glove.6B.50d.txt", 'r', encoding="utf-8")
         embeddings = [[0] * EMBEDDING_SIZE]
         word_index_dict = {'UNK': 0}  # first row is for unknown words
         index = 1
@@ -71,12 +64,10 @@ def load_glove_embeddings():
         data.close()
 
         # pickle them
-        with open('./embeddings.pkl', 'wb') as f:
+        with open(dir_path + '/embeddings.pkl', 'wb') as f:
             print("Creating local embeddings pickle for faster loading...")
             # Pickle the 'data' dictionary using the highest protocol available.
             pk.dump((embeddings, word_index_dict), f, pk.HIGHEST_PROTOCOL)
-    glove_array_global = embeddings
-    glove_dict_global =  word_index_dict
     return embeddings, word_index_dict
 
 
@@ -123,7 +114,7 @@ def train():
     # pprint(training_data_text)
 
     # ========= FOR EVAL =========
-    data_text = load_data(path="./data/validate")
+    data_text = load_data(path=dir_path + "/data/validate")
     test_data = embedd_data(data_text, glove_array, glove_dict)
     num_samples = len(test_data)
     # ========= FOR EVAL =========
@@ -143,9 +134,6 @@ def train():
     sess = tf.InteractiveSession()
     sess.run(tf.global_variables_initializer())
 
-    logdir = "tensorboard/" + datetime.datetime.now().strftime(
-        "%Y%m%d-%H%M%S") + "/"
-    writer = tf.summary.FileWriter(logdir, sess.graph)
 
     for i in range(iterations):
         batch_data, batch_labels = getTrainBatch()
@@ -155,7 +143,6 @@ def train():
                 [loss, accuracy, summary_op],
                 {input_data: batch_data,
                  labels: batch_labels})
-            writer.add_summary(summary, i)
             print("Iteration: ", i)
             print("loss", loss_value)
             print("acc", accuracy_value)
@@ -201,7 +188,7 @@ def eval(data_path):
     print("Loaded and preprocessed %s samples for evaluation" % num_samples)
 
     sess = tf.InteractiveSession()
-    last_check = tf.train.latest_checkpoint('./checkpoints')
+    last_check = tf.train.latest_checkpoint(dir_path + '/checkpoints')
     saver = tf.train.import_meta_graph(last_check + ".meta")
     saver.restore(sess, last_check)
     graph = tf.get_default_graph()
@@ -234,14 +221,14 @@ def eval(data_path):
 def classify_batch(text_list, glove_array=None, glove_dict=None):
     original_length = len(text_list)
     while len(text_list) < BATCH_SIZE:
-        text_list.append([""])
+        text_list.append("")
 
     if glove_array == None or glove_dict == None:
         glove_array, glove_dict = load_glove_embeddings()
     data_text = [imp.preprocess(review) for review in text_list]
     test_data = embedd_data(data_text, glove_array, glove_dict)
     sess = tf.InteractiveSession()
-    last_check = tf.train.latest_checkpoint('./checkpoints')
+    last_check = tf.train.latest_checkpoint(dir_path + '/checkpoints')
     saver = tf.train.import_meta_graph(last_check + ".meta")
     saver.restore(sess, last_check)
     graph = tf.get_default_graph()
