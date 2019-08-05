@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+var ConfigFile = require('../config');
 
 class PropertyDetails extends Component {
 
@@ -23,10 +24,10 @@ class PropertyDetails extends Component {
             image : null,
           };
     }
-    
+
     componentDidMount() {
         const {property_id} =  this.props.match.params;
-        var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+        var req = ConfigFile.Config.server + 'advertising/' + property_id;
         fetch(req, {
             method: "GET",
             headers: {

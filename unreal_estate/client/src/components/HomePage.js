@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SearchBox from './SearchBox';
 import '../css/HomePage.css';
 import PropertyPage from './PropertyPage';
+var ConfigFile = require('../config');
 
 class HomePage extends Component {
 

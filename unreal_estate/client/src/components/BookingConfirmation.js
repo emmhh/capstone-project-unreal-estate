@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import CancelBooking from './CancelBooking';
 import SimpleMap from './google-maps/Route';
+var ConfigFile = require('../config');
 
 class BookingConfirmation extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class BookingConfirmation extends Component {
         if (this.props && this.props.match && this.props.match.params) {
             const {booking_id} =  this.props.match.params;
             this.setState({ booking_id: booking_id });
-            var req = 'http://127.0.0.1:8000/booking/BID/' + booking_id;
+            var req = ConfigFile.Config.server + 'booking/BID/' + booking_id;
             var dataAdvertisingValues, bookingDataValues;
             await fetch(req, {
                 method: "GET",
@@ -46,7 +47,7 @@ class BookingConfirmation extends Component {
             .then((res) => {
                 res.json().then( async bookingData => {
                     bookingDataValues = bookingData
-                    var req = 'http://127.0.0.1:8000/advertising/' + bookingData.property_id;
+                    var req = ConfigFile.Config.server + 'advertising/' + bookingData.property_id;
                     await fetch(req, {
                         method: "GET",
                         headers: {
@@ -76,7 +77,7 @@ class BookingConfirmation extends Component {
 
     async handleCancellation(BID) {
         console.log("handleCancellation");
-        var cancelUrl = 'http://127.0.0.1:8000/booking/delete/' + BID;
+        var cancelUrl = ConfigFile.Config.server + 'booking/delete/' + BID;
         await fetch(cancelUrl ,{
             method: "GET",
             headers: {

@@ -13,7 +13,7 @@
 //     async makeCancel() {
 //         console.log(this.props)
 //         var BID = this.props.booking_id;
-//         var url = 'http://127.0.0.1:8000/booking/delete/' + BID;
+//         var url = ConfigFile.Config.server + 'booking/delete/' + BID;
 //         await fetch(url ,{
 //             method: "GET",
 //             headers: {

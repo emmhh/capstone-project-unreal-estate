@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-
+var ConfigFile = require('../config');
 class MyBookingsPage extends Component {
 
     constructor(props) {
@@ -18,7 +18,7 @@ class MyBookingsPage extends Component {
     }
 
     async init() {
-        var req = 'http://127.0.0.1:8000/booking/UID';
+        var req = ConfigFile.Config.server + 'booking/UID';
         await fetch(req, {
             method: "GET",
             headers: {
@@ -26,11 +26,11 @@ class MyBookingsPage extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         }).then((response) => {
-            response.json().then( async (data) => { 
+            response.json().then( async (data) => {
                 if (data['bookings'] != null) {
                     var propertiesList = {};
                     for (var i = 0; i < data['bookings'].length; i++) {
-                        var propUrl = 'http://127.0.0.1:8000/advertising/' + data['bookings'][i].property_id;
+                        var propUrl = ConfigFile.Config.server + 'advertising/' + data['bookings'][i].property_id;
                         await fetch(propUrl, {
                             method: "GET",
                             headers: {
@@ -50,7 +50,7 @@ class MyBookingsPage extends Component {
                         properties: propertiesList,
                         isLoading : false
                     });
-                    // console.log('MyBookingsPage.js/componentDidMount/fetch/this.state.properties: ');                    
+                    // console.log('MyBookingsPage.js/componentDidMount/fetch/this.state.properties: ');
                     // console.log(this.state.properties);
                 }
             });
@@ -58,8 +58,8 @@ class MyBookingsPage extends Component {
     }
 
     async handleCancellation(BID) {
-        var userUrl = 'http://127.0.0.1:8000/booking/UID';
-        var cancelUrl = 'http://127.0.0.1:8000/booking/delete/' + BID;
+        var userUrl = `${ConfigFile.Config.server}booking/UID`;
+        var cancelUrl = `${ConfigFile.Config.server}booking/delete/` + BID;
         await fetch(cancelUrl ,{
             method: "GET",
             headers: {
@@ -77,7 +77,7 @@ class MyBookingsPage extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         }).then((response) => {
-            response.json().then(async (data) => { 
+            response.json().then(async (data) => {
                 this.setState({
                     bookings: data['bookings'],
                 });
@@ -87,7 +87,7 @@ class MyBookingsPage extends Component {
     }
 
     propertyDetailsFunc = async (PID) => {
-        var propUrl = 'http://127.0.0.1:8000/advertising/' + PID;
+        var propUrl = `${ConfigFile.Config.server}advertising/` + PID;
         // console.log("propertyDetailsFunc: ");
         await fetch(propUrl, {
             method: "GET",
@@ -154,7 +154,7 @@ class MyBookingsPage extends Component {
                                                 {this.state.properties[booking['property_id']] ?
                                                     <p style={{margin: '0px'}}>{this.state.properties[booking['property_id']].buildingType}</p>
                                                     : null
-                                                } 
+                                                }
                                             </div>
                                             <hr style={{margin: "2px"}}></hr>
                                             <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
@@ -162,7 +162,7 @@ class MyBookingsPage extends Component {
                                                 {this.state.properties[booking['property_id']] ?
                                                     <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.properties[booking['property_id']].address}</p>
                                                     : null
-                                                }  
+                                                }
                                             </div>
                                         </div>
                                         <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
@@ -183,7 +183,7 @@ class MyBookingsPage extends Component {
                 </ul>
 
             );
-        }       
+        }
     }
 
     render() {
@@ -192,7 +192,7 @@ class MyBookingsPage extends Component {
                 <h1>Your Upcoming Trips</h1>
                 <div>
                     {
-                        this.state.isLoading ? 
+                        this.state.isLoading ?
                         <p>Loading.....</p> :
                         this.showBookings()
                     }

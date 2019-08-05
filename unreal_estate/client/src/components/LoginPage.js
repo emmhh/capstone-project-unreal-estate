@@ -9,6 +9,7 @@ import {
 import { toast } from 'react-toastify';
 import Button from '@material-ui/core/Button';
 import "../css/LoginPage.css"
+var ConfigFile = require('../config');
 
 class LoginPage extends Component {
 
@@ -44,7 +45,7 @@ class LoginPage extends Component {
   }
 
   handleConfirmationSubmit = async event => {
-    await fetch('http://127.0.0.1:8000/user/login',{
+    await fetch(`${ConfigFile.Config.server}user/login`,{
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -60,9 +61,9 @@ class LoginPage extends Component {
         throw result;
       }
       console.log(result);
-      fetch('http://127.0.0.1:8000/user/testlogin')
+      fetch(`${ConfigFile.Config.server}user/testlogin`)
       .then((resultLogin) => {
-        return resultLogin.json() 
+        return resultLogin.json()
       })
       .then((responce) => {
         // console.log(resultLogin.context);
@@ -76,7 +77,7 @@ class LoginPage extends Component {
         console.log(responce);
         if (user_logged_in){
           console.log('it came to redirect.');
-          window.location.href = 'http://127.0.0.1:8000/';
+          window.location.href = ConfigFile.Config.server;
         }
       });
     })

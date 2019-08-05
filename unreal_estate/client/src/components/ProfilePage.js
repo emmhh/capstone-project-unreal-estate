@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import UserdetailsForm from "./UserdetailsForm"
 import "../css/ProfilePage.css"
+var ConfigFile = require('../config');
 
 class ProfilePage extends Component {
 
@@ -23,7 +24,7 @@ class ProfilePage extends Component {
   }
 
   async getUserDetails() {
-    await fetch('http://127.0.0.1:8000/user/')
+    await fetch(ConfigFile.Config.server + 'user/')
       .then((result) => {
         console.log(result);
         if (result.status !== 200) {
@@ -65,7 +66,7 @@ class ProfilePage extends Component {
     console.log(userDetails)
     userDetails = this.checkDetails(userDetails);
     if (userDetails) {
-      await fetch('http://127.0.0.1:8000/user/', {
+      await fetch(ConfigFile.Config.server + 'user/', {
         method: "PUT",
         headers: {
           'Accept': 'application/json',
@@ -83,7 +84,7 @@ class ProfilePage extends Component {
         })
         .then((result) => {
           toast.success(result.msg);
-          window.location.href = 'http://127.0.0.1:8000/';
+          window.location.href = ConfigFile.Config.server + '';
         })
         .catch((error) => {
           error.json()
@@ -128,8 +129,8 @@ class ProfilePage extends Component {
       <div className="profile-div">
         {userDetails.isLoading ? <div></div> : profilePage }
       </div>
-      
-      
+
+
     );
   }
 }
