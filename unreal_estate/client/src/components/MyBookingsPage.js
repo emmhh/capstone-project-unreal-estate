@@ -180,7 +180,7 @@ class MyBookingsPage extends Component {
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
                                         {Date.parse(booking['endDate']) < Math.round(new Date()) ?
-                                        <Link to={'/submitReview/' + booking['booking_id']}>
+                                        <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id']}>
                                             <Button variant="contained" style={{width: "120px"}}>
                                                 Write Review
                                             </Button>

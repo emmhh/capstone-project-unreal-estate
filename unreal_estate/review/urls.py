@@ -4,4 +4,6 @@ from . import reviews
 
 urlpatterns = [
     path('<int:property_id>', reviews.RatingFunction),
+    path('', reviews.SubmitReview),
+    path('getReview/<int:booking_id>', reviews.ReviewDetailsBID),
 ]
