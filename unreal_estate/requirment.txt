@@ -2,5 +2,8 @@ psycopg2
 django
 googlemaps
 django-globals
+django-cors-headers
+numpy
+tensorflow
 gdal
 cloudinary
