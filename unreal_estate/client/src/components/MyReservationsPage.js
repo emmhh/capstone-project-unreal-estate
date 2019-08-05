@@ -14,6 +14,7 @@ class MyReservationsPage extends Component {
             isLoading: true
         };
         this.init = this.init.bind(this);
+        this.handleCancellation = this.handleCancellation.bind(this);
         this.init();
     }
 
@@ -115,7 +116,7 @@ class MyReservationsPage extends Component {
         })
         .then(result => {
             console.log(result.json());
-        }).then(() => fetch(propertyUrl, {
+        }).then(async () => await fetch(propertyUrl, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
