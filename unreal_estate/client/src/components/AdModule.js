@@ -5,13 +5,14 @@ import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
+var ConfigFile = require('../config');
 
 class AdModule extends Component {
     // FIXME: need to pass in user_id to make fecth and initialise the state.
     // AdModule: initialise the sate from GET request, to get the properties based on owner_ids;
     //          Within the AdModule load the AdTable after the component is loaded.
     // redirect to AdForm if "Add property" is clicked.
-    // redirect to AdForm if "Edit" is clicked. 
+    // redirect to AdForm if "Edit" is clicked.
     // redirect to PropertyPage if "view" is clicked,  need to form a new page as a preview page without "Book" button,
     //
 
@@ -21,16 +22,16 @@ class AdModule extends Component {
         super(props)
         this.state = {
             owned_properties:[
-                
+
             ],
         }
         // this.reload = this.reload.bind(this);
         // this.reload();
     }
-    componentWillMount(){
-        var req = 'http://127.0.0.1:8000/advertising/user';
-        console.log("componentWillMount took place !")
-        fetch(req, {
+    async componentWillMount(){
+        var req = ConfigFile.Config.server + 'advertising/user';
+        console.log("HELLOOOOO")
+        await fetch(req, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -43,38 +44,22 @@ class AdModule extends Component {
             });
         });
     }
-    // componentDidMount(){
-    //     console.log("componentDidMount took place ;)");
-    //     var req = 'http://127.0.0.1:8000/advertising/user';
-    //     fetch(req, {
-    //         method: "GET",
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //     })
-    //     .then((res) => {
-    //         res.json().then(data => {
-    //             this.setState({owned_properties : data});
-    //         });
-    //     });
-    // }
-    // reload = () => {
-    //     console.log("reload function took place ;)");
-    //     var req = 'http://127.0.0.1:8000/advertising/user';
-    //     fetch(req, {
-    //         method: "GET",
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //     })
-    //     .then((res) => {
-    //         res.json().then(data => {
-    //             this.setState({owned_properties : data});
-    //         });
-    //     });
-    // }
+    reload = async () => {
+        console.log("reload function took place ;)")
+        var req = ConfigFile.Config.server + 'advertising/user';
+        await fetch(req, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        })
+        .then((res) => {
+            res.json().then(data => {
+                this.setState({owned_properties : data});
+            });
+        });
+    }
     render() {
         console.log(this.state.owned_properties)
         return (

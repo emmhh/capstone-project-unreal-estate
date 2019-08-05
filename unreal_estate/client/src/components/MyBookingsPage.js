@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
-
-
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+var ConfigFile = require('../config');
 class MyBookingsPage extends Component {
 
     constructor(props) {
@@ -19,7 +18,7 @@ class MyBookingsPage extends Component {
     }
 
     async init() {
-        var req = 'http://127.0.0.1:8000/booking/UID';
+        var req = ConfigFile.Config.server + 'booking/UID';
         await fetch(req, {
             method: "GET",
             headers: {
@@ -27,11 +26,11 @@ class MyBookingsPage extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         }).then((response) => {
-            response.json().then( async (data) => { 
+            response.json().then( async (data) => {
                 if (data['bookings'] != null) {
                     var propertiesList = {};
                     for (var i = 0; i < data['bookings'].length; i++) {
-                        var propUrl = 'http://127.0.0.1:8000/advertising/' + data['bookings'][i].property_id;
+                        var propUrl = ConfigFile.Config.server + 'advertising/' + data['bookings'][i].property_id;
                         await fetch(propUrl, {
                             method: "GET",
                             headers: {
@@ -51,15 +50,43 @@ class MyBookingsPage extends Component {
                         properties: propertiesList,
                         isLoading : false
                     });
-                    console.log('MyBookingsPage.js/componentDidMount/fetch/this.state.properties: ');                    
-                    console.log(this.state.properties);
                 }
             });
         });
     }
 
+    async handleCancellation(BID) {
+        var userUrl = `${ConfigFile.Config.server}booking/UID`;
+        var cancelUrl = `${ConfigFile.Config.server}booking/delete/` + BID;
+        await fetch(cancelUrl ,{
+            method: "GET",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(result => {
+            console.log(result.json());
+            // this.setState({bookings: null});
+        }).then(() => fetch(userUrl, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }).then((response) => {
+            response.json().then(async (data) => {
+                this.setState({
+                    bookings: data['bookings'],
+                    isLoading :false
+                });
+            });
+        })
+        );
+    }
+
     propertyDetailsFunc = async (PID) => {
-        var propUrl = 'http://127.0.0.1:8000/advertising/' + PID;
+        var propUrl = `${ConfigFile.Config.server}advertising/` + PID;
         // console.log("propertyDetailsFunc: ");
         await fetch(propUrl, {
             method: "GET",
@@ -94,29 +121,25 @@ class MyBookingsPage extends Component {
         });
     }
 
-    showBookings =  () => {
-        if (this.state.properties.length === 0) {
-            return <h2> No Upcoming Bookings </h2>
-        }
-        else {
-            // console.log('MyBookingsPage.js/showBookings/this.state.properties: ');
-            // console.log(this.state.properties);
-            // console.log('MyBookingsPage.js/showBookings/this.state.properties[parts]: ');
-            // console.log(this.state.properties);
-            // console.log(typeof this.state.properties);
-            // var pro = this.state.properties;
-            // console.log(pro[17027417]);
-            return (
-                <ul style={{listStyleType: 'none', padding: "0px"}}>
-                    { this.state.bookings.map(booking => (
+    render() {
+        return (
+            <div className="homepage-div">
+                <h1>Your Upcoming Trips</h1>
+                <div>
+                    <ul style={{listStyleType: 'none', padding: "0px"}}>
+                        {this.state.isLoading ?
+                        <h4>Loading...</h4> :
+                        this.state.bookings.length === 0 ?
+                        <h2>No Upcoming Bookings</h2> :
+                        this.state.bookings.map(booking => (
                         <li key={booking['property_id']}>
-                            {console.log(booking)}
+                            {/* {console.log(booking)} */}
                             <div style={{width:'90%', margin: '50px'}}>
                                 <div className="mini-desc">
                                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                                         <div style={{width: "35%"}}>
-                                            {console.log(this.state.properties[booking['property_id']])}
-                                            {console.log(booking['property_id'])}
+                                            {/* {console.log(this.state.properties[booking['property_id']])} */}
+                                            {/* {console.log(booking['property_id'])} */}
                                             {this.state.properties[booking['property_id']] ?
                                                 <img src={this.state.properties[booking['property_id']].images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
                                                 : null
@@ -133,7 +156,7 @@ class MyBookingsPage extends Component {
                                                 {this.state.properties[booking['property_id']] ?
                                                     <p style={{margin: '0px'}}>{this.state.properties[booking['property_id']].buildingType}</p>
                                                     : null
-                                                } 
+                                                }
                                             </div>
                                             <hr style={{margin: "2px"}}></hr>
                                             <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
@@ -141,7 +164,7 @@ class MyBookingsPage extends Component {
                                                 {this.state.properties[booking['property_id']] ?
                                                     <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.properties[booking['property_id']].address}</p>
                                                     : null
-                                                }  
+                                                }
                                             </div>
                                         </div>
                                         <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
@@ -149,32 +172,17 @@ class MyBookingsPage extends Component {
                                             <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
-                                        <Link to={''}>
-                                            <Button variant="contained" style={{width: "120px"}}>
-                                                Cancel
+                                        <Link to={'/mybookings'}>
+                                            <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
+                                                Cancel Booking
                                             </Button>
                                         </Link>
                                     </div>
                                 </div>
                             </div>
                         </li>
-                    ))}
-                </ul>
-
-            );
-        }       
-    }
-
-    render() {
-        return (
-            <div className="homepage-div">
-                <h1>Your Upcoming Trips</h1>
-                <div>
-                    {
-                        this.state.isLoading ? 
-                        <p>Loading.....</p> :
-                        this.showBookings()
-                    }
+                        ))}
+                    </ul>
                 </div>
             </div>
         );

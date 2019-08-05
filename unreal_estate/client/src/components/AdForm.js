@@ -14,22 +14,24 @@ import {
 import { toast } from 'react-toastify';
 import {Redirect} from 'react-router-dom';
 import '../css/AdForm.css';
+import { elementType } from 'prop-types';
+import scriptLoader from 'react-async-script-loader'
+var ConfigFile = require('../config');
+// import '../css/AdForm.css';
 
 class AdForm extends Component {
-  
+
   constructor(props) {
     super(props)
 
     this.initialState = {
       redirect: false,
       existed: false,
-      // owner_id: null,
       prop_id: null,
       address : null,
       address_suburb: null,
       address_state: null,
       address_country: null,
-      // city  : null,
       latitude : null,
       longitude : null,
       num_beds: null,
@@ -42,14 +44,14 @@ class AdForm extends Component {
       building_type : null,
       price : null,
       avg_rating : 0,
-      images : null, //FIXME: add this attribute in the form
+      // images : null, //FIXME: add this attribute in the form
+      autocomplete: null,
     }
 
     this.state = this.initialState
     this.handleChange = this.handleChange.bind(this);
     this.makeSubmission = this.makeSubmission.bind(this);
-    // this.componentWillMount = this.componentWillMount.bind(this);
-    // this.componentWillMount();
+
   }
   handleChange = event => {
     this.setState({
@@ -59,19 +61,14 @@ class AdForm extends Component {
   submitForm = (propertyInfo) => {
     // save the new property data to localStorage, but seems like on the other page, localStorage doesnt contain this data.
     // this.props.handleSubmit(this.state)
-    propertyInfo.address = propertyInfo.address_suburb + ", " + propertyInfo.address_state + ", " + propertyInfo.address_country;
+    // FIXME: propertyInfo.address = propertyInfo.address_suburb + ", " + propertyInfo.address_state + ", " + propertyInfo.address_country;
+    delete this.state.autocomplete;
     propertyInfo = this.checkProperty(propertyInfo);
     if (propertyInfo){
       var propertyData = JSON.stringify(propertyInfo);
       localStorage.setItem('property', propertyData);
       this.setState({redirect: true});
-    } else {
-      return null;
-    }
-    // else {
-      // window.confirm("Failed, essential fields are missing");
-    // }
-    //this.setState(this.initialState);
+    } 
   }
   renderRedirect = () => {
     if (this.state.redirect) {
@@ -80,12 +77,13 @@ class AdForm extends Component {
   }
 
   componentWillMount() {
+    console.log("reached componentWIllMount");
     if (this.props && this.props.match && this.props.match.params){
       // if the property_id passed in is null, it means user wants to add new property.
       // if the property_id is not null, it means user wants to edit existed property.
       const {property_id} =  this.props.match.params;
       if (property_id != null){
-        var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+        var req = ConfigFile.Config.server + 'advertising/' + property_id;
         fetch(req, {
           method: "GET",
           headers: {
@@ -103,14 +101,14 @@ class AdForm extends Component {
         .then((res)=>{
           res.json().then(data=>{
             this.setState(data);
-            // this.setState({owner_id: owner_id});
             this.setState({prop_id: property_id});
             this.setState({existed: true});
             // split up the address
-            var addressArr = this.state.address.split(", ");
-            this.setState({address_suburb: addressArr[0]});
-            this.setState({address_state: addressArr[1]});
-            this.setState({address_country: addressArr[2]});
+            //FIXME: spit up address
+            // var addressArr = this.state.address.split(", ");
+            // this.setState({address_suburb: addressArr[0]});
+            // this.setState({address_state: addressArr[1]});
+            // this.setState({address_country: addressArr[2]});
           })
         })
         .catch((err) => {
@@ -119,22 +117,57 @@ class AdForm extends Component {
       }
     }
   }
-  //FIXME: submit requests are forbidden
-  async makeSubmission (propertyInfo){
-    propertyInfo.address = propertyInfo.address_suburb + ", " + propertyInfo.address_state + ", " + propertyInfo.address_country;
-    console.log(propertyInfo);
-    propertyInfo = this.checkProperty(propertyInfo);
-    var req = 'http://127.0.0.1:8000/advertising/' + propertyInfo.prop_id;
-    if (propertyInfo){
+
+  componentWillReceiveProps({ isScriptLoaded, isScriptLoadSucceed }) {
+    if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
+      if (isScriptLoadSucceed) {
+        var input = document.getElementById('address');
+        this.state.autocomplete = new window.google.maps.places.Autocomplete(input);
+        this.state.autocomplete.setFields(['address_components']);
+        this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
+      }
+    }
+  }
+
+
+  onSelected() {
+    var fullAddress;
+    this.state.autocomplete.getPlace()["address_components"].forEach(element => {
+      var excludeElement = false;
+      element['types'].forEach(elementType => {
+        if (elementType.toLowerCase() === "administrative_area_level_2"){
+          excludeElement = true;
+        }
+      });
+      if (!excludeElement){
+        if (fullAddress){
+          fullAddress = fullAddress + element['long_name'] + ", "
+        } else {
+          fullAddress = element['long_name'] + ", "
+        }
+      }
+    });
+    this.setState({
+      ["address"]: fullAddress.slice(0, -2)
+    });
+  }
+
+  async makeSubmission (propertyUpdateInfo){
+    console.log(propertyUpdateInfo);
+    // FIXME: 
+    delete propertyUpdateInfo.autocomplete
+    propertyUpdateInfo = this.checkProperty(propertyUpdateInfo);
+    var req = ConfigFile.Config.server + 'advertising/' + propertyUpdateInfo.prop_id;
+    if (propertyUpdateInfo){
       await fetch(req, {
-        credentials: 'include',
+        // credentials: 'include',
         method: "PUT",
         headers:{
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({
-          propertyInfo: propertyInfo,
+          propertyInfo: propertyUpdateInfo,
         })
       })
       .then((result)=> {
@@ -144,7 +177,8 @@ class AdForm extends Component {
         return result.json();
       })
       .then((result) => {
-        toast.success("Successfully updated the property info");
+        toast.success(result.msg);
+        // window.location.href = ConfigFile.Config.server + 'AdModule/';
         window.location.href = 'http://127.0.0.1:8000/AdModule';
       })
       .catch((error) => {
@@ -153,12 +187,12 @@ class AdForm extends Component {
           console.log(errorValue);
           toast.error("Error.....");
         })
-        
+
       });
     }
   }
-  
-  
+
+
   checkProperty (propertyInfo){
     if (!propertyInfo.address){
       toast.error('Please enter your address');
@@ -203,34 +237,17 @@ class AdForm extends Component {
     }
     return propertyInfo;
   }
-  
+
   render() {
     // const { name, buildingType, location, avgRating } = this.state;
     return(
     <div className="form-div">
       <Form>
-        {/* <Form.Group controlId="city">
-          <Form.Label>1. Which city?</Form.Label>
-          <Form.Control type="city" placeholder="Enter the city" value={this.state.city} onChange={this.handleChange}/>
-        </Form.Group> */}
-
-        {/* <Form.Group controlId="address" bsSize="large" style={{width: "50%"}}>
+        {/* FIXME: seprate the address. */}
+        <Form.Group controlId="address" bsSize="large" style={{width: "50%"}}>
           <Form.Label>Where is it located?*</Form.Label>
           <Form.Control type="address" placeholder="Enter the address" value={this.state.address} onChange={this.handleChange}/>
-        </Form.Group> */}
-        <Form.Group controlId="address_suburb" bsSize="large" style={{width: "50%"}}>
-          <Form.Label>Which suburb?*</Form.Label>
-          <Form.Control type="address_suburb" placeholder="Enter the address" value={this.state.address_suburb} onChange={this.handleChange}/>
         </Form.Group>
-        <Form.Group controlId="address_state" bsSize="large" style={{width: "50%"}}>
-          <Form.Label>Which state?*</Form.Label>
-          <Form.Control type="address_state" placeholder="Enter the address" value={this.state.address_state} onChange={this.handleChange}/>
-        </Form.Group>
-        <Form.Group controlId="address_country" bsSize="large" style={{width: "50%"}}>
-          <Form.Label>Which country?*</Form.Label>
-          <Form.Control type="address_country" placeholder="Enter the address" value={this.state.address_country} onChange={this.handleChange}/>
-        </Form.Group>
-        {/* FIXME: seprate the address. */}
         <Form.Group controlId="num_beds" bsSize="large" style={{width: "50%"}}>
           <Form.Label>How many beds are there?*</Form.Label>
           {/* <Form.Control type="num_beds" placeholder="Enter the number of beds" /> */}
@@ -325,7 +342,7 @@ class AdForm extends Component {
           check the info provided, and user is able to click submit button from preview page to post the info to the databse. */}
         { this.state.existed ?
           <Link to='/AdModule'>
-            <Button variant="contained" style={{width: "150px"}} type="submit" onClick={()=>{this.makeSubmission(this.state)}}>
+            <Button variant="contained" style={{width: "150px"}} onClick={()=>{this.makeSubmission(this.state)}}>
               Update
             </Button>
           </Link>
@@ -341,4 +358,6 @@ class AdForm extends Component {
     </div>);
   }
 }
-export default AdForm;
+export default scriptLoader(
+  ["https://maps.googleapis.com/maps/api/js?key=AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA&libraries=places"]
+)(AdForm)

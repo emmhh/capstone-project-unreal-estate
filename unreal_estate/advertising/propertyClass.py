@@ -181,7 +181,6 @@ def PropertyFunction (request, property_id):
         return PropertyResponse
 
 
-
 # INPUT: request, user_id
 # OUTPUT: list of properties owned by the user.
 @csrf_exempt

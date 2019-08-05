@@ -22,8 +22,8 @@ def BookingFunction(request):
             responce = JsonResponse({'error': "User is not logged in."})
             responce.status_code = 403
             return responce
-        print("post: " + request.body.decode('utf-8'))
-        print("user: " + str(request.user.id))
+        # print("post: " + request.body.decode('utf-8'))
+        # print("user: " + str(request.user.id))
         json_data = json.loads(request.body.decode('utf-8'))
         bookingDetails = {
             'user_id': request.user.id,
@@ -61,7 +61,7 @@ def BookingFunction(request):
             response = JsonResponse({'error': 'duplicate entry'})
             response.status_code = 400
             return response
-    print("booking_id: " + str(booking.booking_id))
+    # print("booking_id: " + str(booking.booking_id))
     response = JsonResponse({'booking_id':booking.booking_id}) # return booking id to test
     return response
 @csrf_exempt
@@ -89,6 +89,19 @@ def BookingDetailsBID(request, booking_id):
         }
         return JsonResponse(bookingDetails)
 @csrf_exempt
+def BookingDetailsDelete(request, booking_id):
+    # GET
+    if (request.method == "GET"):
+        debugLogger.debug("Delete booking details BID")
+        # Retrieve old booking
+        try:
+            Booking.objects.filter(pk=booking_id).delete()
+        except ObjectDoesNotExist:
+            response = JsonResponse({'error': 'booking does not exist'})
+            response.status_code = 403
+            return response
+        return JsonResponse({'success': 'booking deleted'})
+@csrf_exempt
 def BookingDetailsUID(request):
     # GET
     if (request.method == "GET"):
@@ -101,3 +114,18 @@ def BookingDetailsUID(request):
             response.status_code = 403
             return response
         return JsonResponse({'bookings': list(booking)})
+@csrf_exempt
+def BookingDetailsPID(request, property_id):
+    # GET
+    if (request.method == "GET"):
+        debugLogger.debug("Get booking details PID")
+        # Retrieve old booking
+        try:
+            booking = Booking.objects.all().filter(property_id=property_id).values()
+            print(list(booking))
+        except ObjectDoesNotExist:
+            response = JsonResponse({'error': 'no bookings'})
+            response.status_code = 403
+            return response
+        return JsonResponse({'bookings': list(booking)})
+        

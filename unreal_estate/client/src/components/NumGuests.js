@@ -7,7 +7,13 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from '@material-ui/core/FormControl';
 
-export default function NumGuestsSelector() {
+export default function NumGuestsSelector(props) {
+
+  var maxGuests = 10;
+  if (props.maxGuests != null) {
+    maxGuests = props.maxGuests;
+  }
+
   var initNumGuests;
   if ("numGuests" in localStorage) {
       initNumGuests = localStorage.getItem('numGuests');
@@ -30,6 +36,12 @@ export default function NumGuestsSelector() {
     setOpen(true);
   }
 
+  let menuItems = [];
+  for (var i = 1; i <= maxGuests; i++) {
+    menuItems.push(parseInt(i));
+  }
+
+
   return (
     <div style={{textAlign: 'center', display: 'inline', verticalAlign: 'top'}}>
       <FormControl style={{padding: "0 1%", width: "15%"}}>
@@ -50,16 +62,13 @@ export default function NumGuestsSelector() {
             id: "numGuests"
           }}
         >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
-          <MenuItem value={4}>4</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={6}>6</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={8}>8</MenuItem>
-          <MenuItem value={9}>9</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
+        {menuItems.map(single => (
+          <MenuItem
+            value={single}
+          >
+            {single}
+          </MenuItem>
+        ))}
         </Select>
       </FormControl>
     </div>

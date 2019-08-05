@@ -6,12 +6,16 @@ import Button from '@material-ui/core/Button';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons'
-
+var ConfigFile = require('../config');
 
 export default function SearchResults() {
 
   const [searched, setSearched] = React.useState(false);
   const [properties, setProperties] = React.useState([]);
+  const [showMore, setShowMore] = React.useState(false);
+  const [allProperties, setAllProperties] = React.useState([]);
+  const [showProperties, setShowProperties] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(true);
 
   if(searched === false){
     getProperties();
@@ -19,7 +23,9 @@ export default function SearchResults() {
 
 
   async function getProperties() {
-    await fetch('http://127.0.0.1:8000/search/post', {
+    setLoading(true);
+    await fetch(ConfigFile.Config.server + 'search/post', {
+
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -34,11 +40,40 @@ export default function SearchResults() {
     }).then((response) => {
       response.json().then((data) => {
         if (data['results'] != null) {
-          setProperties(data['results']);
+          setAllProperties(data['results']);
+          var varShowProperties;
+          if (data['results'].length >= 10){
+            varShowProperties = data['results'].slice(0, 10);
+            setShowProperties(data['results'].slice(0, 10));
+            setShowMore(true);
+          } else {
+            varShowProperties = data['results'];
+            setShowProperties(data['results']);
+            setShowMore(false);
+          }
+          setProperties(varShowProperties);
         }
         setSearched(true);
+        setLoading(false);
       });
     });
+  }
+
+
+  function showMoreProperties() {
+    console.log(showProperties)
+    if (showProperties && allProperties &&
+      showProperties.length < allProperties.length){
+      var newLength = showProperties.length + 10;
+      if (newLength < allProperties.length){
+        setShowProperties(allProperties.slice(0, newLength));
+        setShowMore(true);
+      } else {
+        setShowProperties(allProperties);
+        setShowMore(false);
+      }
+      setProperties(showProperties);
+    }
   }
 
   return (
@@ -56,7 +91,11 @@ export default function SearchResults() {
       </div>
       <div>
         <ul style={{listStyleType: 'none', padding: "0px"}}>
-          {properties.map(prop => (
+          {isLoading ?
+            <h4>Loading...</h4> :
+            properties.length === 0 ? 
+            <h2>No Results Found</h2> :
+            properties.map(prop => (
             <li key={prop['property_id']}>
               <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                 <div style={{width: "35%"}}>
@@ -102,6 +141,7 @@ export default function SearchResults() {
             </li>
           ))}
         </ul>
+        {showMore ? <Button onClick={showMoreProperties}>Show More Properties</Button> : null}
       </div>
     </div>
   );

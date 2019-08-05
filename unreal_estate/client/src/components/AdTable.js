@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons';
 import AdModule from './AdModule';
 import { toast } from 'react-toastify';
+var ConfigFile = require('../config');
 
 // const TableHeader = () => {
 //     return (
@@ -36,7 +37,7 @@ import { toast } from 'react-toastify';
 //   return <tbody>{rows}</tbody>
 // }
 const removeProperty = (property_id)=>{
-  var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+  var req = ConfigFile.Config.server + 'advertising/' + property_id;
   console.log("prop_id in delete request: " + property_id)
   fetch(req, {
     method: "DELETE",
@@ -51,7 +52,8 @@ const removeProperty = (property_id)=>{
   .then((result)=>{
     console.log(result);
   }).then((result)=>{
-    window.location.href = 'http://127.0.0.1:8000/AdModule';  
+    // toast.success(result.msg);
+    window.location.href = ConfigFile.Config.server;
   })
   .catch((error)=>{
     console.log(error);
@@ -106,6 +108,11 @@ const Entries = props => {
           </div>
           <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
             <p style={{marginTop: '60px'}}>Price: ${prop.price}</p>
+            <Link to={'/AdReservations/'+ prop['prop_id']}>
+              <Button variant="contained" style={{width: "110px"}}>
+                Show Reservations
+              </Button>
+            </Link>
             {/* <Link to={'/property/' + 11156}> */}
             <Link to={'/AdForm/'+ prop['prop_id']}>
               <Button variant="contained" style={{width: "110px"}}>
@@ -129,7 +136,7 @@ class AdTable extends Component {
   render() {
     const { propertyData} = this.props
     return (
-      <ul style={{listStyleType: 'none', padding: "0px"}}> 
+      <ul style={{listStyleType: 'none', padding: "0px"}}>
         <Entries propertyData={propertyData}/>
       </ul>
     )

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
 import { toast } from 'react-toastify';
+var ConfigFile = require('../config');
 
 class PropertyPage extends Component {
 
@@ -61,7 +62,7 @@ class PropertyPage extends Component {
         //     ]
         //   });
         propertyInfo = this.checkProperty(propertyInfo);
-        var req = 'http://127.0.0.1:8000/advertising/new_property';
+        var req = ConfigFile.Config.server + 'advertising/new_property';
         if (propertyInfo){
             await fetch(req, {
                 credentials: 'include',
@@ -82,7 +83,7 @@ class PropertyPage extends Component {
             })
             .then((result) => {
                 toast.success("Successfully added new property.");
-                window.location.href = 'http://127.0.0.1:8000/AdModule';
+                window.location.href = ConfigFile.Config.server;
             })
             .catch((error) => {
                 error.json()
