@@ -41,11 +41,13 @@ class AdForm extends Component {
       avg_rating : 0,
       images : null, //FIXME: add this attribute in the form
       autocomplete: null,
+      file: null,
     }
 
     this.state = this.initialState
     this.handleChange = this.handleChange.bind(this);
     this.makeSubmission = this.makeSubmission.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
     // this.componentWillMount = this.componentWillMount.bind(this);
     // this.componentWillMount();
   }
@@ -54,13 +56,46 @@ class AdForm extends Component {
         [event.target.id]: event.target.value
     });
   }
-  submitForm = () => {
+  submitForm = async () => {
     // save the new property data to localStorage, but seems like on the other page, localStorage doesnt contain this data.
     // this.props.handleSubmit(this.state)
     delete this.state.autocomplete;
-    var propertyData = JSON.stringify(this.state);
-    localStorage.setItem('property', propertyData);
-    //this.setState(this.initialState);
+    console.log(this.state);
+    if (!this.state.file) {
+      var propertyData = JSON.stringify(this.state);
+      localStorage.setItem('property', propertyData);
+      window.location.href = ConfigFile.Config.server + 'AdPreview';
+    } else {
+
+      const files = Array.from(this.state.file)
+      const formData = new FormData()
+
+      formData.append('file', files[0]);
+      formData.append('upload_preset', 'wiu02rqf');
+
+      await fetch(`https://api.cloudinary.com/v1_1/dl3x9yefn/image/upload`, {
+        method: "POST",
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: formData,
+      }).then(response => {
+        console.log(response)
+        return response.json()
+      }).then(responceJson => {
+        console.log(responceJson)
+        console.log(responceJson.url)
+        this.setState({ ['images']: [responceJson.url]})
+      }).catch(error => {
+        console.log(error);
+      }).finally(()=> {
+        console.log('it came to finally');
+        var propertyData = JSON.stringify(this.state);
+        localStorage.setItem('property', propertyData);
+        // window.location.href = ConfigFile.Config.server + 'AdPreview';
+        window.location.href = 'http://localhost:3000/AdPreview';
+      });
+    }
   }
 
   componentWillMount() {
@@ -182,6 +217,24 @@ class AdForm extends Component {
     }
   }
 
+  handleFileUpload = (event) => {
+    var errorFound = false;
+    Array.from(event.target.files).forEach(element => {
+      if (element.type === "image/png" || element.type === "image/jpeg") {
+        console.log(element.type);
+      } else {
+        toast.error("You can only upload Image files.");
+        errorFound = true;
+        return;
+      }
+    });
+    if (!errorFound) {
+      this.setState({ file: event.target.files });
+    } else {
+      this.setState({ file: null });
+      event.target.files = null;
+    }
+  }
 
   checkProperty (propertyInfo){
     if (!propertyInfo.address){
@@ -210,12 +263,12 @@ class AdForm extends Component {
         </Form.Group> */}
 
         <Form.Group >
-          <Form.Label>2. Where is it located?</Form.Label>
+          <Form.Label>1. Where is it located?</Form.Label>
             <Form.Control id="address" type="address" placeholder="Enter the address" value={this.state.address} onChange={this.handleChange}/>
         </Form.Group>
         {/* FIXME: seprate the address. */}
         <Form.Group controlId="num_beds">
-          <Form.Label>3. How many bedrooms are there?</Form.Label>
+          <Form.Label>2. How many bedrooms are there?</Form.Label>
           {/* <Form.Control type="num_beds" placeholder="Enter the number of beds" /> */}
           <Form.Control as="select" value ={this.state.num_beds} onChange={this.handleChange}>
             <option value="null">select</option>
@@ -229,7 +282,7 @@ class AdForm extends Component {
         </Form.Group>
 
         <Form.Group controlId="num_rooms">
-          <Form.Label>4. How many rooms are there?</Form.Label>
+          <Form.Label>3. How many rooms are there?</Form.Label>
           {/* <Form.Control type="num_rooms" placeholder="Enter the number of rooms" /> */}
           <Form.Control as="select" value ={this.state.num_rooms} onChange={this.handleChange}>
             <option value="null">select</option>
@@ -243,7 +296,7 @@ class AdForm extends Component {
         </Form.Group>
 
         <Form.Group controlId="num_bathrooms">
-          <Form.Label>5. How many bathrooms are there?</Form.Label>
+          <Form.Label>4. How many bathrooms are there?</Form.Label>
           {/* <Form.Control type="num_rooms" placeholder="Enter the number of bathrooms" /> */}
           <Form.Control as="select" value ={this.state.num_bathrooms} onChange={this.handleChange}>
             <option value="null">select</option>
@@ -257,12 +310,12 @@ class AdForm extends Component {
         </Form.Group>
 
         <Form.Group controlId="num_guests">
-          <Form.Label>6. How many guests are allowed?</Form.Label>
+          <Form.Label>5. How many guests are allowed?</Form.Label>
           <Form.Control type="num_guests" placeholder="Enter the guests capacity" value={this.state.num_guests} onChange={this.handleChange}/>
         </Form.Group>
 
         <Form.Group controlId="description">
-          <Form.Label>7. please add some descriptions to your property</Form.Label>
+          <Form.Label>6. please add some descriptions to your property</Form.Label>
           <Form.Control as="textarea" type="descriptions" placeholder="Descriptions" value={this.state.description} onChange={this.handleChange}/>
         </Form.Group>
 
@@ -296,11 +349,16 @@ class AdForm extends Component {
             </Button>
           </Link>
         :
-          <Link to='/AdPreview'>
+          // <Link to='/AdPreview'>
+          <div>
+            <Form.Group controlId="price">
+              <input label='upload file' type='file' onChange={this.handleFileUpload} />
+            </Form.Group>
             <Button variant="contained" style={{width: "150px"}} onClick={this.submitForm}>
               Preview
             </Button>
-          </Link>
+          </div>
+          // </Link>
         }
         <Link to='/AdModule'><Button variant="contained" style={{width: "150px"}}>Return</Button></Link>
       </Form>
