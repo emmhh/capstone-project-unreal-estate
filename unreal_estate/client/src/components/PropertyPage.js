@@ -10,6 +10,7 @@ class PropertyPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            logged_in: null,
             is_loading: true,
             prop_id: null,
             address : null,
@@ -33,6 +34,9 @@ class PropertyPage extends Component {
     }
 
     componentDidMount() {
+        var is_user_logged_in;
+        localStorage.getItem('is_user_logged_in', is_user_logged_in);
+        this.setState({logged_in : is_user_logged_in});
         if (this.props && this.props.match && this.props.match.params){
             const {property_id} =  this.props.match.params;
             var req = ConfigFile.Config.server + 'advertising/' + property_id;
@@ -85,11 +89,17 @@ class PropertyPage extends Component {
                     <hr></hr>
                     <div style={{display: 'inline-block', padding: '10px'}}>
                       <h5>Price per night: ${this.state.price}</h5>
+                        {this.state.logged_in ?
                         <Link to={'/property_booking/' + this.state.prop_id}>
                             <Button variant="contained" style={{width: "120px"}}>
                                 Book
                             </Button>
-                        </Link>
+                        </Link> :
+                        <Link to={'/login'}>
+                            <Button variant="contained" style={{width: "240px"}}>
+                                Please Login To Book
+                            </Button>
+                        </Link>}
                     </div>
                 </div>
             );

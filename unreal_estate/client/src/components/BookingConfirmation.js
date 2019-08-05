@@ -36,7 +36,6 @@ class BookingConfirmation extends Component {
             const {booking_id} =  this.props.match.params;
             this.setState({ booking_id: booking_id });
             var req = ConfigFile.Config.server + 'booking/BID/' + booking_id;
-            var dataAdvertisingValues, bookingDataValues;
             await fetch(req, {
                 method: "GET",
                 headers: {

@@ -7,35 +7,6 @@ import AdModule from './AdModule';
 import { toast } from 'react-toastify';
 var ConfigFile = require('../config');
 
-// const TableHeader = () => {
-//     return (
-//       <thead>
-//         <tr>
-//           <th>Name</th>
-//           <th>BuildingType</th>
-//           <th>Location</th>
-//           <th>AvgRating</th>
-//         </tr>
-//       </thead>
-//     )
-// }
-// const TableBody = props => {
-//   const rows = props.propertyData.map((row, index) => {
-//     return (
-//         <tr key={index}>
-//         <td>{row.name}</td>
-//         <td>{row.buildingType}</td>
-//         <td>{row.location}</td>
-//         <td>{row.avgRating}</td>
-//         <td>
-//           <button onClick={() => props.removeProperty(index)}>Delete</button>
-//         </td>
-//       </tr>
-//     )
-//   })
-
-//   return <tbody>{rows}</tbody>
-// }
 const removeProperty = (property_id)=>{
   var req = ConfigFile.Config.server + 'advertising/' + property_id;
   console.log("prop_id in delete request: " + property_id)
@@ -69,15 +40,8 @@ const Entries = props => {
   // const {propertyData, removeProperty, addProperty} = props;
   const Entries = props.propertyData.map((prop) => {
     return (
-      // <li key={index}>
-      //   <div>
-      //     <img src={prop['images'][0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-      //   </div>
-      //   <div>
-      //     <button onClick={() => props.removeProperty(index)}>Delete</button>
-      //   </div>
-      // </li>
       <li key={prop.prop_id}>
+        {console.log(prop)}
         <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "80%"}}>
           <div style={{width: "35%"}}>
             <img src={prop.images} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
@@ -91,7 +55,7 @@ const Entries = props => {
             </div>
             <div style={{clear:'both', display: 'flex'}}>
               <FontAwesomeIcon icon={faBed} size="lg"/>
-              <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_rooms']}</p>
+              <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_beds']}</p>
               <FontAwesomeIcon icon={faBath} size="lg"/>
               <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_bathrooms']}</p>
               <FontAwesomeIcon icon={faUser} size="lg"/>

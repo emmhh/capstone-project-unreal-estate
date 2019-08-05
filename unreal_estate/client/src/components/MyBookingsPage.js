@@ -50,6 +50,8 @@ class MyBookingsPage extends Component {
                         properties: propertiesList,
                         isLoading : false
                     });
+                    // console.log('MyBookingsPage.js/componentDidMount/fetch/this.state.properties: ');
+                    // console.log(this.state.properties);
                 }
             });
         });
@@ -78,7 +80,6 @@ class MyBookingsPage extends Component {
             response.json().then(async (data) => {
                 this.setState({
                     bookings: data['bookings'],
-                    isLoading :false
                 });
             });
         })
@@ -121,17 +122,14 @@ class MyBookingsPage extends Component {
         });
     }
 
-    render() {
-        return (
-            <div className="homepage-div">
-                <h1>Your Upcoming Trips</h1>
-                <div>
-                    <ul style={{listStyleType: 'none', padding: "0px"}}>
-                        {this.state.isLoading ?
-                        <h4>Loading...</h4> :
-                        this.state.bookings.length === 0 ?
-                        <h2>No Upcoming Bookings</h2> :
-                        this.state.bookings.map(booking => (
+    showBookings =  () => {
+        if (this.state.properties.length === 0) {
+            return <h2> No Upcoming Bookings </h2>
+        }
+        else {
+            return (
+                <ul style={{listStyleType: 'none', padding: "0px"}}>
+                    { this.state.bookings.map(booking => (
                         <li key={booking['property_id']}>
                             {/* {console.log(booking)} */}
                             <div style={{width:'90%', margin: '50px'}}>
@@ -181,8 +179,23 @@ class MyBookingsPage extends Component {
                                 </div>
                             </div>
                         </li>
-                        ))}
-                    </ul>
+                    ))}
+                </ul>
+
+            );
+        }
+    }
+
+    render() {
+        return (
+            <div className="homepage-div">
+                <h1>Your Upcoming Trips</h1>
+                <div>
+                    {
+                        this.state.isLoading ?
+                        <p>Loading.....</p> :
+                        this.showBookings()
+                    }
                 </div>
             </div>
         );
