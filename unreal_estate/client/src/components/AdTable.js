@@ -71,7 +71,12 @@ const Entries = props => {
             <p style={{marginTop: '60px'}}>Price: ${prop.price}</p>
             <Link to={'/AdReservations/'+ prop['prop_id']}>
               <Button variant="contained" style={{width: "110px"}}>
-                Show Reservations
+                Reservations
+              </Button>
+            </Link>
+            <Link to={'/propertyReviews/'+ prop['prop_id']}>
+              <Button variant="contained" style={{width: "110px"}}>
+                Reviews
               </Button>
             </Link>
             {/* <Link to={'/property/' + 11156}> */}

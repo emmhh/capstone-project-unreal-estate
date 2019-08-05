@@ -42,7 +42,7 @@ class PropertyPage extends Component {
         if (this.props && this.props.match && this.props.match.params){
             const {property_id} =  this.props.match.params;
             var req = ConfigFile.Config.server + 'advertising/' + property_id;
-            var req2 = ConfigFile.Config.server + 'advertising/reviews/' + property_id;
+            var req2 = ConfigFile.Config.server + 'review/' + property_id;
             var loading1 = true
             var loading2 = true
             fetch(req, {
@@ -144,19 +144,18 @@ class PropertyPage extends Component {
                       <ul style={{listStyleType: 'none', padding: "0px"}}>
                         {this.state.reviews.map(r => (
                           <li key={r['rating_id']}>
-                              <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', margin: '10px'}}>
+                              <div style={{textAlign: 'left', display: 'flex', border: '1.5px solid grey', borderRadius: '5px', margin: '10px'}}>
                                 <div style={{width:'100%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
                                   <div style={{clear:'both', display: 'inline-flex'}}>
                                     <FontAwesomeIcon icon={faStar} size="lg"/>
                                     <h4 style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{r['value']}</h4>
                                     <p>published on {r['date']}</p>
                                   </div>
-                                  <div style={{clear:'both', display: 'inline-flex'}}>
+                                  <div style={{clear:'both', display: 'block'}}>
                                     <p>{r['notes']}</p>
                                   </div>
                                 </div>
                               </div>
-
                             </li>
                           ))}
                         </ul>

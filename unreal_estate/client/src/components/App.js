@@ -8,7 +8,6 @@ import BookingConfirmation from './BookingConfirmation';
 import BookingForm from './BookingForm';
 import PropertyPage from './PropertyPage'
 import PropertyReviewSubmitPage from './PropertyReviewSubmitPage'
-import PropertyReviewViewPage from './PropertyReviewViewPage'
 import ProfilePage from './ProfilePage';
 import LoginPage from './LoginPage';
 import ErrorPage from './ErrorPage';
@@ -20,6 +19,7 @@ import SearchResults from './SearchResults';
 import GoogleMaps from './google-maps/Route';
 import MyBookingsPage from './MyBookingsPage';
 import MyReservationsPage from './MyReservationsPage';
+
 
 toast.configure({
   autoClose: 8000,
@@ -46,6 +46,7 @@ class App extends Component {
           <Route exact path='/property/:property_id' component={PropertyPage} />
           <Route exact path='/submitReview/:property_id/:booking_id' component={PropertyReviewSubmitPage} />
           {/* <Route exact path='/review/:booking_id' component={PropertyReviewViewPage} /> */}
+          <Route exact path='/propertyReviews/:property_id' component={PropertyReviewPage} />
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
           <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />
