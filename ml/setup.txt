@@ -1,0 +1,5 @@
+1) Get the glove embeddings from the link in the glove.6B.50d.txt and replace it
+2) Get the data/review.txt from the link in the review.txt and replace it
+3) run python3 data/processTrivagoDataset.py
+
+Now python3 runner.py should work, look at the file for different args.

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faUser, faMapMarkerAlt, faStar} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
 var ConfigFile = require('../config');
+import Avatar from '@material-ui/core/Avatar';
 
 class PropertyPage extends Component {
 
@@ -27,6 +28,7 @@ class PropertyPage extends Component {
             prices : null,
             avg_rating : null,
             images : null,
+            reviews : null,
           };
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidMount();
@@ -47,9 +49,23 @@ class PropertyPage extends Component {
                     res.json().then(data => {
                         this.setState(data);
                         this.setState({prop_id: property_id});
+                    });
+                }).then(fetch(req, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                })
+                .then((res) => {
+                    res.json().then(data => {
+                        if (data['results'] != null) {
+                          this.state.reviews = data['results'];
+                        }
+                        console.log(this.state.reviews);
                         this.setState({ is_loading: false });
                     });
-                });
+                }));
         }
     }
 
@@ -63,6 +79,12 @@ class PropertyPage extends Component {
                     <div style={{clear:'both', display: 'inline-flex', paddingTop: '5px', paddingBottom: '5px'}}>
                         <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
                         <h3 style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</h3>
+                    </div>
+                    <div>
+                      <div style={{clear:'both', display: 'inline-flex'}}>
+                        <FontAwesomeIcon icon={faStar} size="lg"/>
+                        <h4 style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.avg_rating}</h4>
+                      </div>
                     </div>
                     <div>
                       <div style={{clear:'both', display: 'inline-flex'}}>
@@ -91,6 +113,26 @@ class PropertyPage extends Component {
                             </Button>
                         </Link>
                     </div>
+                    <div>
+                      <ul style={{listStyleType: 'none', padding: "0px"}}>
+                        {this.state.reviews.map(r => (
+                          <li key={r['rating_id']}>
+                              <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
+                                <div style={{width:'100%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
+                                  <div style={{clear:'both', display: 'inline-flex'}}>
+                                    <FontAwesomeIcon icon={faStar} size="lg"/>
+                                    <h4 style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{r['value']}</h4>
+                                    <p>published on {r['date']}</p>
+                                  </div>
+                                  <div style={{clear:'both', display: 'inline-flex'}}>
+                                    <p>{r['notes']}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                 </div>
             );
         }
