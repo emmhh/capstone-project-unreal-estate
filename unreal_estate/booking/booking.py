@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from .models import Booking
+from review.models import Rating
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
@@ -109,6 +110,11 @@ def BookingDetailsUID(request):
         # Retrieve old booking
         try:
             booking = Booking.objects.all().filter(user_id=request.user.id).values()
+            for b in booking:
+                if len(Rating.objects.filter(booking_id=b['booking_id'])) > 0:
+                    b['rated'] = True
+                else:
+                    b['rated'] = False
         except ObjectDoesNotExist:
             response = JsonResponse({'error': 'booking does not exist'})
             response.status_code = 403
