@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
-var ConfigFile = require('../config');
+var ConfigFile = require('../../config');
 
 class FileUpload extends Component {
   constructor() {
@@ -16,23 +16,31 @@ class FileUpload extends Component {
     event.preventDefault();
     console.log(this.state.file);
     if (!this.state.file) {
-      toast.error("No file attached.");
-      return;
-    }
-    const files = Array.from(this.state.file)
-    const formData = new FormData()
+    } else {
 
-    files.forEach((file, i) => {
-      formData.append(i, file)
-    })
-    await fetch(`${ConfigFile.Config.server}advertising/test_upload`, {
-      method: "POST",
-      body: formData
-    }).then(response => {
-      // handle your response;
-    }).catch(error => {
-      // handle your error
-    });
+      const files = Array.from(this.state.file)
+      const formData = new FormData()
+
+      formData.append('file', files[0]);
+      formData.append('upload_preset', 'wiu02rqf');
+
+      await fetch(`https://api.cloudinary.com/v1_1/dl3x9yefn/image/upload`, {
+        method: "POST",
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: formData,
+      }).then(response => {
+        console.log(response)
+        return response.json()
+      }).then(responceJson => {
+        console.log(responceJson)
+        console.log(responceJson.body.url)
+        // handle your response;
+      }).catch(error => {
+        // handle your error
+      });
+    }
   }
 
   handleFileUpload = (event) => {

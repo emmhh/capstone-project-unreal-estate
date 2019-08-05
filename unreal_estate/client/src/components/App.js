@@ -51,7 +51,6 @@ class App extends Component {
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
           <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
           <Route exact path='/results' component={SearchResults} />
-          <Route exact path='/map' component={GoogleMaps} />
           <Route component={ErrorPage}/>
         </Switch>
       </div>
