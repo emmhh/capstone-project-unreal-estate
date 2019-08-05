@@ -1,7 +1,7 @@
 import googlemaps
 from django.http import JsonResponse
 from django.core import serializers
-from .models import Property, Rating
+from .models import Property
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
@@ -179,12 +179,6 @@ def PropertyFunction (request, property_id):
         PropertyResponse = JsonResponse({'success': 'successfully deleted property'})
         return PropertyResponse
 
-
-@csrf_exempt
-def RatingFunction (request, property_id):
-    print(property_id)
-    ratings = Rating.objects.filter(property_id=property_id).values()
-    return JsonResponse({'results': list(ratings)})
 
 
 # INPUT: request, user_id

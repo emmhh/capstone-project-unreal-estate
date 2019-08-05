@@ -18,7 +18,6 @@ urlpatterns = [
     url(r'^property/\w+/$', views.index),
     # path('property_booking/<property_id>', views.index),
     url(r'^property_booking/\w+/$', views.index),
-    url(r'^AdReservations/\w+/$', views.index),
     # path('confirmation/<booking_id>', views.index),
     url(r'^confirmation/\w+/$', views.index),
     path('results', views.index),

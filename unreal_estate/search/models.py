@@ -4,9 +4,6 @@ from advertising.models import Property
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from booking.models import Booking
-import datetime
-
-
 gmaps = googlemaps.Client(key='AIzaSyClDGqfGMbApqkFQ3SZbxG6dv7h7FDPCcA')
 # Create your models here.
 

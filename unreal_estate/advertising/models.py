@@ -52,9 +52,9 @@ class Property(models.Model):
 
 class Rating(models.Model):
     rating_id = models.AutoField(primary_key=True)
-    property_id = models.ForeignKey('Property', on_delete=models.CASCADE, null=True)
-    user_id = models.ForeignKey('user.User', on_delete=models.CASCADE, null=True)
-    value = models.FloatField(default=0.0)
+    property_id = models.ForeignKey('Property', on_delete=models.CASCADE)
+    user_id = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    value = models.FloatField(default=5.0)
     date=models.DateTimeField(auto_now_add=True)
     is_anonymous = models.BooleanField(default=False)
     notes = models.CharField(max_length= 2000, default='', blank=True)

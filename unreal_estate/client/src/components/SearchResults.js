@@ -12,9 +12,6 @@ export default function SearchResults() {
 
   const [searched, setSearched] = React.useState(false);
   const [properties, setProperties] = React.useState([]);
-  const [showMore, setShowMore] = React.useState(false);
-  const [allProperties, setAllProperties] = React.useState([]);
-  const [showProperties, setShowProperties] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
 
   if(searched === false){
@@ -40,40 +37,12 @@ export default function SearchResults() {
     }).then((response) => {
       response.json().then((data) => {
         if (data['results'] != null) {
-          setAllProperties(data['results']);
-          var varShowProperties;
-          if (data['results'].length >= 10){
-            varShowProperties = data['results'].slice(0, 10);
-            setShowProperties(data['results'].slice(0, 10));
-            setShowMore(true);
-          } else {
-            varShowProperties = data['results'];
-            setShowProperties(data['results']);
-            setShowMore(false);
-          }
-          setProperties(varShowProperties);
+          setProperties(data['results']);
         }
         setSearched(true);
         setLoading(false);
       });
     });
-  }
-
-
-  function showMoreProperties() {
-    console.log(showProperties)
-    if (showProperties && allProperties &&
-      showProperties.length < allProperties.length){
-      var newLength = showProperties.length + 10;
-      if (newLength < allProperties.length){
-        setShowProperties(allProperties.slice(0, newLength));
-        setShowMore(true);
-      } else {
-        setShowProperties(allProperties);
-        setShowMore(false);
-      }
-      setProperties(showProperties);
-    }
   }
 
   return (
@@ -141,7 +110,6 @@ export default function SearchResults() {
             </li>
           ))}
         </ul>
-        {showMore ? <Button onClick={showMoreProperties}>Show More Properties</Button> : null}
       </div>
     </div>
   );
