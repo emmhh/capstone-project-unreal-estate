@@ -201,7 +201,3 @@ class MyBookingsPage extends Component {
 }
 
 export default MyBookingsPage;
-
-INSERT INTO public.booking_booking(
-	booking_id, user_id, property_id, "startDate", "endDate", "bookingTime", price, num_guests)
-	VALUES (1, 5, ?, ?, ?, ?, ?, ?);
