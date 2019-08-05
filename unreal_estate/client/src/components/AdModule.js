@@ -28,6 +28,7 @@ class AdModule extends Component {
     }
     async componentWillMount(){
         var req = ConfigFile.Config.server + 'advertising/user';
+        console.log("HELLOOOOO")
         await fetch(req, {
             method: "GET",
             headers: {
@@ -41,7 +42,34 @@ class AdModule extends Component {
             });
         });
     }
-
+    // async removeProperty(property_id) {
+    //     var req = ConfigFile.Config.server + 'advertising/' + property_id;
+    //     await fetch(req, {
+    //         method: "DELETE",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //     })
+    //     .then((result)=>{
+    //         return result.json();
+    //     })
+    //     .then((result)=>{
+    //         console.log(result);
+    //     })
+    //     .then((property_id) => {
+    //         this.handle_deletion(property_id);
+    //     });
+    //   }
+    // handle_deletion = property_id => {
+    //     const { properties } = this.state
+    //     this.setState({
+    //         properties: properties.filter((property) => {
+    //             console.log("setstate called in handle_deletion, propertyid is " + property_id);
+    //             return property.prop_id !== property_id
+    //         }),
+    //     })
+    // }
     reload = async () => {
         console.log("reload function took place ;)")
         var req = ConfigFile.Config.server + 'advertising/user';
@@ -58,7 +86,28 @@ class AdModule extends Component {
             });
         });
     }
-    
+    // handleSubmit = property => {
+    //     this.setState({ properties: [...this.state.properties, property] })
+    // }
+    // state = {
+    //     properties: [
+    //         {
+    //             name: 'UniLodge',
+    //             buildingType: 'unit',
+    //             location: 'Kensington',
+    //             avgRating: '3.7',
+    //         },
+    //     ],
+    // }
+
+    // static getDerivedStateFromProps(props, state) {
+    //     console.log('HELLO');
+    //     var propertyData = localStorage.getItem('property');
+    //     localStorage.removeItem('property');
+    //     var property = JSON.parse(propertyData);
+    //     console.log(typeof property);
+    //     this.setState({properties: [...this.state.properties, property] })
+    // }
     render() {
         console.log(this.state.owned_properties)
         return (

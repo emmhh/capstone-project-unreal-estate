@@ -19,7 +19,7 @@ class PropertyPage extends Component {
         this.initialState = {
             owner_id: null,
             address : null,
-            num_beds: null,
+            // num_beds: null,
             num_rooms : null,
             num_bathrooms : null,
             num_guests : null,
