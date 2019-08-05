@@ -12,6 +12,7 @@ export default function SearchResults() {
 
   const [searched, setSearched] = React.useState(false);
   const [properties, setProperties] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(true);
 
   if(searched === false){
     getProperties();
@@ -19,7 +20,7 @@ export default function SearchResults() {
 
 
   async function getProperties() {
-
+    setLoading(true);
     await fetch('http://127.0.0.1:8000/search/post', {
       method: 'POST',
       headers: {
@@ -38,6 +39,7 @@ export default function SearchResults() {
           setProperties(data['results']);
         }
         setSearched(true);
+        setLoading(false);
       });
     });
   }
@@ -57,7 +59,9 @@ export default function SearchResults() {
       </div>
       <div>
         <ul style={{listStyleType: 'none', padding: "0px"}}>
-          {properties.length === 0 ? 
+          {isLoading ?
+            <h4>Loading...</h4> :
+            properties.length === 0 ? 
             <h2>No Results Found</h2> :
             properties.map(prop => (
             <li key={prop['property_id']}>
