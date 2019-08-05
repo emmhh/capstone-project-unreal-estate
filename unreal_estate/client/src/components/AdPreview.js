@@ -18,7 +18,7 @@ class PropertyPage extends Component {
         this.initialState = {
             owner_id: null,
             address : null,
-            // num_beds: null,
+            num_beds: null,
             num_rooms : null,
             num_bathrooms : null,
             num_guests : null,
@@ -46,9 +46,23 @@ class PropertyPage extends Component {
     handleSubmit = async (propertyInfo) => {
         console.log("propertyInfo that passed in: ")
         console.log(propertyInfo);
+        // confirmAlert({
+        //     title: 'Confirm to submit',
+        //     message: 'Are you sure to do this.',
+        //     buttons: [
+        //       {
+        //         label: 'Yes',
+        //         onClick: () => alert('Click Yes')
+        //       },
+        //       {
+        //         label: 'No',
+        //         onClick: () => alert('Click No')
+        //       }
+        //     ]
+        //   });
         propertyInfo = this.checkProperty(propertyInfo);
         var req = 'http://127.0.0.1:8000/advertising/new_property';
-        if (propertyInfo){}
+        if (propertyInfo){
             await fetch(req, {
                 credentials: 'include',
                 method: "POST",
@@ -68,7 +82,7 @@ class PropertyPage extends Component {
             })
             .then((result) => {
                 toast.success("Successfully added new property.");
-                window.location.href = 'http://127.0.0.1:8000/';
+                window.location.href = 'http://127.0.0.1:8000/AdModule';
             })
             .catch((error) => {
                 error.json()
@@ -77,6 +91,7 @@ class PropertyPage extends Component {
                     toast.error('Error...........');
                 })
             });
+        }
     }
 
     checkProperty = (propertyInfo) => {
@@ -84,6 +99,10 @@ class PropertyPage extends Component {
           toast.error('Please enter your address')
           return null
         }
+        if (!propertyInfo.num_beds){
+            toast.error('Please enter the number of beds')
+            return null
+          }
         if (!propertyInfo.price){
           toast.error('Please enter your preferred price')
           return null
@@ -92,9 +111,17 @@ class PropertyPage extends Component {
             toast.error('Please enter some description')
             return null
         }
+        if (!propertyInfo.description){
+            toast.error('Please enter the name of your property')
+            return null
+        }
         if (!propertyInfo.building_type){
           toast.error('Please enter your building type')
           return null
+        }
+        if (typeof(propertyInfo.price) === "String"){
+            toast.error('Please enter a valid number for price')
+            return null
         }
         return propertyInfo;
       }
@@ -124,13 +151,13 @@ class PropertyPage extends Component {
                     <h4>Summary</h4>
                     <p>{this.state.description}</p>
                 </div>
-                {this.state.space ? null: <div> <h4>Summary</h4> <p>{this.state.space}</p> </div>}
+                {this.state.space ? <div> <h4>Space</h4> <p>{this.state.space}</p> </div> : null}
                 <br></br>
                 <hr></hr>
                 <div style={{display: 'inline-block', padding: '10px'}}>
                     <h5>Price per night: ${this.state.price}</h5>
-                    <Button variant="contained" style={{width: "120px"}} onClick={()=>{this.handleSubmit(this.state)}}>
-                        Add Property
+                    <Button variant="contained" style={{width: "120px"}} onClick={()=>{if(window.confirm('Are you sure to submit?')){this.handleSubmit(this.state);}}}>
+                        Confirm Listing
                     </Button>
                 </div>
             </div>

@@ -24,10 +24,12 @@ class AdModule extends Component {
                 
             ],
         }
+        // this.reload = this.reload.bind(this);
+        // this.reload();
     }
     componentWillMount(){
         var req = 'http://127.0.0.1:8000/advertising/user';
-        console.log("HELLOOOOO")
+        console.log("componentWillMount took place !")
         fetch(req, {
             method: "GET",
             headers: {
@@ -41,71 +43,37 @@ class AdModule extends Component {
             });
         });
     }
-    // async removeProperty(property_id) {
-    //     var req = 'http://127.0.0.1:8000/advertising/' + property_id;
-    //     await fetch(req, {
-    //         method: "DELETE",
+    // componentDidMount(){
+    //     console.log("componentDidMount took place ;)");
+    //     var req = 'http://127.0.0.1:8000/advertising/user';
+    //     fetch(req, {
+    //         method: "GET",
     //         headers: {
     //             'Accept': 'application/json',
     //             'Content-Type': 'application/x-www-form-urlencoded',
     //         },
     //     })
-    //     .then((result)=>{
-    //         return result.json();
-    //     })
-    //     .then((result)=>{
-    //         console.log(result);
-    //     })
-    //     .then((property_id) => {
-    //         this.handle_deletion(property_id);
+    //     .then((res) => {
+    //         res.json().then(data => {
+    //             this.setState({owned_properties : data});
+    //         });
     //     });
-    //   }
-    // handle_deletion = property_id => {
-    //     const { properties } = this.state
-    //     this.setState({
-    //         properties: properties.filter((property) => {
-    //             console.log("setstate called in handle_deletion, propertyid is " + property_id);
-    //             return property.prop_id !== property_id
-    //         }),
-    //     })
     // }
-    reload = () => {
-        console.log("reload function took place ;)")
-        var req = 'http://127.0.0.1:8000/advertising/user';
-        fetch(req, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        })
-        .then((res) => {
-            res.json().then(data => {
-                this.setState({owned_properties : data});
-            });
-        });
-    }
-    // handleSubmit = property => {
-    //     this.setState({ properties: [...this.state.properties, property] })
-    // }
-    // state = {
-    //     properties: [
-    //         {
-    //             name: 'UniLodge',
-    //             buildingType: 'unit',
-    //             location: 'Kensington',
-    //             avgRating: '3.7',
+    // reload = () => {
+    //     console.log("reload function took place ;)");
+    //     var req = 'http://127.0.0.1:8000/advertising/user';
+    //     fetch(req, {
+    //         method: "GET",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/x-www-form-urlencoded',
     //         },
-    //     ],
-    // }
-    
-    // static getDerivedStateFromProps(props, state) {
-    //     console.log('HELLO');
-    //     var propertyData = localStorage.getItem('property');
-    //     localStorage.removeItem('property');
-    //     var property = JSON.parse(propertyData);
-    //     console.log(typeof property);
-    //     this.setState({properties: [...this.state.properties, property] })
+    //     })
+    //     .then((res) => {
+    //         res.json().then(data => {
+    //             this.setState({owned_properties : data});
+    //         });
+    //     });
     // }
     render() {
         console.log(this.state.owned_properties)
@@ -113,7 +81,8 @@ class AdModule extends Component {
             <div className="container">
                 {/* <Nav /> */}
                 <h2>My Properties</h2>
-                <AdTable propertyData={this.state.owned_properties} reload={this.reload}/>
+                <AdTable propertyData={this.state.owned_properties}/>
+                {/* <AdTable propertyData={this.state.owned_properties}/> */}
                 <Link to={'/AdForm/'+ null}><Button variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
             </div>
         )

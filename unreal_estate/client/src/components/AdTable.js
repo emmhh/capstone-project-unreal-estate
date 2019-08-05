@@ -37,7 +37,6 @@ import { toast } from 'react-toastify';
 // }
 const removeProperty = (property_id)=>{
   var req = 'http://127.0.0.1:8000/advertising/' + property_id;
-  // var req = 'http://127.0.0.1:8000/advertising/' + 34614813
   console.log("prop_id in delete request: " + property_id)
   fetch(req, {
     method: "DELETE",
@@ -50,19 +49,16 @@ const removeProperty = (property_id)=>{
     return result.json();
   })
   .then((result)=>{
-    // window.location.reload();
     console.log(result);
   }).then((result)=>{
-    // toast.success(result.msg);
-    window.location.href = 'http://127.0.0.1:8000/';  
+    window.location.href = 'http://127.0.0.1:8000/AdModule';  
   })
   .catch((error)=>{
     console.log(error);
   });
   // .then(() => {
   //   console.log("reload function called");
-
-  //   reload();
+  //   this.reload();
   // });
 }
 const Entries = props => {
