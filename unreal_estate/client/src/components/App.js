@@ -8,6 +8,7 @@ import BookingConfirmation from './BookingConfirmation';
 import BookingForm from './BookingForm';
 import PropertyPage from './PropertyPage'
 import PropertyReviewSubmitPage from './PropertyReviewSubmitPage'
+import PropertyReviewPage from './PropertyReviewPage'
 import ProfilePage from './ProfilePage';
 import LoginPage from './LoginPage';
 import ErrorPage from './ErrorPage';
