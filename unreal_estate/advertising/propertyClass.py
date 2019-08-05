@@ -162,6 +162,7 @@ def PropertyFunction (request, property_id):
         property_ob.save()
 
         propertyResponse = JsonResponse(propertyInfo)
+        propertyResponse.status_code = 201
         return propertyResponse
     #to delete the property from the data base.
     elif (request.method == "DELETE"):
