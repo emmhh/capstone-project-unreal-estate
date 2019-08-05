@@ -49,7 +49,7 @@ class PropertyReviewViewPage extends Component {
                             numberOfStars={5}
                             name='rating'
                         />
-
+                        <p>{this.state.review['notes']}</p>
                         <Link to={''}>
                             <Button variant="contained" color="primary">Return to Home</Button>
                         </Link>

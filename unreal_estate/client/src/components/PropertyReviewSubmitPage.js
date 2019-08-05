@@ -100,11 +100,11 @@ class PropertyReviewSubmitPage extends Component {
             <Form container onSubmit={this.handleSubmit}>
             <FormLabel>Give Overall Rating</FormLabel>
             <StarRatings
-            rating={this.state.rating}    
-            starRatedColor="gold"
-            changeRating={this.changeRating.bind(this)}
-            numberOfStars={5}
-            name='rating'
+                rating={this.state.rating}    
+                starRatedColor="gold"
+                changeRating={this.changeRating.bind(this)}
+                numberOfStars={5}
+                name='rating'
             />
             <Form.Group controlId="description" bsSize="large" style={{width: "50%"}}>
             <FormLabel>Leave A Review</FormLabel>
