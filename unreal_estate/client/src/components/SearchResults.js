@@ -60,13 +60,9 @@ export default function SearchResults() {
       </div>
       <div>
         <ul style={{listStyleType: 'none', padding: "0px"}}>
-<<<<<<< HEAD
           {isLoading ?
             <h4>Loading...</h4> :
             properties.length === 0 ? 
-=======
-          {properties.length === 0 ?
->>>>>>> e3a67ebb635d21b96251a40ee25934630be6c0a2
             <h2>No Results Found</h2> :
             properties.map(prop => (
             <li key={prop['property_id']}>
