@@ -13,7 +13,7 @@ import {
 import { toast } from 'react-toastify';
 import { elementType } from 'prop-types';
 import scriptLoader from 'react-async-script-loader'
-
+var ConfigFile = require('../config');
 // import '../css/AdForm.css';
 
 class AdForm extends Component {
@@ -69,7 +69,7 @@ class AdForm extends Component {
       // if the property_id is not null, it means user wants to edit existed property.
       const {property_id} =  this.props.match.params;
       if (property_id != null){
-        var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+        var req = ConfigFile.Config.server + 'advertising/' + property_id;
         fetch(req, {
           method: "GET",
           headers: {
@@ -138,7 +138,7 @@ class AdForm extends Component {
     console.log(propertyUpdateInfo);
     delete propertyUpdateInfo.autocomplete
     propertyUpdateInfo = this.checkProperty(propertyUpdateInfo);
-    var req = 'http://127.0.0.1:8000/advertising/' + propertyUpdateInfo.prop_id;
+    var req = ConfigFile.Config.server + 'advertising/' + propertyUpdateInfo.prop_id;
     if (propertyUpdateInfo){
       await fetch(req, {
         // credentials: 'include',
@@ -169,7 +169,7 @@ class AdForm extends Component {
       })
       .then((result) => {
         toast.success(result.msg);
-        window.location.href = 'http://127.0.0.1:8000/';
+        window.location.href = ConfigFile.Config.server;
       })
       .catch((error) => {
         error.json()

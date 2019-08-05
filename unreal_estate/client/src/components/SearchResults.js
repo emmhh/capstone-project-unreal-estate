@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons'
-
+var ConfigFile = require('../config');
 
 export default function SearchResults() {
 
@@ -20,7 +20,7 @@ export default function SearchResults() {
 
   async function getProperties() {
 
-    await fetch('http://127.0.0.1:8000/search/post', {
+    await fetch(ConfigFile.Config.server + 'search/post', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -57,7 +57,7 @@ export default function SearchResults() {
       </div>
       <div>
         <ul style={{listStyleType: 'none', padding: "0px"}}>
-          {properties.length === 0 ? 
+          {properties.length === 0 ?
             <h2>No Results Found</h2> :
             properties.map(prop => (
             <li key={prop['property_id']}>

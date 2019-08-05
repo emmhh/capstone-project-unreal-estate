@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
+var ConfigFile = require('../config');
 
 class AdModule extends Component {
     // FIXME: need to pass in user_id to make fecth and initialise the state.
@@ -26,7 +27,7 @@ class AdModule extends Component {
         }
     }
     async componentWillMount(){
-        var req = 'http://127.0.0.1:8000/advertising/user';
+        var req = ConfigFile.Config.server + 'advertising/user';
         console.log("HELLOOOOO")
         await fetch(req, {
             method: "GET",
@@ -42,7 +43,7 @@ class AdModule extends Component {
         });
     }
     // async removeProperty(property_id) {
-    //     var req = 'http://127.0.0.1:8000/advertising/' + property_id;
+    //     var req = ConfigFile.Config.server + 'advertising/' + property_id;
     //     await fetch(req, {
     //         method: "DELETE",
     //         headers: {
@@ -71,7 +72,7 @@ class AdModule extends Component {
     // }
     reload = async () => {
         console.log("reload function took place ;)")
-        var req = 'http://127.0.0.1:8000/advertising/user';
+        var req = ConfigFile.Config.server + 'advertising/user';
         await fetch(req, {
             method: "GET",
             headers: {

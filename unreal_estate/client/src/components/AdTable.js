@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons';
 import AdModule from './AdModule';
 import { toast } from 'react-toastify';
+var ConfigFile = require('../config');
 
 // const TableHeader = () => {
 //     return (
@@ -36,8 +37,7 @@ import { toast } from 'react-toastify';
 //   return <tbody>{rows}</tbody>
 // }
 const removeProperty = (property_id)=>{
-  var req = 'http://127.0.0.1:8000/advertising/' + property_id;
-  // var req = 'http://127.0.0.1:8000/advertising/' + 34614813
+  var req = ConfigFile.Config.server + 'advertising/' + property_id;
   console.log("prop_id in delete request: " + property_id)
   fetch(req, {
     method: "DELETE",
@@ -54,7 +54,7 @@ const removeProperty = (property_id)=>{
     console.log(result);
   }).then((result)=>{
     // toast.success(result.msg);
-    window.location.href = 'http://127.0.0.1:8000/';  
+    window.location.href = ConfigFile.Config.server;
   })
   .catch((error)=>{
     console.log(error);
@@ -138,7 +138,7 @@ class AdTable extends Component {
   render() {
     const { propertyData} = this.props
     return (
-      <ul style={{listStyleType: 'none', padding: "0px"}}> 
+      <ul style={{listStyleType: 'none', padding: "0px"}}>
         <Entries propertyData={propertyData}/>
       </ul>
     )
