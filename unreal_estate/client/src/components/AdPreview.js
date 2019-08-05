@@ -123,6 +123,17 @@ class PropertyPage extends Component {
             toast.error('Please enter a valid number for price')
             return null
         }
+        var reg = new RegExp("^[0-9]+$");
+        if (!reg.test(propertyInfo.price)) {
+        toast.error('Please enter your building type');
+        // window.confirm("only numbers are allowed for the price :) ");
+        return null;
+        }
+        if (!reg.test(propertyInfo.num_guests)) {
+        toast.error('Please enter the number of guests allowed');
+        // window.confirm("only numbers are allowed for number of guests :) ");
+        return null;
+        }
         return propertyInfo;
       }
 
