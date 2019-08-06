@@ -3,6 +3,7 @@
 ## FRONTEND
 1. Go to client folder `cd unreal_estate/client`
 2. Install related packages `npm install`
+3. need to run "npm install --save react-geocode" to get proerty reommendation work on homepage.
 3. Build react app `npm build` (all npm commands can be found in package.json)
 
 *If you run `npm start` it will start react server but then BACKEND and FRONTEND will have different ports*
