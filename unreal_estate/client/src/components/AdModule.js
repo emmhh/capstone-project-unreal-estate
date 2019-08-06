@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
+import '../css/AdModule.css';
 var ConfigFile = require('../config');
 
 class AdModule extends Component {
