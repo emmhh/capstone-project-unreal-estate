@@ -180,15 +180,9 @@ class MyBookingsPage extends Component {
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
                                         {Date.parse(booking['endDate']) < Math.round(new Date()) ?
-                                        booking['rated'] == false ?
-                                        <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id']}>
+                                        <Link to={'/submitReview/' + booking['booking_id']}>
                                             <Button variant="contained" style={{width: "120px"}}>
                                                 Write Review
-                                            </Button>
-                                        </Link>:
-                                        <Link to={'/property/' + booking['property_id']}>
-                                            <Button variant="contained" style={{width: "120px"}}>
-                                                View Review
                                             </Button>
                                         </Link>:
                                         <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
