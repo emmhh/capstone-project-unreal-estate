@@ -117,7 +117,7 @@ export default function SearchResults() {
             properties.length === 0 ?
             <h2>No Results Found</h2> :
             properties.map(prop => (
-              <li key={prop['property_id']} style={{ textAlign: 'center'}}>
+              <li key={prop['property_id']} style={{ textAlign: '-webkit-center'}}>
               <div style={{ textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "80%", margin: "20px" }}>
                 <div className="row">
                     <div className="col-md-7">

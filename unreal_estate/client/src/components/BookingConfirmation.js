@@ -133,7 +133,7 @@ class BookingConfirmation extends Component {
 
                             </div>
                         </div>
-                    <div style={{ textAlign: 'center', display: 'block', width: "100%", margin: "30px" }}>
+                    <div style={{ textAlign: '-webkit-center', display: 'block', width: "100%", margin: "30px" }}>
                             {this.state.is_loading ? null :
                                 <SimpleMap lat={this.state.lat} lng={this.state.lng}></SimpleMap>
                             }

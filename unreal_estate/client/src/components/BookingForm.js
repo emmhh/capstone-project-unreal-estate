@@ -137,7 +137,7 @@ class BookingForm extends Component {
             <div style={{width:'90%', margin: '20px'}}>
                 {this.renderRedirect()}
                 <div className="mini-desc">
-                    <div style={{ textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
+                    <div style={{ textAlign: '-webkit-center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
                         <div className="row">
                             <div className="col-md-7">
                                 <img src={this.state.images} alt="image of property" style={{ width: '100%', height: '450px', padding: '4px' }}></img>
