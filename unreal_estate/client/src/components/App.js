@@ -45,7 +45,7 @@ class App extends Component {
           <Route exact path='/profile' component={ProfilePage} />
           <Route exact path='/mybookings' component={MyBookingsPage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
-          <Route exact path='/submitReview/:property_id/:booking_id' component={PropertyReviewSubmitPage} />
+          <Route exact path='/submitReview/:property_id/:booking_id' component={PropertyReviewSubmitPage} /> {/** fix css later */}
           {/* <Route exact path='/review/:booking_id' component={PropertyReviewViewPage} /> */}
           <Route exact path='/propertyReviews/:property_id' component={PropertyReviewPage} />
           <Route exact path='/property_booking/:property_id' component={BookingForm} />

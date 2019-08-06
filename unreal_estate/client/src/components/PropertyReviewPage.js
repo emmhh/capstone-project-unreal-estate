@@ -63,7 +63,7 @@ class PropertyReviewPage extends Component {
                         this.setState({prop_id: property_id});
                         loading1 = false;
                         if(loading2 == false){
-                           this.setState({ is_loading: false }); 
+                           this.setState({ is_loading: false });
                         }
                     });
                 });
@@ -86,7 +86,7 @@ class PropertyReviewPage extends Component {
                         }
                         loading2 = false;
                         if(loading1 == false){
-                           this.setState({ is_loading: false }); 
+                           this.setState({ is_loading: false });
                         }
                     });
                 });
@@ -124,7 +124,7 @@ class PropertyReviewPage extends Component {
           title: {
             text: "Reviews on your property"
           },
-          data: [{              
+          data: [{
                     type: "column",
                     dataPoints: [
                         { label: "1",  y: this.state.starCount[1]  },
@@ -138,42 +138,44 @@ class PropertyReviewPage extends Component {
 
         if (is_loading === false) {
             return (
-                <div style={{textAlign: "centre", display: "block", width: "50%", margin: "0px auto"}}>
+                <div style={{textAlign: "centre", display: "block", width: "80%", margin: "0px auto"}}>
                   <div>
                     <h3>Property</h3>
                   </div>
-                  <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-                    <div style={{width: "35%"}}>
-                      <img src={this.state.images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-                    </div>
-                    <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-                      <div style={{float: 'left', display: 'inline-block'}}>
-                        <h4 style={{margin: '0px'}}>{this.state.name}</h4>
+                  <div style={{ textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
+                    <div className="row">
+                      <div className="col-md-7">
+                        <img src={this.state.images[0]} alt="image of property" style={{ width: '100%', height: '450px', padding: '4px' }}></img>
                       </div>
-                      <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                        <p style={{margin: '0px'}}>{this.state.building_type}</p>
+                    <div className="col-md-4 card-heading" style={{ "text-align": "left"}}>
+                        <div style={{float: 'left', display: 'inline-block'}}>
+                          <h4 style={{margin: '0px'}}>{this.state.name}</h4>
+                        </div>
+                        <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                          <p style={{margin: '0px'}}>{this.state.building_type}</p>
+                        </div>
+                        <div style={{clear:'both', display: 'flex'}}>
+                          <FontAwesomeIcon icon={faBed} size="lg"/>
+                          <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_beds}</p>
+                          <FontAwesomeIcon icon={faBath} size="lg"/>
+                          <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
+                          <FontAwesomeIcon icon={faUser} size="lg"/>
+                          <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_guests}</p>
+                        </div>
+                        <hr style={{margin: "2px"}}></hr>
+                        <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                          <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
+                          <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
+                        </div>
+                        <hr style={{margin: "2px"}}></hr>
+                        <div style={{clear:'both', display: 'flex'}}>
+                          <FontAwesomeIcon icon={faStar} size="lg"/>
+                          <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.avg_rating}</p>
+                        </div>
+                        <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
+                          <p style={{marginTop: '55px'}}>Price: ${this.state.price}</p>
+                        </div>
                       </div>
-                      <div style={{clear:'both', display: 'flex'}}>
-                        <FontAwesomeIcon icon={faBed} size="lg"/>
-                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_beds}</p>
-                        <FontAwesomeIcon icon={faBath} size="lg"/>
-                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
-                        <FontAwesomeIcon icon={faUser} size="lg"/>
-                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_guests}</p>
-                      </div>
-                      <hr style={{margin: "2px"}}></hr>
-                      <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                        <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-                        <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
-                      </div>
-                      <hr style={{margin: "2px"}}></hr>
-                      <div style={{clear:'both', display: 'flex'}}>
-                        <FontAwesomeIcon icon={faStar} size="lg"/>
-                        <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.avg_rating}</p>
-                      </div>
-                    </div>
-                    <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
-                      <p style={{marginTop: '55px'}}>Price: ${this.state.price}</p>
                     </div>
                   </div>
                     <br></br>
