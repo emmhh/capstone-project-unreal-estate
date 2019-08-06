@@ -37,59 +37,62 @@ const Entries = props => {
     return (
       <li key={prop.prop_id}>
         {console.log(prop)}
-        <div style={{textAlign: 'center', display: 'inline-flex', border: '1.5px solid grey', borderRadius: '5px', width: "80%"}}>
-          <div style={{width: "35%"}}>
-            <img src={prop.images} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-          </div>
-          <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-            <div style={{float: 'left', display: 'inline-block'}}>
-              <h4 style={{margin: '0px'}}>{prop['name']}</h4>
+        <div style={{ textAlign: '-webkit-center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
+          <div className="row">
+            <div className="col-md-7">
+              <img src={prop.images} alt="image of property" style={{ width: '100%', height: '450px', padding: '4px' }}></img>
             </div>
-            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-              <p style={{margin: '0px'}}>{prop['building_type']}</p>
+            <div className="col-md-4" style={{ "margin-top": "20px" }}>
+              <div style={{float: 'left', display: 'inline-block'}}>
+                <h4 style={{margin: '0px'}}>{prop['name']}</h4>
+              </div>
+              <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                <p style={{margin: '0px'}}>{prop['building_type']}</p>
+              </div>
+              <div style={{clear:'both', display: 'flex', margin: "2px"}}>
+                <FontAwesomeIcon icon={faBed} size="lg"/>
+                <p >{prop['num_beds']}</p>
+                <FontAwesomeIcon icon={faBath} size="lg"/>
+                <p >{prop['num_bathrooms']}</p>
+                <FontAwesomeIcon icon={faUser} size="lg"/>
+                <p >{prop['num_guests']}</p>
+              </div>
+              <hr style={{margin: "2px"}}></hr>
+              <div style={{ clear: 'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px', margin: "2px" }}>
+                <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
+                <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['address']}</p>
+              </div>
+              <hr style={{margin: "2px"}}></hr>
+              <div style={{clear:'both', display: 'flex', margin: "2px"}}>
+                <FontAwesomeIcon icon={faStar} size="lg"/>
+                <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['avg_rating']}</p>
+              </div>
+
+              <div style={{padding: '10px'}}>
+                <p>Price: ${prop.price}</p>
+                <Link to={'/AdReservations/'+ prop['prop_id']}>
+                  <Button variant="contained" style={{width: "110px", margin: "10px"}}>
+                    Reservations
+                  </Button>
+                </Link>
+                <Link to={'/propertyReviews/'+ prop['prop_id']}>
+                  <Button variant="contained" style={{ width: "110px", margin: "10px"}}>
+                    Reviews
+                  </Button>
+                </Link>
+                {/* <Link to={'/property/' + 11156}> */}
+                <Link to={'/AdForm/'+ prop['prop_id']}>
+                  <Button variant="contained" style={{ width: "110px", margin: "10px"}}>
+                    Edit
+                  </Button>
+                </Link>
+                {/* <Link to={'/AdModule'}> */}
+                <Button variant="contained" style={{ width: "110px", margin: "10px"}} onClick={() => {removeProperty(prop['prop_id'])}}>
+                    Delete
+                  </Button>
+                {/* </Link> */}
+              </div>
             </div>
-            <div style={{clear:'both', display: 'flex'}}>
-              <FontAwesomeIcon icon={faBed} size="lg"/>
-              <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_beds']}</p>
-              <FontAwesomeIcon icon={faBath} size="lg"/>
-              <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_bathrooms']}</p>
-              <FontAwesomeIcon icon={faUser} size="lg"/>
-              <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_guests']}</p>
-            </div>
-            <hr style={{margin: "2px"}}></hr>
-            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-              <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-              <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['address']}</p>
-            </div>
-            <hr style={{margin: "2px"}}></hr>
-            <div style={{clear:'both', display: 'flex'}}>
-              <FontAwesomeIcon icon={faStar} size="lg"/>
-              <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['avg_rating']}</p>
-            </div>
-          </div>
-          <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
-            <p style={{marginTop: '60px'}}>Price: ${prop.price}</p>
-            <Link to={'/AdReservations/'+ prop['prop_id']}>
-              <Button variant="contained" style={{width: "110px"}}>
-                Reservations
-              </Button>
-            </Link>
-            <Link to={'/propertyReviews/'+ prop['prop_id']}>
-              <Button variant="contained" style={{width: "110px"}}>
-                Reviews
-              </Button>
-            </Link>
-            {/* <Link to={'/property/' + 11156}> */}
-            <Link to={'/AdForm/'+ prop['prop_id']}>
-              <Button variant="contained" style={{width: "110px"}}>
-                Edit
-              </Button>
-            </Link>
-            {/* <Link to={'/AdModule'}> */}
-              <Button variant="contained" style={{width: "110px"}} onClick={() => {removeProperty(prop['prop_id'])}}>
-                Delete
-              </Button>
-            {/* </Link> */}
           </div>
         </div>
       </li>
