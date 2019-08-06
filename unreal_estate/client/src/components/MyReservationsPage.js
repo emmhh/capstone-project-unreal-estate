@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import '../css/MyReservationsPage.css';
 var ConfigFile = require('../config');
 
 class MyReservationsPage extends Component {
@@ -177,7 +178,7 @@ class MyReservationsPage extends Component {
                                                 {this.state.property ?
                                                     <p style={{margin: '0px'}}>{this.state.property.buildingType}</p>
                                                     : null
-                                                } 
+                                                }
                                             </div>
                                             <hr style={{margin: "2px"}}></hr>
                                             <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>

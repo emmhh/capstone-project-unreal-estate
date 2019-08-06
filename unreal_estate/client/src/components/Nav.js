@@ -94,7 +94,7 @@ class Nav extends Component {
     var is_user_logged_in = this.state.is_user_logged_in;
     let button, profileLink, bookingLink, signUpLink;
     if (is_user_logged_in){
-      button =  <Button onClick={this.logout}>Logout</Button>;
+      button =  <Button class='button' onClick={this.logout}>Logout</Button>;
 
       profileLink = <Link to='/profile' style={{ textDecoration: 'none' }}>
           <ListItem button>
@@ -120,11 +120,11 @@ class Nav extends Component {
     } else {
 
       button = <Link to='/login'>
-        <Button >Login</Button>
+        <Button class='button'>Login</Button>
       </Link>;
 
       signUpLink = <Link to='/signup' >
-        <Button >Signup</Button>
+        <Button class='button'>Signup</Button>
       </Link>;
 
       profileLink = null;
@@ -138,7 +138,7 @@ class Nav extends Component {
                   <MenuIcon />
               </IconButton>
             <Link to='/'>
-              <Button href="/" variant="title" color="inherit">
+              <Button class='button' href="/" variant="title" >
                   Unreal Estate
               </Button>
             </Link>

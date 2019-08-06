@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import '../css/MyBookingsPage.css';
 var ConfigFile = require('../config');
 
 class MyBookingsPage extends Component {
@@ -144,59 +145,63 @@ class MyBookingsPage extends Component {
                             {/* {console.log(this.state.properties[booking['property_id']])} */}
                             {/* {console.log(booking['property_id'])} */}
                             <div style={{width:'90%', margin: '50px'}}>
-                                <div className="mini-desc">
-                                    <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-                                        <div style={{width: "35%"}}>
+                                {/* <div className="mini-desc"> */}
+                                    <div  style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%"}}>
+                                    <div className="row">
+                                        <div className="col-md-7">
                                             {this.state.properties[booking['property_id']] ?
-                                                <img src={this.state.properties[booking['property_id']].images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
+                                                <img src={this.state.properties[booking['property_id']].images[0]} alt="image of property" style={{width:'100%', height:'450px', padding: '4px'}}></img>
                                                 : null
                                             }
                                         </div>
-                                        <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-                                            <div style={{float: 'left', display: 'inline-block'}}>
+                                            <div className="col-md-4 card-heading" >
+                                            <div>
                                                 {this.state.properties[booking['property_id']] ?
                                                     <h4 style={{margin: '0px'}}>{this.state.properties[booking['property_id']].name}</h4>
                                                     : null
                                                 }
                                             </div>
-                                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                            <div >
                                                 {this.state.properties[booking['property_id']] ?
                                                     <p style={{margin: '0px'}}>{this.state.properties[booking['property_id']].buildingType}</p>
                                                     : null
                                                 }
                                             </div>
-                                            <hr style={{margin: "2px"}}></hr>
-                                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                            <hr ></hr>
+                                            <div className="card-location">
                                                 <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
                                                 {this.state.properties[booking['property_id']] ?
                                                     <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.properties[booking['property_id']].address}</p>
                                                     : null
                                                 }
                                             </div>
+                                            <div className="card-date-div">
+                                                <p >Check In: {booking['startDate']}</p>
+                                                <p >Check Out: {booking['endDate']}</p>
+                                                <p >Total Price: ${booking['price']}</p>
+                                            </div>
+                                            <div className="card-buttons">
+                                                {Date.parse(booking['endDate']) < Math.round(new Date()) ?
+                                                booking['rated'] == false ?
+                                                <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id']}>
+                                                    <Button color="primary" variant="contained" style={{width: "120px"}}>
+                                                        Write Review
+                                                    </Button>
+                                                </Link>:
+                                                <Link to={'/property/' + booking['property_id']}>
+                                                    <Button color="primary" variant="contained" style={{width: "120px"}}>
+                                                        View Review
+                                                    </Button>
+                                                </Link>:
+                                                        <Button color="secondary" variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
+                                                    Cancel Booking
+                                                </Button>}
+                                            </div>
                                         </div>
-                                        <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
-                                            <p style={{marginTop: '55px'}}>Check In: {booking['startDate']}</p>
-                                            <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
-                                            <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
-                                        </div>
-                                        {Date.parse(booking['endDate']) < Math.round(new Date()) ?
-                                        booking['rated'] == false ?
-                                        <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id']}>
-                                            <Button variant="contained" style={{width: "120px"}}>
-                                                Write Review
-                                            </Button>
-                                        </Link>:
-                                        <Link to={'/property/' + booking['property_id']}>
-                                            <Button variant="contained" style={{width: "120px"}}>
-                                                View Review
-                                            </Button>
-                                        </Link>:
-                                        <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-                                            Cancel Booking
-                                        </Button>}
+                                    </div>
                                     </div>
                                 </div>
-                            </div>
+                            {/* </div> */}
                         </li>
                         ))}
                     </ul>
