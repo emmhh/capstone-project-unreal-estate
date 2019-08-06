@@ -92,8 +92,8 @@ class AdForm extends Component {
         console.log('it came to finally');
         var propertyData = JSON.stringify(this.state);
         localStorage.setItem('property', propertyData);
-        // window.location.href = ConfigFile.Config.server + 'AdPreview';
-        window.location.href = 'http://localhost:3000/AdPreview';
+        window.location.href = ConfigFile.Config.server + 'AdPreview';
+        // window.location.href = 'http://localhost:3000/AdPreview';
       });
     }
   }
