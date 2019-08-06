@@ -28,3 +28,10 @@ week 7 (15/7 - 21/7)
 	remain unfinished. Need to know how to setup the database and debug.
 	- updated the ER diagram corresponding to the advertising module.
 	- setted up database on admodule branch, need to fix the owner-id issue
+week 8 (22/7 - 30/7)
+        - finished advertising module Except for uploading image and transfer it to url.
+        - thoughly tested the code and discovered some bugs.(ui inconsistent, preview missed some details, etc)
+        - fixed some of the bugs in advertising module.
+week 9 (31/7 - 6/7)
+        - implemented property listing on home page. it will recommend a list of properties based on users' current location.
+        - merged with other branch turns out adding new property is not working, need to fix it after image upload is implementated.
