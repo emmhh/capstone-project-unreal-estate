@@ -91,50 +91,55 @@ class BookingConfirmation extends Component {
 
     render() {
         return (
-            <div style={{width:'90%', margin: '50px'}}>
+            <div style={{ width: '90%', margin: '20px' }}>
                 <div className="mini-desc">
-                    <h1> Booking Confirmation: {this.state.booking_id} </h1>
-                    <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-                        <div style={{width: "35%"}}>
-                        <img src={this.state.images} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-                        </div>
-                        <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-                        <div style={{float: 'left', display: 'inline-block'}}>
-                            <h4 style={{margin: '0px'}}>{this.state.name}</h4>
-                        </div>
-                        <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                            <p style={{margin: '0px'}}>{this.state.buildingType}</p>
-                        </div>
-                        <hr style={{margin: "2px"}}></hr>
-                        <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                            <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-                            <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
-                        </div>
-                        </div>
-                        <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
-                            <p style={{marginTop: '55px'}}>Check In: {this.state.startDate}</p>
-                            <p style={{marginTop: '55px'}}>Check Out: {this.state.endDate}</p>
-                            <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
-                        </div>
-                        <Link to={''}>
-                            {/* <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
-                                Change
-                            </Button> */}
-                            <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(this.state.booking_id)}>
-                                Cancel Booking
-                            </Button>
-                        </Link>
+                        <h1> Booking Confirmation: {this.state.booking_id} </h1>
+                        <div style={{ textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
+                            <div className="row">
+                                <div className="col-md-7">
+                                    <img src={this.state.images} alt="image of property" style={{ width: '100%', height: '450px', padding: '4px' }}></img>
+                                </div>
+                                <div className="col-md-4" style={{ "margin-top": "20px" }}>
+                                    <div style={{float: 'left', display: 'inline-block'}}>
+                                        <h4 style={{margin: '0px'}}>{this.state.name}</h4>
+                                    </div>
+                                    <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                        <p style={{margin: '0px'}}>{this.state.buildingType}</p>
+                                    </div>
+                                    <hr style={{margin: "2px"}}></hr>
+                                    <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                        <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
+                                        <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
+                                    </div>
+                                    <div style={{textAlign: "left", padding: '10px'}}>
+                                        <p >Check In: {this.state.startDate}</p>
+                                        <p >Check Out: {this.state.endDate}</p>
+                                        <p >Total Price: ${this.state.total_price}</p>
+                                    </div>
+                                    <Link to={''}>
+                                        {/* <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
+                                            Change
+                                        </Button> */}
+                                        <Button variant="contained" color="secondary" onClick={() => this.handleCancellation(this.state.booking_id)}>
+                                            Cancel Booking
+                                        </Button>
+                                    </Link>
+                                    <Link to={''}>
+                                        <Button variant="contained" color="primary" style={{ margin: "10px", verticalAlign: 'top' }}>
+                                            Return to Homepage
+                                        </Button>
+                                    </Link>
+                                </div>
 
+                            </div>
+                        </div>
+                    <div style={{ textAlign: 'center', display: 'block', width: "100%", margin: "30px" }}>
+                            {this.state.is_loading ? null :
+                                <SimpleMap lat={this.state.lat} lng={this.state.lng}></SimpleMap>
+                            }
+                        </div>
                     </div>
-                    <Link to={''}>
-                        <Button  variant="contained" style={{margin: "1%", verticalAlign: 'top'}}>
-                            Return to Homepage
-                        </Button>
-                    </Link>
-                    {this.state.is_loading ? null :
-                        <SimpleMap lat={this.state.lat} lng={this.state.lng}></SimpleMap>
-                    }
-                </div>
+
             </div>
         )
     }
