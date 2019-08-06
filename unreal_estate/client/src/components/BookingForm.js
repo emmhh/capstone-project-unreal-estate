@@ -120,7 +120,7 @@ class BookingForm extends Component {
         })
     }
     onChange = () => {
-        return <p style={{marginTop: '55px'}}>Total Price: ${this.state.total_price}</p>
+        return <p>Total Price: ${this.state.total_price}</p>
     }
 
     handleChange = event => {
@@ -134,45 +134,49 @@ class BookingForm extends Component {
 
     render() {
         return (
-            <div style={{width:'80%', margin: '50px'}}>
+            <div style={{width:'90%', margin: '20px'}}>
                 {this.renderRedirect()}
                 <div className="mini-desc">
-                    <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-                        <div style={{width: "35%"}}>
-                            <img src={this.state.images} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-                        </div>
-                        <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-                            <div style={{float: 'left', display: 'inline-block'}}>
-                                <h4 style={{margin: '0px'}}>{this.state.name}</h4>
+                    <div style={{ textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
+                        <div className="row">
+                            <div className="col-md-7">
+                                <img src={this.state.images} alt="image of property" style={{ width: '100%', height: '450px', padding: '4px' }}></img>
                             </div>
-                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                                <p style={{margin: '0px'}}>{this.state.buildingType}</p>
+                            <div className="col-md-4" style={{"margin-top": "20px"}}>
+                                <div style={{float: 'left', display: 'inline-block'}}>
+                                    <h4 style={{margin: '0px'}}>{this.state.name}</h4>
+                                </div>
+                                <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                    <p style={{margin: '0px'}}>{this.state.buildingType}</p>
+                                </div>
+                                <div style={{clear:'both', display: 'flex'}}>
+                                    <FontAwesomeIcon icon={faBed} size="lg"/>
+                                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_beds}</p>
+                                    <FontAwesomeIcon icon={faBath} size="lg"/>
+                                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
+                                    <FontAwesomeIcon icon={faUser} size="lg"/>
+                                    <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_guests}</p>
+                                </div>
+                                <hr style={{margin: "2px"}}></hr>
+                                <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                    <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
+                                    <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
+                                </div>
+                                <hr style={{margin: "2px"}}></hr>
+                                <div style={{clear:'both', display: 'flex'}}>
+                                    <FontAwesomeIcon icon={faStar} size="lg"/>
+                                    <p style={{margin: '0px', paddingLeft: "5px"}}>x.x</p>
+                                </div>
+                                <div style={{ clear: 'both', display: 'flex' }}>
+                                    <p >Price: ${this.state.price}</p>
+                                    <br></br>
+                                    <hr></hr>
+                                    {this.onChange()}
+                                </div>
                             </div>
-                            <div style={{clear:'both', display: 'flex'}}>
-                                <FontAwesomeIcon icon={faBed} size="lg"/>
-                                <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_beds}</p>
-                                <FontAwesomeIcon icon={faBath} size="lg"/>
-                                <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
-                                <FontAwesomeIcon icon={faUser} size="lg"/>
-                                <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_guests}</p>
-                            </div>
-                            <hr style={{margin: "2px"}}></hr>
-                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                                <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-                                <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
-                            </div>
-                            <hr style={{margin: "2px"}}></hr>
-                            <div style={{clear:'both', display: 'flex'}}>
-                                <FontAwesomeIcon icon={faStar} size="lg"/>
-                                <p style={{margin: '0px', paddingLeft: "5px"}}>x.x</p>
-                            </div>
-                        </div>
-                        <div style={{width:'17%', display: 'inline-block', padding: '10px'}}>
-                            <p style={{marginTop: '55px'}}>Price: ${this.state.price}</p>
-                            {this.onChange()}
                         </div>
                     </div>
-                    <div className="BookingingComponent-div">
+                    <div className="BookingingComponent-div" style={{textAlign: "center", marginTop: "20px"}}>
                         <div style={{padding: "20px 0px", display: "inlineBlock"}}>
                             <div onClick={this.handleChange}>
                                 <DatePickers/>
