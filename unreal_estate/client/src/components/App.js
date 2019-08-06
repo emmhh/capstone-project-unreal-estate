@@ -39,7 +39,7 @@ class App extends Component {
           <Route exact path='/AdModule' component={AdModule}/>   {/** fix css later */}
           <Route exact path='/AdPreview' component={AdPreview} />  {/** fix css later */}
           <Route exact path='/AdForm/:property_id' component={AdForm}/>
-          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage}/>
+          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage} /> {/** fix css later */}
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />

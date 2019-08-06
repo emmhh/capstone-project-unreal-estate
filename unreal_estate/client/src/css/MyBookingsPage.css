@@ -1,0 +1,12 @@
+.card-heading {
+  text-align: left;
+}
+.card-location {
+  display: flex;
+}
+.card-date-div {
+  margin-top: 10px;
+}
+.card-buttons {
+  text-align: center;
+}
