@@ -36,8 +36,8 @@ class App extends Component {
         {/* <ToastContainer /> */}
         <Switch>
           <Route exact path='/' component={HomePage}/>
-          <Route exact path='/AdModule' component={AdModule}/>
-          <Route exact path='/AdPreview' component={AdPreview}/>
+          <Route exact path='/AdModule' component={AdModule}/>   {/** fix css later */}
+          <Route exact path='/AdPreview' component={AdPreview} />  {/** fix css later */}
           <Route exact path='/AdForm/:property_id' component={AdForm}/>
           <Route exact path='/AdReservations/:property_id' component={MyReservationsPage}/>
           <Route exact path='/signup' component={SignupPage} />

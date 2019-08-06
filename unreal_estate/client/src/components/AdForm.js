@@ -13,8 +13,8 @@ import {
 import { toast } from 'react-toastify';
 import { elementType } from 'prop-types';
 import scriptLoader from 'react-async-script-loader'
+import '../css/AdForm.css';
 var ConfigFile = require('../config');
-// import '../css/AdForm.css';
 
 class AdForm extends Component {
 
@@ -255,7 +255,8 @@ class AdForm extends Component {
   render() {
     // const { name, buildingType, location, avgRating } = this.state;
     return(
-    <div>
+    <div class='container container-div'>
+        <h1>Create Property</h1>
       <Form>
         {/* <Form.Group controlId="city">
           <Form.Label>1. Which city?</Form.Label>
@@ -342,25 +343,28 @@ class AdForm extends Component {
         {/* 1. if the property already exists ,user can click update button after update the property to submit the form directly, and get redirected to homepage;
             2. if the property doesnot exist, user can click finsih button to be redirected to a preview page to double
           check the info provided, and user is able to click submit button from preview page to post the info to the databse. */}
-        { this.state.existed ?
-          <Link to='/AdModule'>
-            <Button variant="contained" style={{width: "150px"}} onClick={this.makeSubmission(this.state)}>
-              Update
-            </Button>
-          </Link>
-        :
-          // <Link to='/AdPreview'>
-          <div>
-            <Form.Group controlId="price">
-              <input label='upload file' type='file' onChange={this.handleFileUpload} />
-            </Form.Group>
-            <Button variant="contained" style={{width: "150px"}} onClick={this.submitForm}>
-              Preview
-            </Button>
-          </div>
-          // </Link>
+        {this.state.existed ? null :
+          <Form.Group controlId="price">
+            <input label='upload file' type='file' onChange={this.handleFileUpload} />
+          </Form.Group>
         }
-        <Link to='/AdModule'><Button variant="contained" style={{width: "150px"}}>Return</Button></Link>
+        <div class='button'>
+          { this.state.existed ?
+            <Link to='/AdModule'>
+                <Button color="primary" variant="contained" style={{width: "150px"}} onClick={this.makeSubmission(this.state)}>
+                Update
+              </Button>
+            </Link>
+            :
+            // <Link to='/AdPreview'>
+            <Button color="primary"  variant="contained" style={{width: "150px"}} onClick={this.submitForm}>
+                  Preview
+                </Button>
+
+            // </Link>
+          }
+          <Link to='/AdModule' class="button"><Button color="secondary"  variant="contained" style={{width: "150px"}}>Return</Button></Link>
+        </div>
       </Form>
     </div>);
     // if (this.state.prop_id == null){
