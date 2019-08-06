@@ -58,7 +58,7 @@ class PropertyPage extends Component {
                         this.setState({prop_id: property_id});
                         loading1 = false
                         if(loading2 === false){
-                           this.setState({ is_loading: false }); 
+                           this.setState({ is_loading: false });
                         }
                     });
                 });
@@ -78,7 +78,7 @@ class PropertyPage extends Component {
                         console.log(this.state.reviews);
                         loading2 = false
                         if(loading1 === false){
-                           this.setState({ is_loading: false }); 
+                           this.setState({ is_loading: false });
                         }
                     });
                 });
@@ -89,9 +89,9 @@ class PropertyPage extends Component {
         const { is_loading } = this.state
         if (is_loading === false) {
             return (
-                <div style={{textAlign: "centre", display: "block", width: "50%", margin: "0px auto"}}>
-                    <img src={this.state.images[0]}/>
+                <div className="container" style={{textAlign: "centre", "margin-top": "20px", border: "solid"}}>
                     <h1>{this.state.name}</h1>
+                <img src={this.state.images[0]} style={{margin: "10px"}}/>
                     <div style={{clear:'both', display: 'inline-flex', paddingTop: '5px', paddingBottom: '5px'}}>
                         <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
                         <h3 style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</h3>

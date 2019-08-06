@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import '../css/MyReservationsPage.css';
 var ConfigFile = require('../config');
 
 class MyReservationsPage extends Component {
@@ -136,7 +137,6 @@ class MyReservationsPage extends Component {
                             {console.log(Date.parse(booking['endDate']) < Math.round(new Date()))}
                             <div style={{width:'90%', margin: '50px'}}>
                                 <div className="mini-desc">
-                                    
                                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                                         <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
                                             <p style={{marginTop: '55px'}}>Check In: {booking['startDate']}</p>

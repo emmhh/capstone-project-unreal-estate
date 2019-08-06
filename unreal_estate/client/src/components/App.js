@@ -39,13 +39,13 @@ class App extends Component {
           <Route exact path='/AdModule' component={AdModule}/>   {/** fix css later */}
           <Route exact path='/AdPreview' component={AdPreview} />  {/** fix css later */}
           <Route exact path='/AdForm/:property_id' component={AdForm}/>
-          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage}/>
+          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage} /> {/** fix css later */}
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
           <Route exact path='/mybookings' component={MyBookingsPage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
-          <Route exact path='/submitReview/:property_id/:booking_id' component={PropertyReviewSubmitPage} />
+          <Route exact path='/submitReview/:property_id/:booking_id' component={PropertyReviewSubmitPage} /> {/** fix css later */}
           {/* <Route exact path='/review/:booking_id' component={PropertyReviewViewPage} /> */}
           <Route exact path='/propertyReviews/:property_id' component={PropertyReviewPage} />
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
