@@ -6,6 +6,9 @@ from pathlib import Path
 import pickle as pk
 import glob
 import sys
+from urllib.request import urlopen
+import zipfile 
+from io import BytesIO
 
 
 import implementation as imp
@@ -50,7 +53,15 @@ def load_glove_embeddings():
     else:
         # create the embeddings
         print("Building embeddings dictionary...")
-        data = open(dir_path + "/glove.6B.50d.txt", 'r', encoding="utf-8")
+        try: 
+            with open(dir_path + "/glove.6B.50d.txt", 'r', encoding="utf-8") as f: 
+                data = f.readlines() 
+        except OSError as e: 
+            print(e)
+            r = urlopen("http://www.cse.unsw.edu.au/~cs9444/18s2/hw2/Assignment2.zip") 
+            with zipfile.ZipFile(BytesIO(r.read())) as z: 
+                with z.open("glove.6B.50d.txt") as f: 
+                    data = f.readlines() 
         embeddings = [[0] * EMBEDDING_SIZE]
         word_index_dict = {'UNK': 0}  # first row is for unknown words
         index = 1
@@ -61,7 +72,6 @@ def load_glove_embeddings():
             embeddings.append(embedding)
             word_index_dict[word] = index
             index += 1
-        data.close()
 
         # pickle them
         with open(dir_path + '/embeddings.pkl', 'wb') as f:
