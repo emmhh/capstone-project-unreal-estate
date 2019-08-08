@@ -183,7 +183,7 @@ class MyBookingsPage extends Component {
                                             <div className="card-buttons">
                                                 {Date.parse(booking['endDate']) < Math.round(new Date()) ?
                                                 booking['rated'] == false ?
-                                                <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id']}>
+                                                <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id'] + '/'}>
                                                     <Button color="primary" variant="contained" style={{width: "120px"}}>
                                                         Write Review
                                                     </Button>
@@ -198,24 +198,7 @@ class MyBookingsPage extends Component {
                                                 </Button>}
                                             </div>
                                         </div>
-<<<<<<< HEAD
-                                        <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
-                                            <p style={{marginTop: '55px'}}>Check In: {booking['startDate']}</p>
-                                            <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
-                                            <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
-                                        </div>
-                                        {Date.parse(booking['endDate']) < Math.round(new Date()) ?
-                                        <Link to={'/submitReview/' + booking['booking_id']}>
-                                            <Button variant="contained" style={{width: "120px"}}>
-                                                Write Review
-                                            </Button>
-                                        </Link>:
-                                        <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-                                            Cancel Booking
-                                        </Button>}
-=======
                                     </div>
->>>>>>> 0d17324c5636670e4acd5484c7a65bd893ffab28
                                     </div>
                                 </div>
                             {/* </div> */}
