@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import '../css/MyReservationsPage.css';
 var ConfigFile = require('../config');
@@ -143,16 +144,22 @@ class MyReservationsPage extends Component {
                                             <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
-                                        {/* {Date.parse(booking['endDate']) < Math.round(new Date()) ?
-                                        <Link to={'/review/' + booking['booking_id']}>
-                                            <Button variant="contained" style={{width: "120px"}}>
+                                        {Date.parse(booking['endDate']) < Math.round(new Date()) ?
+                                        booking['rated'] == false ?
+                                        <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id'] + '/'}>
+                                            <Button color="primary" variant="contained" style={{width: "120px"}}>
+                                                Write Review
+                                            </Button>
+                                        </Link>:
+                                        <Link to={'/property/' + booking['property_id']}>
+                                            <Button color="primary" variant="contained" style={{width: "120px"}}>
                                                 View Review
                                             </Button>
-                                        </Link>: */}
+                                        </Link>:
                                         <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
                                             Cancel Reservation
                                         </Button>
-                                        {/* } */}
+                                        }
                                     </div>
                                 </div>
                             </div>

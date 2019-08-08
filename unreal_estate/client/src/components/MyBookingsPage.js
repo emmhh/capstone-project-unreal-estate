@@ -193,9 +193,10 @@ class MyBookingsPage extends Component {
                                                         View Review
                                                     </Button>
                                                 </Link>:
-                                                        <Button color="secondary" variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-                                                    Cancel Booking
-                                                </Button>}
+                                                    <Button color="secondary" variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
+                                                        Cancel Booking
+                                                    </Button>
+                                                }
                                             </div>
                                         </div>
                                     </div>
