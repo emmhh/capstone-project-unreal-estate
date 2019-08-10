@@ -51,11 +51,11 @@ const Entries = props => {
               </div>
               <div style={{clear:'both', display: 'flex', margin: "2px"}}>
                 <FontAwesomeIcon icon={faBed} size="lg"/>
-                <p >{prop['num_beds']}</p>
+                <p style={{paddingRight: '5px'}}>{prop['num_beds']}</p>
                 <FontAwesomeIcon icon={faBath} size="lg"/>
-                <p >{prop['num_bathrooms']}</p>
+                <p style={{paddingRight: '5px'}}>{prop['num_bathrooms']}</p>
                 <FontAwesomeIcon icon={faUser} size="lg"/>
-                <p >{prop['num_guests']}</p>
+                <p style={{paddingRight: '5px'}}>{prop['num_guests']}</p>
               </div>
               <hr style={{margin: "2px"}}></hr>
               <div style={{ clear: 'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px', margin: "2px" }}>
