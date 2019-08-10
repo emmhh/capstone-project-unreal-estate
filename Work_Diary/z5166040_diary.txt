@@ -39,3 +39,16 @@ Week 7 (15/7-23/7)
   - Property Details Page GET request linked to backend
   - Making Booking Page POST request linked to backend
   - Phone Meeting {21/7}
+
+Week 8 (24/7-30/7)
+  - Reservations page for owner finished
+  - Meeting {26/7}
+  - Bookings page for renter front end finished
+  - Phone Meeting {29/7}
+
+Week 9 (31/7-4/8)
+  - Bookings page for renter front and back end finished
+  - Meeting {3/8}
+  - Finished review form
+  - Included review backend calls 
+  - Meeting {5/8}

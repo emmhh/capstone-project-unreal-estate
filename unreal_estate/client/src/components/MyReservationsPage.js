@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import '../css/MyReservationsPage.css';
 var ConfigFile = require('../config');
@@ -13,8 +13,24 @@ class MyReservationsPage extends Component {
         this.state = {
             date: null,
             bookings: null,
-            property: null,
-            isLoading: true
+            isLoading: true,
+            property_id: null,
+            address: null,
+            latitude: null,
+            longitude: null,
+            num_rooms: null,
+            num_bathrooms: null,
+            num_guests: null,
+            num_beds: null,
+            description: null,
+            space: null,
+            name: null,
+            features: null,
+            building_type: null,
+            price: null,
+            avg_rating: null,
+            images: null,
+            owner_id: null,
         };
         this.init = this.init.bind(this);
         this.init();
@@ -35,80 +51,24 @@ class MyReservationsPage extends Component {
             response.json().then( async (data) => {
                 this.setState({
                     bookings: data['bookings'],
+                });
+            });
+        });
+        await fetch(propUrl, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }).then((response) => {
+            response.json().then(async (data) => {
+                this.setState(data);
+                this.setState({
                     isLoading: false
                 });
             });
         });
     }
-
-    // showBookings =  () => {
-    //     if (this.state.bookings.length === 0) {
-    //         return <h2> No Upcoming Reservations</h2>
-    //     }
-    //     else {
-
-    //         return (
-    //             <ul style={{listStyleType: 'none', padding: "0px"}}>
-    //                 { this.state.bookings.map(booking => (
-    //                     <li key={booking['property_id']}>
-    //                         {console.log(booking)}
-    //                         <div style={{width:'90%', margin: '50px'}}>
-    //                             <div className="mini-desc">
-    //                                 <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-    //                                     <div style={{width: "35%"}}>
-    //                                         {this.state.property ?
-    //                                             <img src={this.state.property.images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-    //                                             : null
-    //                                         }
-    //                                     </div>
-    //                                     <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-    //                                         <div style={{float: 'left', display: 'inline-block'}}>
-    //                                             {this.state.property ?
-    //                                                 <h4 style={{margin: '0px'}}>{this.state.property.name}</h4>
-    //                                                 : null
-    //                                             }
-    //                                         </div>
-    //                                         <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-    //                                             {this.state.property ?
-    //                                                 <p style={{margin: '0px'}}>{this.state.property.buildingType}</p>
-    //                                                 : null
-    //                                             }
-    //                                         </div>
-    //                                         <hr style={{margin: "2px"}}></hr>
-    //                                         <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-    //                                             <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-    //                                             {this.state.property ?
-    //                                                 <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.property.address}</p>
-    //                                                 : null
-    //                                             }
-    //                                         </div>
-    //                                     </div>
-    //                                 </div>
-    //                                 <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-    //                                     <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
-    //                                         <p style={{marginTop: '55px'}}>Check In: {booking['startDate']}</p>
-    //                                         <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
-    //                                         <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
-    //                                     </div>
-    //                                     {booking['endDate'].date() < this.state.date ?
-    //                                     <Link to={'/review/' + booking['booking_id']}>
-    //                                         <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-    //                                             Cancel Booking
-    //                                         </Button>
-    //                                     </Link>:
-    //                                     <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-    //                                         Cancel Reservation
-    //                                     </Button>}
-    //                                 </div>
-    //                             </div>
-    //                         </div>
-    //                     </li>
-    //                 ))}
-    //             </ul>
-
-    //         );
-    //     }
-    // }
 
     async handleCancellation(BID) {
         console.log("handleCancellation");
@@ -151,6 +111,24 @@ class MyReservationsPage extends Component {
                 this.state.bookings.length === 0 ?
                 <h2>No Reservations</h2> :
                 <ul style={{listStyleType: 'none', padding: "0px"}}>
+                    <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
+                        <div style={{width: "35%"}}>
+                            <img src={this.state.images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
+                        </div>
+                        <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
+                            <div style={{float: 'left', display: 'inline-block'}}>
+                                <h4 style={{margin: '0px'}}>{this.state.name}</h4>
+                            </div>
+                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                <p style={{margin: '0px'}}>{this.state.buildingType}</p> 
+                            </div>
+                            <hr style={{margin: "2px"}}></hr>
+                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                                <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
+                                <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
+                            </div>
+                        </div>
+                    </div>
                     {this.state.bookings.map(booking => (
                         <li key={booking['property_id']}>
                             {/* {console.log(booking)} */}
@@ -161,51 +139,27 @@ class MyReservationsPage extends Component {
                             <div style={{width:'90%', margin: '50px'}}>
                                 <div className="mini-desc">
                                     <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-                                        <div style={{width: "35%"}}>
-                                            {this.state.property ?
-                                                <img src={this.state.property.images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
-                                                : null
-                                            }
-                                        </div>
-                                        <div style={{width:'58%', display: 'inline-block', padding: '5px', paddingLeft: '15px'}}>
-                                            <div style={{float: 'left', display: 'inline-block'}}>
-                                                {this.state.property ?
-                                                    <h4 style={{margin: '0px'}}>{this.state.property.name}</h4>
-                                                    : null
-                                                }
-                                            </div>
-                                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                                                {this.state.property ?
-                                                    <p style={{margin: '0px'}}>{this.state.property.buildingType}</p>
-                                                    : null
-                                                }
-                                            </div>
-                                            <hr style={{margin: "2px"}}></hr>
-                                            <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                                                <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-                                                {this.state.property ?
-                                                    <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.property.address}</p>
-                                                    : null
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                                         <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
                                             <p style={{marginTop: '55px'}}>Check In: {booking['startDate']}</p>
                                             <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
                                             <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
                                         </div>
-                                        {/* {Date.parse(booking['endDate']) < Math.round(new Date()) ?
-                                        <Link to={'/review/' + booking['booking_id']}>
-                                            <Button variant="contained" style={{width: "120px"}}>
+                                        {Date.parse(booking['endDate']) < Math.round(new Date()) ?
+                                        booking['rated'] == false ?
+                                        <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id'] + '/'}>
+                                            <Button color="primary" variant="contained" style={{width: "120px"}}>
+                                                Write Review
+                                            </Button>
+                                        </Link>:
+                                        <Link to={'/property/' + booking['property_id']}>
+                                            <Button color="primary" variant="contained" style={{width: "120px"}}>
                                                 View Review
                                             </Button>
-                                        </Link>: */}
+                                        </Link>:
                                         <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
                                             Cancel Reservation
                                         </Button>
-                                        {/* } */}
+                                        }
                                     </div>
                                 </div>
                             </div>

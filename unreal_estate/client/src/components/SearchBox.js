@@ -1,5 +1,4 @@
 import React from 'react';
-import DateRangePickerWrapper from './DateRangePickerWrapper';
 import SearchTextBox from './SearchTextBox';
 import NumGuests from './NumGuests';
 import DatePickers from './DatePickers';

@@ -127,8 +127,9 @@ def UpdateRatingsWithClassifications (request, property_id):
 	if len(texts) > 0:
 		classifications = classify_batch(texts)
 		for i in range(len(ratings)):
-			ratings[i].value = classifications[i]
-			ratings[i].save()
+			if abs(ratings[i].value - classifications[i]) >= 2:
+				ratings[i].value = classifications[i]
+				ratings[i].save()
 	
 	ratings = ratings.values()
 	

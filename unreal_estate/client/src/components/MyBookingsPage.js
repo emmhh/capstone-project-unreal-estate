@@ -183,7 +183,7 @@ class MyBookingsPage extends Component {
                                             <div className="card-buttons">
                                                 {Date.parse(booking['endDate']) < Math.round(new Date()) ?
                                                 booking['rated'] == false ?
-                                                <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id']}>
+                                                <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id'] + '/'}>
                                                     <Button color="primary" variant="contained" style={{width: "120px"}}>
                                                         Write Review
                                                     </Button>
@@ -193,9 +193,10 @@ class MyBookingsPage extends Component {
                                                         View Review
                                                     </Button>
                                                 </Link>:
-                                                        <Button color="secondary" variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-                                                    Cancel Booking
-                                                </Button>}
+                                                    <Button color="secondary" variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
+                                                        Cancel Booking
+                                                    </Button>
+                                                }
                                             </div>
                                         </div>
                                     </div>

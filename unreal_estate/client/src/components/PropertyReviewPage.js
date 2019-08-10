@@ -222,6 +222,7 @@ class PropertyReviewPage extends Component {
             return (
                 <div>
                     <h3>Loading...</h3>
+                    <p>This may take a couple of minutes (only the first time) as this page requires downloding a 180MB file for the word2vec embeddings</p>
                 </div>
             );
         }

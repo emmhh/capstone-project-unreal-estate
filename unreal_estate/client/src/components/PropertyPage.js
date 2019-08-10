@@ -149,7 +149,7 @@ class PropertyPage extends Component {
                                   <div style={{clear:'both', display: 'inline-flex'}}>
                                     <FontAwesomeIcon icon={faStar} size="lg"/>
                                     <h4 style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{r['value']}</h4>
-                                    <p>published on {r['date']}</p>
+                                    <p>published on {r['date'].slice(8,10)}/{r['date'].slice(5,7)}/{r['date'].slice(0,4)}</p>
                                   </div>
                                   <div style={{clear:'both', display: 'block'}}>
                                     <p>{r['notes']}</p>
