@@ -1,3 +1,4 @@
+Yang Ma - z5100105
 Week 1 (2/6 - 9/6)
 	- chose topic based on team members skill level.
 	- Set up Trello for project management.
@@ -36,7 +37,7 @@ week 9 (31/7 - 4/8)
         - implemented property listing on home page. it will recommend a list of properties based on users' current location.
         - merged with other branch turns out adding new property is not working, need to fix it after image upload is implementated.
 week 10 (4/8 - 11/8)
-	- debug on advertising module
-	- report
+	- meeting
 	- uml, er diagram, sequence，
 	- sequence diagram
+	- finished up the report
