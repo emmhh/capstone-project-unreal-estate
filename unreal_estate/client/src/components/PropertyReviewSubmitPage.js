@@ -98,17 +98,17 @@ class PropertyReviewSubmitPage extends Component {
         <div className="Review-div" style={{textAlign: "-webkit-center"}}>
             <h1>Submit A Review</h1>
             <Form container onSubmit={this.handleSubmit}>
-            <FormLabel>Give Overall Rating</FormLabel>
+            <FormLabel style={{ margin: "10px" }}>Give Overall Rating</FormLabel>
             <StarRatings
-                rating={this.state.rating}    
+                rating={this.state.rating}
                 starRatedColor="gold"
                 changeRating={this.changeRating.bind(this)}
                 numberOfStars={5}
                 name='rating'
             />
             <Form.Group controlId="description" bsSize="large" style={{width: "50%"}}>
-            <FormLabel>Leave A Review</FormLabel>
-            <FormControl 
+            {/* <FormLabel>Leave A Review</FormLabel> */}
+            <FormControl
                 as='textarea'
                 autoFocus
                 type="description"
