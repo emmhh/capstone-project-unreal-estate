@@ -41,6 +41,7 @@ class BookingConfirmation extends Component {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': localStorage.getItem('Token'),
                 },
             })
             .then((res) => {
@@ -52,6 +53,7 @@ class BookingConfirmation extends Component {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': localStorage.getItem('Token'),
                         },
                         })
                         .then((res) => {
@@ -82,6 +84,7 @@ class BookingConfirmation extends Component {
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': localStorage.getItem('Token'),
             }
         })
         .then(result => {

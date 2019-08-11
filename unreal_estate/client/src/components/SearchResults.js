@@ -42,6 +42,7 @@ export default function SearchResults() {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('Token'),
       },
       body: JSON.stringify({
         address: localStorage.getItem('address'),

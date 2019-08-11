@@ -47,6 +47,7 @@ class MyReservationsPage extends Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': localStorage.getItem('Token'),
             },
         }).then((response) => {
             response.json().then( async (data) => {
@@ -60,6 +61,7 @@ class MyReservationsPage extends Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': localStorage.getItem('Token'),
             },
         }).then((response) => {
             response.json().then(async (data) => {
@@ -82,6 +84,7 @@ class MyReservationsPage extends Component {
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': localStorage.getItem('Token'),
             }
         })
         .then(result => {
@@ -91,6 +94,7 @@ class MyReservationsPage extends Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': localStorage.getItem('Token'),
             },
         }).then((response) => {
             response.json().then(async (data) => {

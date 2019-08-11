@@ -20,6 +20,7 @@ class SignupPage extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': localStorage.getItem('Token'),
         },
         body: JSON.stringify({
           userDetails: userDetails,

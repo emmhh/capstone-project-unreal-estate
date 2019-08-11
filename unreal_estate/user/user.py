@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import json
+import jwt
 from django.views.decorators.csrf import csrf_exempt
 # import the logging library
 import logging
@@ -65,8 +66,8 @@ def user(request):
     user.phone = userDetails['phone']
     user.email = userDetails['email']
     user.gender = userDetails['gender']
-    
-    # Save new user 
+
+    # Save new user
     try:
       user.save()
     except IntegrityError as ex:
@@ -113,8 +114,8 @@ def user(request):
     user.phone = userDetails['phone']
     user.email = userDetails['email']
     user.gender = userDetails['gender']
-    
-    # Save new user 
+
+    # Save new user
     try:
       user.save()
     except IntegrityError as ex:
@@ -130,7 +131,7 @@ def loginReq(request):
 
   # POST
   if (request.method == "POST"):
-    
+
     debugLogger.debug("***********")
     debugLogger.debug("Login user")
     debugLogger.debug("***********")
@@ -151,7 +152,7 @@ def loginReq(request):
       responce = JsonResponse({'error': 'Required parameters not met.'})
       responce.status_code = 400
       return responce
-    
+
     # Authenticate user
     try:
       user = User.objects.get(username=email, password=password)
@@ -163,8 +164,11 @@ def loginReq(request):
     debugLogger.info("User is {}".format(user))
     if user is not None:
       login(request, user)
+      token = jwt.encode(
+          {"username": email, "password": password}, 'secret', algorithm='HS256')
       debugLogger.info('user logged in successfully')
-      responce = JsonResponse({'msg': 'Successfully logged in'})
+      responce = JsonResponse({'msg': 'Successfully logged in',
+                               "token": token.decode("utf-8")})
       return responce
 @csrf_exempt
 def logoutReq(request):
@@ -178,7 +182,7 @@ def logoutReq(request):
         'user_logged_in' : False,
   })
   return responce
-@csrf_exempt    
+@csrf_exempt
 def testLogin(request):
 
   # GET
@@ -192,7 +196,7 @@ def testLogin(request):
         'msg': 'User is not logged in.',
         'user_logged_in' : False,
       })
-      return responce  
+      return responce
     else:
       responce = JsonResponse({
         'msg': 'User is logged in.',

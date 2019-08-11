@@ -50,6 +50,7 @@ class LoginPage extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': localStorage.getItem('Token'),
       },
       body: JSON.stringify({
         email: this.state.email,
@@ -61,7 +62,17 @@ class LoginPage extends Component {
         throw result;
       }
       console.log(result);
-      fetch(`${ConfigFile.Config.server}user/testlogin`)
+      return result.json();
+    })
+    .then(result => {
+      var Token = result.token
+      console.log(result);
+      localStorage.setItem('Token', Token)
+      fetch(`${ConfigFile.Config.server}user/testlogin`,{
+        headers: {
+          'Authorization': Token,
+        }
+      })
       .then((resultLogin) => {
         return resultLogin.json()
       })
@@ -78,6 +89,7 @@ class LoginPage extends Component {
         if (user_logged_in){
           console.log('it came to redirect.');
           window.location.href = ConfigFile.Config.server;
+          // window.location.href = '/';
         }
       });
     })
