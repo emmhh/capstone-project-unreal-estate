@@ -42,5 +42,32 @@ Week 7 (15/7-23/7)
   - Added React toaster on the frontend
   - Meeting {15/7}
   - Compiled and merged code to master
-  - Resolved merge conflicts 
+  - Resolved merge conflicts
   - Phone Meeting {21/7}
+
+
+Week 8 (24/7-30/7)
+  - Fixed property page render
+  - Meeting {26/7}
+  - Started working on google maps for frontend
+  - Phone Meeting {29/7}
+  - Merged booking form to master and resolved merged conflicts
+
+Week 9 (31/7-4/8)
+  - Fixed merged conflicts on master
+  - Worked on showing directions to destination from current location
+  - Fixed frontend urls so that frontend browser reloading can work
+  - Meeting {3/8}
+  - Fixed stuff for login and logout state
+  - Meeting {5/8}
+
+Week 10 (4/8-11/8)
+  - Configured google api to autocomplete address
+  - Merged Mervin and Clives branch to master and fixed merge conflicts
+  - Added config files for react
+  - Made frontend pagination for show search results page
+  - Configured cloudinary api to upload property image while creating property and added static link on website to show default image
+  - Added JWT for login
+  - Fixed search box
+  - Wrote powershell script to install all dependencies.
+  - Worked on final report
