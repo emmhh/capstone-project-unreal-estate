@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import AdTable from './AdTable';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBed, faBath, faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import '../css/MyReservationsPage.css';
 var ConfigFile = require('../config');
 
@@ -111,7 +112,7 @@ class MyReservationsPage extends Component {
                 this.state.bookings.length === 0 ?
                 <h2>No Reservations</h2> :
                 <ul style={{listStyleType: 'none', padding: "0px"}}>
-                    <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
+                    {/* <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
                         <div style={{width: "35%"}}>
                             <img src={this.state.images[0]} alt="image of property" style={{width:'300px', height:'200px', float: 'left', display: 'inline-block', padding: '4px'}}></img>
                         </div>
@@ -120,7 +121,7 @@ class MyReservationsPage extends Component {
                                 <h4 style={{margin: '0px'}}>{this.state.name}</h4>
                             </div>
                             <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                                <p style={{margin: '0px'}}>{this.state.buildingType}</p> 
+                                <p style={{margin: '0px'}}>{this.state.buildingType}</p>
                             </div>
                             <hr style={{margin: "2px"}}></hr>
                             <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
@@ -128,9 +129,10 @@ class MyReservationsPage extends Component {
                                 <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</p>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+                    <AdTable propertyData={[this.state]} hideButtons={true} />
                     {this.state.bookings.map(booking => (
-                        <li key={booking['property_id']}>
+                        <li key={booking['property_id']} style={{ textAlign: "-webkit-center"}}>
                             {/* {console.log(booking)} */}
                             {console.log("now " + Math.round(new Date()))}
                             {/* {console.log("3 " + booking['endDate'])} */}
@@ -138,28 +140,34 @@ class MyReservationsPage extends Component {
                             {console.log(Date.parse(booking['endDate']) < Math.round(new Date()))}
                             <div style={{width:'90%', margin: '50px'}}>
                                 <div className="mini-desc">
-                                    <div style={{textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
-                                        <div style={{width:'30%', display: 'inline-block', padding: '10px'}}>
-                                            <p style={{marginTop: '55px'}}>Check In: {booking['startDate']}</p>
-                                            <p style={{marginTop: '55px'}}>Check Out: {booking['endDate']}</p>
-                                            <p style={{marginTop: '55px'}}>Total Price: ${booking['price']}</p>
+                                    <div style={{ textAlign: '-webkit-center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "50%"}}>
+                                        <div class="row">
+                                            <div class="col-md-6" style={{ display: 'inline-block', padding: '10px'}}>
+                                                <p >Check In: {booking['startDate']}</p>
+                                                <p >Check Out: {booking['endDate']}</p>
+                                                <p >Total Price: ${booking['price']}</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div style={{height: "50%",margin: "auto",position: "absolute",top: 0, left: 0, bottom: 0, right: 0}}>
+                                                    {Date.parse(booking['endDate']) < Math.round(new Date()) ?
+                                                    booking['rated'] == false ?
+                                                    <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id'] + '/'}>
+                                                        <Button color="primary" variant="contained" style={{width: "120px"}}>
+                                                            Write Review
+                                                        </Button>
+                                                    </Link>:
+                                                    <Link to={'/property/' + booking['property_id']}>
+                                                        <Button color="primary" variant="contained" style={{width: "120px"}}>
+                                                            View Review
+                                                        </Button>
+                                                    </Link>:
+                                                    <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
+                                                        Cancel Reservation
+                                                    </Button>
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                        {Date.parse(booking['endDate']) < Math.round(new Date()) ?
-                                        booking['rated'] == false ?
-                                        <Link to={'/submitReview/' + booking['property_id'] + '/' + booking['booking_id'] + '/'}>
-                                            <Button color="primary" variant="contained" style={{width: "120px"}}>
-                                                Write Review
-                                            </Button>
-                                        </Link>:
-                                        <Link to={'/property/' + booking['property_id']}>
-                                            <Button color="primary" variant="contained" style={{width: "120px"}}>
-                                                View Review
-                                            </Button>
-                                        </Link>:
-                                        <Button variant="contained" style={{width: "120px"}} onClick={() => this.handleCancellation(booking['booking_id'])}>
-                                            Cancel Reservation
-                                        </Button>
-                                        }
                                     </div>
                                 </div>
                             </div>

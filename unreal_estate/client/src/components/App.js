@@ -37,9 +37,9 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={HomePage}/>
           <Route exact path='/AdModule' component={AdModule}/>
-          <Route exact path='/AdPreview' component={AdPreview} />  {/** fix css later ADD RETURN BUTTON*/}
-          <Route exact path='/AdForm/:property_id' component={AdForm}/> {/** NOT ADDING PROPERTIES PROPERLY ADDRESS NOT BEING STORED PROPERLY */}
-          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage} /> {/** fix css later */}
+          <Route exact path='/AdPreview' component={AdPreview} />
+          <Route exact path='/AdForm/:property_id' component={AdForm}/>
+          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage} />
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
