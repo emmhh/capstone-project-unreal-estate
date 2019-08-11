@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 var ConfigFile = require('../config');
 
@@ -39,6 +39,7 @@ class PropertyReviewViewPage extends Component {
     render() {
         return(
             <div className="Review-div" style={{textAlign: "-webkit-center"}}>
+                {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                 {this.state.isloading ?
                     <h4> Loading... </h4>
                     :

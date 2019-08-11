@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import SimpleMap from './google-maps/Route';
@@ -95,6 +95,7 @@ class BookingConfirmation extends Component {
     render() {
         return (
             <div style={{ width: '90%', margin: '20px' }}>
+                {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                 <div className="mini-desc">
                         <h1> Booking Confirmation: {this.state.booking_id} </h1>
                         <div style={{ textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>

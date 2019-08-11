@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel
 } from "react-bootstrap";
+import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { toast } from 'react-toastify';
 import StarRatings from 'react-star-ratings';
@@ -98,6 +99,7 @@ class PropertyReviewSubmitPage extends Component {
     render() {
         return (
         <div className="Review-div" style={{textAlign: "-webkit-center"}}>
+            {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
             <h1>Submit A Review</h1>
             <Form container onSubmit={this.handleSubmit}>
             <FormLabel style={{ margin: "10px" }}>Give Overall Rating</FormLabel>

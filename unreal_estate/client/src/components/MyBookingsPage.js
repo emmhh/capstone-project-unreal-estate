@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import '../css/MyBookingsPage.css';
@@ -140,6 +140,7 @@ class MyBookingsPage extends Component {
                 <h1>Your Trips</h1>
                 <div>
                     <ul style={{listStyleType: 'none', padding: "0px"}}>
+                        {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                         {this.state.isLoading ?
                         <h4>Loading...</h4> :
                         this.state.bookings.length === 0 ?

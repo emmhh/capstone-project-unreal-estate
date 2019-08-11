@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import UserdetailsForm from "./UserdetailsForm"
 import "../css/ProfilePage.css"
@@ -132,6 +133,7 @@ class ProfilePage extends Component {
     </div>;
     return (
       <div className="profile-div">
+        {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
         {userDetails.isLoading ? <div></div> : profilePage }
       </div>
 

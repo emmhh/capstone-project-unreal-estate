@@ -136,63 +136,7 @@ class PropertyRecoms extends Component {
             });
         }
     }
-    // fetchCurrentAddress = () => {
-    //     // Check if the browser has support for the Geolocation API
-    //     if (!navigator.geolocation) {
-    //         window.confirm("Sorry, the Geolocation API isn't supported in Your browser.");//FIXME:
-    //         return null;
-    //     } else {
-    //         navigator.geolocation.getCurrentPosition(function(position) {
-    //             // Get the coordinates of the current possition.
-    //             var lat = position.coords.latitude;
-    //             var lng = position.coords.longitude;
-    //             console.log("current lat: " + lat + " current lng :" + lng);
-    //             Geocode.setApiKey("AIzaSyC23bKL0NuMcy492R2awciNWqwh_lSgr-w");
-    //             Geocode.enableDebug();
-    //             Geocode.fromLatLng(lat, lng).then(
-    //                 response => {
-    //                     const add = response.results[0].formatted_address;
-    //                     // console.log("current address: " + address);
-    //                     window.confirm("check the current address in console!"); //FIXME:
-    //                     this.setState({address: add});
-    //                     return add;
-    //                 },
-    //                 error => {
-    //                     window.confirm("Error occurred on Geocode in PropertyRecoms.js!");//FIXME:
-    //                     console.error(error);
-    //                     return null;
-    //                 }
-    //             );
-    //         });
-    //     }
-    // }
 
-    // //load the recommendation property
-    // componentWillMount(){
-    //     this.fetchCurrentAddress().then(()=>{
-    //         console.log("current address in component will mount: " + this.state.address);
-    //         window.confirm("ComponentWillMount: check the current address in console!"); //FIXME:
-    //         fetch(ConfigFile.Config.server + 'search/recom', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 address: "Kensington, New South Wales, Australia, 2033",
-    //             })
-    //         }).then((response) => {
-    //             response.json().then((data) => {
-    //                 if (data['results'] != null) {
-    //                     console.log(data['results']);
-    //                     this.setState({recommendations: data['results']});
-    //                 } else {
-    //                     console.log("failed to find property recommendations")
-    //                 }
-    //             });
-    //         });
-    //     });
-    // }
     render() {
         return (
             <div>

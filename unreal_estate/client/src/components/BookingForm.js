@@ -137,6 +137,7 @@ class BookingForm extends Component {
     render() {
         return (
             <div style={{width:'90%', margin: '20px'}}>
+                {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                 {this.renderRedirect()}
                 <div className="mini-desc">
                     <div style={{ textAlign: '-webkit-center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
@@ -167,10 +168,10 @@ class BookingForm extends Component {
                                 <hr style={{margin: "2px"}}></hr>
                                 <div style={{clear:'both', display: 'flex'}}>
                                     <FontAwesomeIcon icon={faStar} size="lg"/>
-                                    <p style={{margin: '0px', paddingLeft: "5px"}}>x.x</p>
+                                    <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.avg_rating}</p>
                                 </div>
                                 <div style={{ clear: 'both', display: 'flex' }}>
-                                    <p >Price: ${this.state.price}</p>
+                                    <p >Price per night: ${this.state.price}</p>
                                     <br></br>
                                     <hr></hr>
                                     {this.onChange()}

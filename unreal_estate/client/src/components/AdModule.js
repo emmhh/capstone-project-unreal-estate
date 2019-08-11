@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 // import AdForm from './AdForm'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import '../css/AdModule.css';
 var ConfigFile = require('../config');
 
@@ -114,7 +114,7 @@ class AdModule extends Component {
         console.log(this.state.owned_properties)
         return (
             <div className="container">
-                {/* <Nav /> */}
+                {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                 <h2>My Properties</h2>
                 <Link to={'/AdForm/'+ null}><Button color="primary" variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
                 <AdTable propertyData={this.state.owned_properties} reload={this.reload}/>

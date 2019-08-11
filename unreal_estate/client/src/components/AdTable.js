@@ -69,7 +69,7 @@ const Entries = props => {
               </div>
 
               <div style={{padding: '10px'}}>
-                <p>Price: ${prop.price}</p>
+                <p>Price per night: ${prop.price}</p>
                 {props.hideButtons ?
                   <Link to={'/property/' + prop.property_id}>
                     <Button variant="contained" color="primary" style={{ width: "110px", margin: "10px" }}>
