@@ -1,0 +1,6 @@
+django
+googlemaps
+django-globals
+djangorestframework
+djangorestframework-jwt
+cloudinary

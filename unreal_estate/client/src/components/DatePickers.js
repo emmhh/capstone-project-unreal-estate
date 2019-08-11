@@ -20,6 +20,7 @@ export default function DatePickers() {
       initCheckIn = new Date(localStorage.getItem('checkin'));
   } else {
       initCheckIn = dateToday;
+      localStorage.setItem("checkin", dateToday)
   }
 
   var initCheckOut;
@@ -27,6 +28,7 @@ export default function DatePickers() {
       initCheckOut = new Date(localStorage.getItem('checkout'));
   } else {
       initCheckOut = minCheckOutDate;
+      localStorage.setItem("checkout", initCheckOut)
   }
 
   const [checkInDate, setCheckInDate] = React.useState(initCheckIn);
@@ -41,7 +43,7 @@ export default function DatePickers() {
     minCheckOutDate = dayAfter;
     console.log(minCheckOutDate);
     if(checkOutDate < dayAfter)
-        setCheckOutDate(dayAfter);  
+        setCheckOutDate(dayAfter);
     localStorage.setItem('checkout', dayAfter);
   }
 
@@ -52,7 +54,7 @@ export default function DatePickers() {
       var CheckInDate = new Date(localStorage.getItem('checkin'));
       var CheckOutDate = new Date(localStorage.getItem('checkout'));
       const diffTime = Math.abs(CheckOutDate.getTime() - CheckInDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       localStorage.setItem('days', diffDays);
     }
   }
