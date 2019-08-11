@@ -15,6 +15,7 @@ const removeProperty = (property_id)=>{
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': localStorage.getItem('Token'),
     },
   })
   .then((result)=>{

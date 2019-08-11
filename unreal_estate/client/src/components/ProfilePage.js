@@ -24,7 +24,11 @@ class ProfilePage extends Component {
   }
 
   async getUserDetails() {
-    await fetch(ConfigFile.Config.server + 'user/')
+    await fetch(ConfigFile.Config.server + 'user/',{
+      headers: {
+        'Authorization': localStorage.getItem('Token'),
+      }
+    })
       .then((result) => {
         console.log(result);
         if (result.status !== 200) {
@@ -71,6 +75,7 @@ class ProfilePage extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': localStorage.getItem('Token'),
         },
         body: JSON.stringify({
           userDetails: userDetails,

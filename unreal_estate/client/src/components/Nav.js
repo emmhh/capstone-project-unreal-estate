@@ -33,7 +33,11 @@ class Nav extends Component {
 
   checkState = async function () {
 
-    await fetch(ConfigFile.Config.server + 'user/testlogin')
+    await fetch(ConfigFile.Config.server + 'user/testlogin',{
+      headers: {
+        'Authorization': localStorage.getItem('Token'),
+      }
+    })
       .then((resultLogin) => {
         return resultLogin.json()
       })
@@ -61,6 +65,7 @@ class Nav extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': localStorage.getItem('Token'),
       }
     })
     .then((responce) => {
@@ -74,6 +79,7 @@ class Nav extends Component {
         is_user_logged_in = false;
       }
       localStorage.setItem('is_user_logged_in', is_user_logged_in);
+      localStorage.removeItem('Token')
       this.setState((previousState) => {
         return {
           drawerOpen: previousState.drawerOpen,

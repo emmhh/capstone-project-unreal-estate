@@ -83,13 +83,13 @@ class PropertyRecoms extends Component {
         }
         this.componentWillMount = this.componentWillMount.bind(this);
     }
-    
+
     //load the recommendation property
     componentWillMount(){
         let currentComponent = this;
         // Check if the browser has support for the Geolocation API
         if (!navigator.geolocation) {
-            window.confirm("Sorry, the Geolocation API isn't supported in Your browser.");//FIXME: 
+            window.confirm("Sorry, the Geolocation API isn't supported in Your browser.");//FIXME:
             return null;
         } else {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -110,6 +110,7 @@ class PropertyRecoms extends Component {
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
+                                'Authorization': localStorage.getItem('Token'),
                             },
                             body: JSON.stringify({
                                 address: currentComponent.state.address,
@@ -128,7 +129,7 @@ class PropertyRecoms extends Component {
                         });
                     },
                     error => {
-                        window.confirm("Error occurred on Geocode in PropertyRecoms.js!");//FIXME: 
+                        window.confirm("Error occurred on Geocode in PropertyRecoms.js!");//FIXME:
                         console.error(error);
                     }
                 );
@@ -138,7 +139,7 @@ class PropertyRecoms extends Component {
     // fetchCurrentAddress = () => {
     //     // Check if the browser has support for the Geolocation API
     //     if (!navigator.geolocation) {
-    //         window.confirm("Sorry, the Geolocation API isn't supported in Your browser.");//FIXME: 
+    //         window.confirm("Sorry, the Geolocation API isn't supported in Your browser.");//FIXME:
     //         return null;
     //     } else {
     //         navigator.geolocation.getCurrentPosition(function(position) {
@@ -152,12 +153,12 @@ class PropertyRecoms extends Component {
     //                 response => {
     //                     const add = response.results[0].formatted_address;
     //                     // console.log("current address: " + address);
-    //                     window.confirm("check the current address in console!"); //FIXME: 
+    //                     window.confirm("check the current address in console!"); //FIXME:
     //                     this.setState({address: add});
     //                     return add;
     //                 },
     //                 error => {
-    //                     window.confirm("Error occurred on Geocode in PropertyRecoms.js!");//FIXME: 
+    //                     window.confirm("Error occurred on Geocode in PropertyRecoms.js!");//FIXME:
     //                     console.error(error);
     //                     return null;
     //                 }
@@ -170,7 +171,7 @@ class PropertyRecoms extends Component {
     // componentWillMount(){
     //     this.fetchCurrentAddress().then(()=>{
     //         console.log("current address in component will mount: " + this.state.address);
-    //         window.confirm("ComponentWillMount: check the current address in console!"); //FIXME:   
+    //         window.confirm("ComponentWillMount: check the current address in console!"); //FIXME:
     //         fetch(ConfigFile.Config.server + 'search/recom', {
     //             method: 'POST',
     //             headers: {

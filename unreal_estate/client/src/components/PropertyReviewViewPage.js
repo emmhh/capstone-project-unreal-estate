@@ -22,6 +22,7 @@ class PropertyReviewViewPage extends Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': localStorage.getItem('Token'),
             },
         })
         .then((res) => {
@@ -42,7 +43,7 @@ class PropertyReviewViewPage extends Component {
                     <h4> Loading... </h4>
                     :
                     <div>
-                        <h1>Reviewed</h1>                
+                        <h1>Reviewed</h1>
                         <StarRatings
                             rating={this.state.review['value']}
                             starRatedColor="gold"

@@ -112,6 +112,7 @@ class AdForm extends Component {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': localStorage.getItem('Token'),
           },
         })
         .then((res)=>{
@@ -186,6 +187,7 @@ class AdForm extends Component {
         headers:{
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': localStorage.getItem('Token'),
         },
         body: JSON.stringify({
           // property_id: this.state.prop_id,
