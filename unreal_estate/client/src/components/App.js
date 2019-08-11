@@ -36,21 +36,21 @@ class App extends Component {
         {/* <ToastContainer /> */}
         <Switch>
           <Route exact path='/' component={HomePage}/>
-          <Route exact path='/AdModule' component={AdModule}/>   {/** fix css later */}
-          <Route exact path='/AdPreview' component={AdPreview} />  {/** fix css later */}
+          <Route exact path='/AdModule' component={AdModule}/>
+          <Route exact path='/AdPreview' component={AdPreview} />
           <Route exact path='/AdForm/:property_id' component={AdForm}/>
-          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage} /> {/** fix css later */}
+          <Route exact path='/AdReservations/:property_id' component={MyReservationsPage} />
           <Route exact path='/signup' component={SignupPage} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/profile' component={ProfilePage} />
           <Route exact path='/mybookings' component={MyBookingsPage} />
           <Route exact path='/property/:property_id' component={PropertyPage} />
-          <Route exact path='/submitReview/:property_id/:booking_id' component={PropertyReviewSubmitPage} /> {/** fix css later */}
+          <Route exact path='/submitReview/:property_id/:booking_id' component={PropertyReviewSubmitPage} />
           {/* <Route exact path='/review/:booking_id' component={PropertyReviewViewPage} /> */}
           <Route exact path='/propertyReviews/:property_id' component={PropertyReviewPage} />
           <Route exact path='/property_booking/:property_id' component={BookingForm} />
-          <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} />
-          <Route exact path='/results' component={SearchResults} />
+          <Route exact path='/confirmation/:booking_id' component={BookingConfirmation} /> {/** ALLIGN BUTTONS */}
+          <Route exact path='/results' component={SearchResults} /> {/** SHOW NUMBER OF PROPERTIES BEING SHOWED */}
           <Route component={ErrorPage}/>
         </Switch>
       </div>

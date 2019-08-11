@@ -3,6 +3,7 @@ import DatePickers from './DatePickers';
 import SearchTextBox from './SearchTextBox';
 import NumGuests from './NumGuests';
 import Button from '@material-ui/core/Button';
+import AdTable from './AdTable';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons'
@@ -50,6 +51,7 @@ export default function SearchResults() {
       })
     }).then((response) => {
       response.json().then((data) => {
+        console.log(data)
         setPropertyObject({isLoading: true});
         if (data['results'] != null) {
           var varShowProperties, varShowMore;
@@ -116,55 +118,21 @@ export default function SearchResults() {
             <h4>Loading...</h4> :
             properties.length === 0 ?
             <h2>No Results Found</h2> :
-            properties.map(prop => (
-              <li key={prop['property_id']} style={{ textAlign: '-webkit-center'}}>
-              <div style={{ textAlign: 'center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "80%", margin: "20px" }}>
-                <div className="row">
-                    <div className="col-md-7">
-                      <img src={prop['images'][0]} alt="image of property" style={{ width: '100%', height: '450px', padding: '4px' }}></img>
-                    </div>
-                    <div className="col-md-4" style={{ "margin-top": "20px" }}>
-                      <div style={{float: 'left', display: 'inline-block'}}>
-                        <h4 style={{margin: '0px'}}>{prop['name']}</h4>
-                      </div>
-                      <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                        <p style={{margin: '0px'}}>{prop['building_type']}</p>
-                      </div>
-                      <div style={{clear:'both', display: 'flex'}}>
-                        <FontAwesomeIcon icon={faBed} size="lg"/>
-                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_beds']}</p>
-                        <FontAwesomeIcon icon={faBath} size="lg"/>
-                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_bathrooms']}</p>
-                        <FontAwesomeIcon icon={faUser} size="lg"/>
-                        <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{prop['num_guests']}</p>
-                      </div>
-                      <hr style={{margin: "2px"}}></hr>
-                      <div style={{clear:'both', display: 'flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                        <FontAwesomeIcon icon={faMapMarkerAlt} size="lg"/>
-                        <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['address']}</p>
-                      </div>
-                      <hr style={{margin: "2px"}}></hr>
-                      <div style={{clear:'both', display: 'flex'}}>
-                        <FontAwesomeIcon icon={faStar} size="lg"/>
-                        <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['avg_rating']}</p>
-                      </div>
-                      <div style={{ padding: '10px'}}>
-                        <p >Price: ${prop['price']}</p>
-                        <Link to={{
-                          pathname: '/property/' + prop['property_id'],
-                        }}>
-                          <Button color="primary" variant="contained" style={{width: "120px"}}>
-                            View
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-                </div>
-              </div>
-            </li>
-          ))}
+            <div>
+              <h3> Showing {properties.length} of {allProperties.length} </h3>
+              <AdTable propertyData={properties} hideButtons={true} />
+            </div>
+          }
         </ul>
-        {propertyObject.showMore ? <Button onClick={showMoreProperties}>Show More Properties</Button> : null}
+
+        {propertyObject.showMore ?
+            <div>
+              <h3> Showing {properties.length} of {allProperties.length} </h3>
+              <Button onClick={showMoreProperties}>Show More Properties</Button>
+            </div>
+          :
+            null
+        }
       </div>
     </div>
   );
