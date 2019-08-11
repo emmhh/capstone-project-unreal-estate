@@ -165,10 +165,10 @@ class BookingForm extends Component {
                                 <hr style={{margin: "2px"}}></hr>
                                 <div style={{clear:'both', display: 'flex'}}>
                                     <FontAwesomeIcon icon={faStar} size="lg"/>
-                                    <p style={{margin: '0px', paddingLeft: "5px"}}>x.x</p>
+                                    <p style={{margin: '0px', paddingLeft: "5px"}}>{this.state.avg_rating}</p>
                                 </div>
                                 <div style={{ clear: 'both', display: 'flex' }}>
-                                    <p >Price: ${this.state.price}</p>
+                                    <p >Price per night: ${this.state.price}</p>
                                     <br></br>
                                     <hr></hr>
                                     {this.onChange()}

@@ -149,7 +149,7 @@ export default function SearchResults() {
                         <p style={{margin: '0px', paddingLeft: "5px"}}>{prop['avg_rating']}</p>
                       </div>
                       <div style={{ padding: '10px'}}>
-                        <p >Price: ${prop['price']}</p>
+                        <p >Price per night: ${prop['price']}</p>
                         <Link to={{
                           pathname: '/property/' + prop['property_id'],
                         }}>
