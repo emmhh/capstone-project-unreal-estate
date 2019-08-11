@@ -19,6 +19,7 @@ export default function NumGuestsSelector(props) {
       initNumGuests = localStorage.getItem('numGuests');
   } else {
       initNumGuests = 1;
+      localStorage.setItem('numGuests', 1);
   }
   const [numGuests, setNumGuests] = React.useState(initNumGuests);
   const [open, setOpen] = React.useState(false);
