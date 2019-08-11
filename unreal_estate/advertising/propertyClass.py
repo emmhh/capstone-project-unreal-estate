@@ -197,6 +197,7 @@ def list_property (request):
                 'address': ppt.address,
                 'latitude': ppt.latitude,
                 'longitude': ppt.longitude,
+                'num_beds': ppt.num_beds,
                 'num_rooms': ppt.num_rooms,
                 'num_bathrooms': ppt.num_bathrooms,
                 'num_guests': ppt.num_guests,
@@ -209,6 +210,7 @@ def list_property (request):
                 'images': ppt.images,
             }
             property_list.append(response)
+        print(property_list)
         response = JsonResponse(property_list, safe=False)
         response.status_code = 200
         return response

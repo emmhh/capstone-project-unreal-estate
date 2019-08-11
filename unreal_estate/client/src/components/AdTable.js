@@ -35,9 +35,8 @@ const removeProperty = (property_id)=>{
 const Entries = props => {
   const Entries = props.propertyData.map((prop) => {
     return (
-      <li key={prop.prop_id}>
-        {console.log(prop)}
-        <div style={{ textAlign: '-webkit-center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>
+      <li key={prop.prop_id} style={{margin: '10px'}}>
+        <div style={{ textAlign: '-webkit-center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" , margin: '10px'}}>
           <div className="row">
             <div className="col-md-7">
               <img src={prop.images} alt="image of property" style={{ width: '100%', height: '450px', padding: '4px' }}></img>
@@ -70,26 +69,35 @@ const Entries = props => {
 
               <div style={{padding: '10px'}}>
                 <p>Price: ${prop.price}</p>
-                <Link to={'/AdReservations/'+ prop['prop_id']}>
-                  <Button variant="contained" style={{width: "110px", margin: "10px"}}>
-                    Reservations
-                  </Button>
-                </Link>
-                <Link to={'/propertyReviews/'+ prop['prop_id']}>
-                  <Button variant="contained" style={{ width: "110px", margin: "10px"}}>
-                    Reviews
-                  </Button>
-                </Link>
-                {/* <Link to={'/property/' + 11156}> */}
-                <Link to={'/AdForm/'+ prop['prop_id']}>
-                  <Button variant="contained" style={{ width: "110px", margin: "10px"}}>
-                    Edit
-                  </Button>
-                </Link>
-                {/* <Link to={'/AdModule'}> */}
-                <Button variant="contained" style={{ width: "110px", margin: "10px"}} onClick={() => {removeProperty(prop['prop_id'])}}>
-                    Delete
-                  </Button>
+                {props.hideButtons ?
+                  <Link to={'/property/' + prop.property_id}>
+                    <Button variant="contained" style={{ width: "110px", margin: "10px" }}>
+                      View
+                    </Button>
+                  </Link> :
+                  <div>
+                    <Link to={'/AdReservations/'+ prop['prop_id']}>
+                      <Button variant="contained" style={{width: "110px", margin: "10px"}}>
+                        Reservations
+                      </Button>
+                    </Link>
+                    <Link to={'/propertyReviews/'+ prop['prop_id']}>
+                      <Button variant="contained" style={{ width: "110px", margin: "10px"}}>
+                        Reviews
+                      </Button>
+                    </Link>
+                    {/* <Link to={'/property/' + 11156}> */}
+                    <Link to={'/AdForm/'+ prop['prop_id']}>
+                      <Button variant="contained" style={{ width: "110px", margin: "10px"}}>
+                        Edit
+                      </Button>
+                    </Link>
+                    {/* <Link to={'/AdModule'}> */}
+                    <Button variant="contained" style={{ width: "110px", margin: "10px"}} onClick={() => {removeProperty(prop['prop_id'])}}>
+                        Delete
+                      </Button>
+                  </div>
+                }
                 {/* </Link> */}
               </div>
             </div>
@@ -103,10 +111,10 @@ const Entries = props => {
 
 class AdTable extends Component {
   render() {
-    const { propertyData} = this.props
+    const { propertyData, hideButtons} = this.props
     return (
       <ul style={{listStyleType: 'none', padding: "0px"}}>
-        <Entries propertyData={propertyData}/>
+        <Entries propertyData={propertyData} hideButtons={hideButtons}/>
       </ul>
     )
   }

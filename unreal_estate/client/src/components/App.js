@@ -35,8 +35,8 @@ class App extends Component {
         <Nav />
         {/* <ToastContainer /> */}
         <Switch>
-          <Route exact path='/' component={HomePage}/>  {/** FIX CSS */}
-          <Route exact path='/AdModule' component={AdModule}/>   {/** fix css later AND SHOW NUMBER OF BEDS PROPERLY AND CHANGE LOCATION OF ADD NEW PROPERTY BUTTON */}
+          <Route exact path='/' component={HomePage}/>
+          <Route exact path='/AdModule' component={AdModule}/>
           <Route exact path='/AdPreview' component={AdPreview} />  {/** fix css later ADD RETURN BUTTON*/}
           <Route exact path='/AdForm/:property_id' component={AdForm}/> {/** NOT ADDING PROPERTIES PROPERLY ADDRESS NOT BEING STORED PROPERLY */}
           <Route exact path='/AdReservations/:property_id' component={MyReservationsPage} /> {/** fix css later */}
