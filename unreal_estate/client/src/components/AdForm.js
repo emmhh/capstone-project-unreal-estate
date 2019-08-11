@@ -23,6 +23,7 @@ class AdForm extends Component {
 
     this.initialState = {
       existed: false,
+      is_loading: false,
       // owner_id: null,
       prop_id: null,
       address : null,
@@ -71,7 +72,9 @@ class AdForm extends Component {
 
       const files = Array.from(this.state.file)
       const formData = new FormData()
-
+      this.setState({
+        ['is_loading']: true
+      });
       formData.append('file', files[0]);
       formData.append('upload_preset', 'wiu02rqf');
 
@@ -356,6 +359,12 @@ class AdForm extends Component {
           </Form.Group>
         }
         <div class='button'>
+            {this.state.is_loading ?
+            <div>
+              <div class="loader"></div>
+              <p>It might take some time to upload on cloudinary</p>
+            </div>
+            : <div class="button" style={{ display: "inline-block"}}>
           { this.state.existed ?
             <Link to='/AdModule'>
                 <Button color="primary" variant="contained" style={{width: "150px"}} onClick={this.makeSubmission(this.state)}>
@@ -370,6 +379,7 @@ class AdForm extends Component {
 
             // </Link>
           }
+            </div>}
           <Link to='/AdModule' class="button"><Button color="secondary"  variant="contained" style={{width: "150px"}}>Return</Button></Link>
         </div>
       </Form>
