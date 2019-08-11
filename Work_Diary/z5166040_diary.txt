@@ -52,3 +52,8 @@ Week 9 (31/7-4/8)
   - Finished review form
   - Included review backend calls 
   - Meeting {5/8}
+
+Week 10 (5/8-11/8)
+  - Finished writing report
+  - Meeting {6/8}
+  - Implemented feedback from project demonstration
