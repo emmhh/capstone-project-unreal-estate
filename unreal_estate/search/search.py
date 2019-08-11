@@ -19,3 +19,13 @@ def handleRequests(request):
 	numGuests = requestObj['numGuests']
 	properties = PropertyManager.primarySearch(address, checkin, checkout, numGuests)
 	return JsonResponse({'results': list(properties)})
+
+@csrf_exempt
+def nearbyProperties(request):
+	if (request.method == 'POST'):
+		print("received the nearby properties recommendation request")
+		print(request.body.decode('utf-8'))
+		requestObj = json.loads(request.body.decode('utf-8'))
+		address = requestObj['address']
+		properties = PropertyManager.searchByLocation(address)
+		return JsonResponse({'results': list(properties)})

@@ -33,8 +33,8 @@ class Property(models.Model):
             print('property does not exist')
             return 0
 
-    def __str__ (self):
-        return 'name:' + self.name + 'suburb: ' + self.suburb + 'city: ' + self.city + 'latitude: ' + self.latitude + 'longitude: ' + self.longitude + 'post_code: ' + self.post_code + 'num_bathroom: ' + self.num_bathroom + 'num_guests: ' + self.num_guests + 'description: ' + self.description + 'space: ' + self.space + 'prices: ' + self.prices + 'avg_rating: ' + self.avg_rating + 'image: ' + self.image
+    # def __str__ (self):
+    #     return 'name:' + self.name + 'address: ' + self.address + 'latitude: ' + self.latitude + 'longitude: ' + self.longitude + 'post_code: ' + self.post_code + 'num_bathroom: ' + self.num_bathroom + 'num_guests: ' + self.num_guests + 'description: ' + self.description + 'space: ' + self.space + 'prices: ' + self.prices + 'avg_rating: ' + self.avg_rating + 'image: ' + self.image
 
     def ratings(self, property_id):
       try:

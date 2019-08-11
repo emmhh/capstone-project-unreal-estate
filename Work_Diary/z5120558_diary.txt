@@ -1,6 +1,6 @@
 Emmanuel Kozman - z5120558
 
-Week 1 (2/6 – 9/6
+Week 1 (2/6 – 9/6)
 	-Chose topic
 	-Set up Trello
 
@@ -35,3 +35,16 @@ Week 8 (21/7 - 28/7)
 	- Merged my branch to master, and worked out any conflicts
 	- Fixed some other conflicts and bugs with other merges
 	- Worked on the UI for some other pages
+	- Started looking at Datasets to use for reviews classifier
+	- Met on 25/7 to integrate all our different work and make sure it all works
+	- Made a basic LSTM RNN model using tensorflow for reviews
+Week 9 (28/7-4/8)
+  - Met on 30/7 to discuss everyone's different roles and plans for the next few weeks
+  - Trained model with Amazon Reviews dataset, overall 58% accuracy
+  - Tuned LSTM RNN model using tensorflow for reviews
+  - Trained the model on the TripAdvisor dataset which is more like our reviews, overall 61% accuracy
+Week 10 (4/8-11/8)
+  - More hyperparam tuning for Tensorflow Model, overall accuracy 63% now
+  - Built the frontend and backend so that reviews are now shown, and can be accessed as a user. and property manager
+  - Built the frontend and backend so that the classifier is integrated, and can be used to change ratings for inconsistent reviews
+  - Worked on final report and fixed a few things to get submission ready.

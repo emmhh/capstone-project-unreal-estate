@@ -89,17 +89,18 @@ class PropertyPage extends Component {
         const { is_loading } = this.state
         if (is_loading === false) {
             return (
-                <div className="container" style={{textAlign: "centre", "margin-top": "20px", border: "solid"}}>
+                <div className="container" style={{ textAlign: "-webkit-center", "margin-top": "20px", border: "solid"}}>
                     <h1>{this.state.name}</h1>
-                <img src={this.state.images[0]} style={{margin: "10px"}}/>
-                    <div style={{clear:'both', display: 'inline-flex', paddingTop: '5px', paddingBottom: '5px'}}>
-                        <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
-                        <h3 style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</h3>
+                    <img src={this.state.images[0]} style={{margin: "10px"}}/>
+                    <div>
+                      <div style={{clear:'both', display: 'inline-flex', paddingTop: '5px', paddingBottom: '5px'}}>
+                          <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
+                          <h3 style={{margin: '0px', paddingLeft: "5px"}}>{this.state.address}</h3>
+                      </div>
                     </div>
                     <div>
                       <div style={{clear:'both', display: 'inline-flex'}}>
-                        <FontAwesomeIcon icon={faStar} size="lg"/>
-                        <h4 style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.avg_rating}</h4>
+
                       </div>
                     </div>
                     <div>
@@ -110,6 +111,8 @@ class PropertyPage extends Component {
                         <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_bathrooms}</p>
                         <FontAwesomeIcon icon={faUser} size="lg"/>
                         <p style={{paddingLeft: "5px", paddingRight: "20px", margin: "0px"}}>{this.state.num_guests}</p>
+                        <FontAwesomeIcon icon={faStar} size="lg" />
+                        <p style={{ paddingLeft: "5px", paddingRight: "20px", margin: "0px" }}>{this.state.avg_rating}</p>
                       </div>
                     </div>
                     <br></br>

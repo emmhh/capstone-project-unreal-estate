@@ -24,7 +24,7 @@ if os.name == 'nt':
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-LOCAL_FRONTEND_HEADER = 'http://localhost:3000'  
+LOCAL_FRONTEND_HEADER = 'http://localhost:3000'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -67,7 +67,7 @@ MIDDLEWARE = [
     'server.middlewares.MyMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -77,7 +77,7 @@ CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 
 CSRF_COOKIE_SECURE = False
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000'] 
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 
 LOGGING = {
     'version': 1,
@@ -197,5 +197,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, './client', "build", "static"),  # update the STATICFILES_DIRS
+    os.path.join(BASE_DIR, './client', "build", "static"),
+    # update the STATICFILES_DIRS
+    os.path.join(BASE_DIR, './client', "public"),
 )

@@ -114,8 +114,8 @@ class AdModule extends Component {
             <div className="container">
                 {/* <Nav /> */}
                 <h2>My Properties</h2>
+                <Link to={'/AdForm/'+ null}><Button color="primary" variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
                 <AdTable propertyData={this.state.owned_properties} reload={this.reload}/>
-                <Link to={'/AdForm/'+ null}><Button variant="contained" style={{width: "px"}}>Add new Property</Button></Link>
             </div>
         )
     }

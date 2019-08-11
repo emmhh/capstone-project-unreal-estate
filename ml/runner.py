@@ -25,7 +25,7 @@ glove_array_global = None
 glove_dict_global = None 
 
 def load_data(path=dir_path + '/data/train'):
-    print("Loading IMDB Data...")
+    print("Loading Review Data...")
     data = []
 
     dir = os.path.dirname(__file__)
@@ -43,7 +43,6 @@ def load_data(path=dir_path + '/data/train'):
 
 
 def load_glove_embeddings():
-    print(dir_path)
     emmbed_file = Path(dir_path + "/embeddings.pkl")
     if emmbed_file.is_file():
         # embeddings already serialized, just load them
