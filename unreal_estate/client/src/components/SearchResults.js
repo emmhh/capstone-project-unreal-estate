@@ -50,6 +50,7 @@ export default function SearchResults() {
       })
     }).then((response) => {
       response.json().then((data) => {
+        console.log(data)
         setPropertyObject({isLoading: true});
         if (data['results'] != null) {
           var varShowProperties, varShowMore;

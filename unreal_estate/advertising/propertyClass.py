@@ -223,6 +223,7 @@ def list_property (request):
 def addNew (request):
     if (request.method == "POST"):
         json_data = json.loads(request.body)
+        print(json_data)
         propertyInfo = {
             'address': json_data['propertyInfo']['address'],
             'latitude': json_data['propertyInfo']['latitude'],

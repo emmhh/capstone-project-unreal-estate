@@ -62,7 +62,9 @@ class AdForm extends Component {
     delete this.state.autocomplete;
     console.log(this.state);
     if (!this.state.file) {
-      var propertyData = JSON.stringify(this.state);
+      var propertyData = this.state;
+      propertyData["images"] = [ConfigFile.Config.server + 'static/default-house-image.jpg']
+      propertyData = JSON.stringify(propertyData);
       localStorage.setItem('property', propertyData);
       window.location.href = ConfigFile.Config.server + 'AdPreview';
     } else {
@@ -139,7 +141,7 @@ class AdForm extends Component {
       if (isScriptLoadSucceed) {
         var input = document.getElementById('address');
         this.state.autocomplete = new window.google.maps.places.Autocomplete(input);
-        this.state.autocomplete.setFields(['address_components']);
+        this.state.autocomplete.setFields(['address_components','geometry']);
         this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
       }
     }
@@ -148,6 +150,7 @@ class AdForm extends Component {
 
   onSelected() {
     var fullAddress;
+    console.log(this.state.autocomplete.getPlace());
     this.state.autocomplete.getPlace()["address_components"].forEach(element => {
       var excludeElement = false;
       element['types'].forEach(elementType => {
@@ -164,7 +167,9 @@ class AdForm extends Component {
       }
     });
     this.setState({
-      ["address"]: fullAddress.slice(0, -2)
+      ["address"]: fullAddress.slice(0, -2),
+      ["latitude"]: this.state.autocomplete.getPlace().geometry.location.lat(),
+      ["longitude"]: this.state.autocomplete.getPlace().geometry.location.lng(),
     });
   }
 

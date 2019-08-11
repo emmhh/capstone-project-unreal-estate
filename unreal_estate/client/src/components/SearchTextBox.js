@@ -27,7 +27,7 @@ class SearchTextBox extends Component {
       if (isScriptLoadSucceed) {
         var input = document.getElementById('input-with-icon-adornment');
         this.state.autocomplete = new window.google.maps.places.Autocomplete(input);
-        this.state.autocomplete.setFields(['address_components']);
+        this.state.autocomplete.setFields(['address_components', 'geometry']);
         this.state.autocomplete.addListener('place_changed', this.onSelected.bind(this));
       }
     }
