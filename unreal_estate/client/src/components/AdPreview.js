@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    withRouter,
     Redirect,
 } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -104,7 +100,7 @@ class PropertyPage extends Component {
     render() {
         return (
             <div style={{textAlign: "centre", display: "block", width: "50%", margin: "0px auto"}}>
-                {/* <img src={this.state.images[0]}/> */}
+                {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                 <h1>{this.state.name}</h1>
                 <div style={{clear:'both', display: 'inline-flex', paddingTop: '5px', paddingBottom: '5px'}}>
                     <FontAwesomeIcon icon={faMapMarkerAlt} size="2x"/>
@@ -129,7 +125,7 @@ class PropertyPage extends Component {
                     <h4>Summary</h4>
                     <p>{this.state.description}</p>
                 </div>
-                {this.state.space ? <div> <h4>Summary</h4> <p>{this.state.space}</p> </div>: null}
+                {this.state.space ? <div> <h4>The Space</h4> <p>{this.state.space}</p> </div>: null}
                 <br></br>
                 <hr></hr>
                 <div style={{display: 'inline-block', padding: '10px'}}>

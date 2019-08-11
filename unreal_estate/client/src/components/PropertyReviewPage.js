@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar} from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
@@ -224,6 +224,7 @@ class PropertyReviewPage extends Component {
         else {
             return (
                 <div>
+                    {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                     <h3>Loading...</h3>
                     <p>This may take a couple of minutes (only the first time) as this page requires downloding a 180MB file for the word2vec embeddings</p>
                 </div>

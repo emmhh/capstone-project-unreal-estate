@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import AdTable from './AdTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import '../css/MyReservationsPage.css';
 var ConfigFile = require('../config');
 
@@ -109,6 +109,7 @@ class MyReservationsPage extends Component {
     render() {
         return (
             <div className="homepage-div">
+                {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                 <h1>Your Reservations</h1>
                 <div>
                 {this.state.isLoading ?

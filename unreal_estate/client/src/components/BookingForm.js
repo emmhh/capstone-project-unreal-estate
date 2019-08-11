@@ -137,6 +137,7 @@ class BookingForm extends Component {
     render() {
         return (
             <div style={{width:'90%', margin: '20px'}}>
+                {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
                 {this.renderRedirect()}
                 <div className="mini-desc">
                     <div style={{ textAlign: '-webkit-center', display: 'block', border: '1.5px solid grey', borderRadius: '5px', width: "100%" }}>

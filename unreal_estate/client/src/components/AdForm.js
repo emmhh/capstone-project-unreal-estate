@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faUser, faMapMarkerAlt, faStar } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -23,11 +23,12 @@ class AdForm extends Component {
 
     this.initialState = {
       existed: false,
-      // owner_id: null,
+      owner_id: null,
       prop_id: null,
       address : null,
-      // city  : null,
+      city  : null,
       latitude : null,
+      logged_in : null,
       longitude : null,
       num_beds: null,
       num_rooms : null,
@@ -101,6 +102,12 @@ class AdForm extends Component {
   }
 
   componentWillMount() {
+    var login = localStorage.getItem('is_user_logged_in');
+    if (login === "true") {
+      this.setState({logged_in: true});
+    } else {
+      this.setState({logged_in: false});
+    }
     if (this.props && this.props.match && this.props.match.params){
       // if the property_id passed in is null, it means user wants to add new property.
       // if the property_id is not null, it means user wants to edit existed property.
@@ -263,6 +270,7 @@ class AdForm extends Component {
     // const { name, buildingType, location, avgRating } = this.state;
     return(
     <div class='container container-div'>
+        {localStorage.getItem('is_user_logged_in') === "false" ? <Redirect to={'/login'}/> : null}
         <h1>Create Property</h1>
       <Form>
         {/* <Form.Group controlId="city">
@@ -300,6 +308,12 @@ class AdForm extends Component {
             <option value="4">4</option>
             <option value="5">5</option>
             <option value="6">6</option>
+            <option value="1">7</option>
+            <option value="2">8</option>
+            <option value="3">9</option>
+            <option value="4">10</option>
+            <option value="5">11</option>
+            <option value="6">12</option>
           </Form.Control>
         </Form.Group>
 
@@ -351,7 +365,8 @@ class AdForm extends Component {
             2. if the property doesnot exist, user can click finsih button to be redirected to a preview page to double
           check the info provided, and user is able to click submit button from preview page to post the info to the databse. */}
         {this.state.existed ? null :
-          <Form.Group controlId="price">
+          <Form.Group controlId="image">
+          <Form.Label>11. Please upload an image of your property</Form.Label>
             <input label='upload file' type='file' onChange={this.handleFileUpload} />
           </Form.Group>
         }

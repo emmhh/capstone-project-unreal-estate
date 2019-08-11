@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel
 } from "react-bootstrap";
+import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import 'date-fns';
 import "../css/UserdetailsForm.css";
@@ -18,11 +19,6 @@ export default class PropertyReviewForm extends Component {
       isLoading: false,
       rating: null,
       text: null,
-    //   confirmPassword: null,
-    //   firstName: props.firstName ? props.firstName : null,
-    //   lastName: this.props.lastName ? this.props.lastName : null,
-    //   gender: this.props.gender ? this.props.gender : "Male",
-    //   phone: this.props.phone ? this.props.phone : null
     };
 
     this.onFormChange = this.onFormChange.bind(this);
