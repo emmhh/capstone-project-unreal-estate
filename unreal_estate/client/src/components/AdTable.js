@@ -71,7 +71,7 @@ const Entries = props => {
                 <p>Price: ${prop.price}</p>
                 {props.hideButtons ?
                   <Link to={'/property/' + prop.property_id}>
-                    <Button variant="contained" style={{ width: "110px", margin: "10px" }}>
+                    <Button variant="contained" color="primary" style={{ width: "110px", margin: "10px" }}>
                       View
                     </Button>
                   </Link> :
